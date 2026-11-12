@@ -2021,9 +2021,10 @@ function vPop(){
   var held={};S.leads.forEach(function(L){if(L.status==='infra_hold')held[L.pop]=(held[L.pop]||0)+1;});
   var rows=S.pops.map(function(p){
     var qc=p.q==='tốt'?'ok':p.q==='yếu'?'bad':'warn';
-    return '<tr><td class="mono">'+p.id+'</td><td>'+p.area+'</td><td>'+p.br+'</td><td class="num">'+p.ports+'</td><td>'+chip(p.q,qc)+'</td><td class="num">'+(held[p.id]||0)+'</td><td>'+(RO()?'':(p.q==='yếu'||p.ports<=0?'<button class="btn sm pri" data-act="pop-release" data-id="'+p.id+'">Đã xử lý, mở bán</button>':'<button class="btn sm" data-act="pop-weak" data-id="'+p.id+'">Báo vùng yếu</button>'))+'</td></tr>';
+    var brCell=RO()&&can('rules.manage')?'<select class="cell" data-act="pop-br" data-id="'+esc(p.id)+'" aria-label="Chi nhánh của POP '+esc(p.id)+'">'+opts(uniq(HNX.concat(branches())).sort().map(function(b){return [b,b];}),p.br)+'</select>':esc(p.br);
+    return '<tr><td class="mono">'+esc(p.id)+'</td><td>'+esc(p.area)+'</td><td>'+brCell+'</td><td class="num">'+p.ports+'</td><td>'+chip(p.q,qc)+'</td><td class="num">'+(held[p.id]||0)+'</td><td>'+(RO()?'':(p.q==='yếu'||p.ports<=0?'<button class="btn sm pri" data-act="pop-release" data-id="'+p.id+'">Đã xử lý, mở bán</button>':'<button class="btn sm" data-act="pop-weak" data-id="'+p.id+'">Báo vùng yếu</button>'))+'</td></tr>';
   });
-  return pageH('Hạ tầng POP',RO()?'DW2 kiểm tra bảng này mỗi khi có lead. POP yếu hoặc hết port thì lead được giữ lại cho tới khi Kỹ thuật mở bán. Quản lý chỉ xem.':'DW2 kiểm tra bảng này mỗi khi có lead. POP yếu hoặc hết port thì lead được giữ lại, không giao cho sale cho tới khi bạn mở bán.')+
+  return pageH('Hạ tầng POP',RO()?'DW2 kiểm tra bảng này mỗi khi có lead. POP yếu hoặc hết port thì lead được giữ lại cho tới khi Kỹ thuật mở bán. Quản lý đổi được chi nhánh (CN) của POP ngay trên bảng; salesman chi nhánh mới tự nhận lead POP đó. Port, chất lượng do Kỹ thuật cập nhật.':'DW2 kiểm tra bảng này mỗi khi có lead. POP yếu hoặc hết port thì lead được giữ lại, không giao cho sale cho tới khi bạn mở bán.')+
     tbl(['POP','Khu vực','CN','#Port còn','Chất lượng','#Lead đang giữ',''],rows);
 }
 function vInc(){
