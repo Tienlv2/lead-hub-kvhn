@@ -838,6 +838,108 @@ details.card>summary::before{content:"▸ ";color:var(--muted)}details.card[open
 #aiSim .bar{width:160px;height:6px;border-radius:3px;background:rgba(255,255,255,.3);overflow:hidden}#aiSim .bar i{display:block;height:100%;background:#fff}
 #aiSim button{background:rgba(255,255,255,.2);border:0;color:#fff;border-radius:999px;padding:4px 12px;font-weight:700}
 @media (prefers-reduced-motion:reduce){.bot-eye,.bot-ant,.aiw-ag,.aiw-ag .bot,.aif-l,.aiw-link i,.ai-pill,.aiw::before,.dw7 li,.assist li{animation:none!important}}
+/* chat AI agent */
+.cpanel.ai{height:min(660px,calc(100vh - 110px));background:var(--surface);border:1px solid rgba(124,58,237,.35);box-shadow:0 24px 60px -12px rgba(76,29,149,.45),0 0 0 1px rgba(6,182,212,.12)}
+.cpanel.ai.big{width:min(600px,calc(100vw - 44px));height:min(82vh,calc(100vh - 120px))}
+.cpanel.ai .phead{position:relative;background:linear-gradient(120deg,#4C1D95 0%,#6D28D9 38%,#0E7490 100%);background-size:200% 200%;animation:aiBg 9s ease infinite;color:#fff;padding:12px 12px 12px 14px;gap:10px;overflow:visible}
+.cpanel.ai .phead::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,#67E8F9,transparent)}
+.cav-h{position:relative;flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:rgba(255,255,255,.12);box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+.cav-h .on{position:absolute;right:-2px;bottom:-2px;width:12px;height:12px;border-radius:50%;background:#22C55E;border:2px solid #4C1D95;animation:aiBlink 2.4s infinite}
+.ph-t{min-width:0;flex:1}.ph-t b{display:block;font-size:15.5px;line-height:1.2;color:#fff}
+.ph-t small{display:flex;align-items:center;gap:6px;font-size:12px;color:#DDD6FE;opacity:1;flex-wrap:wrap}
+.ai-tag{font-size:10px;font-weight:800;letter-spacing:.06em;padding:1px 6px;border-radius:6px;background:rgba(103,232,249,.18);color:#A5F3FC;border:1px solid rgba(103,232,249,.4)}
+.phb{flex:none;width:32px;height:32px;border-radius:10px;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:16px;line-height:1;display:grid;place-items:center;cursor:pointer}
+.phb:hover,.cpanel.ai .phead .x:hover{background:rgba(255,255,255,.26)}
+.cpanel.ai .phead .x{margin-left:0;width:32px;height:32px;min-width:32px;min-height:32px;border-radius:10px;font-size:18px}
+.camenu{position:absolute;right:10px;top:58px;z-index:5;width:250px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:14px;box-shadow:0 16px 40px rgba(0,0,0,.28);padding:8px;display:flex;flex-direction:column;gap:2px}
+.camenu[hidden]{display:none}
+.camenu p{margin:4px 8px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.camenu>button{text-align:left;background:none;border:0;border-radius:9px;padding:9px 10px;font:inherit;font-size:13.5px;color:var(--ink);cursor:pointer}
+.camenu>button:hover{background:var(--gray-bg)}
+.camenu .chtabs{padding:2px 6px 8px;border:0;background:none;border-bottom:1px solid var(--line);margin-bottom:4px}
+.cactx{padding:9px 12px 8px;background:var(--surface);border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:7px}
+.cstep{display:flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;color:var(--muted)}
+.cstep span{display:flex;align-items:center;gap:5px;white-space:nowrap}
+.cstep span i{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:10px;font-weight:800;background:var(--gray-bg);border:1px solid var(--line);color:var(--muted)}
+.cstep span.d{color:var(--ink2)}.cstep span.d i{background:#22C55E;border-color:#22C55E;color:#fff}
+.cstep span.c{color:#7C3AED}.cstep span.c i{background:var(--aig);border:0;color:#fff;box-shadow:0 0 0 3px rgba(124,58,237,.18)}
+.cstep b{flex:1;height:2px;min-width:8px;border-radius:2px;background:var(--line)}.cstep b.d{background:#22C55E}
+.cprof{display:flex;gap:5px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;mask-image:linear-gradient(90deg,#000 88%,transparent)}.cprof::-webkit-scrollbar{display:none}
+.cprof span{font-size:11.5px;padding:2px 8px;border-radius:999px;background:rgba(124,58,237,.09);color:var(--ink2);border:1px solid rgba(124,58,237,.22);white-space:nowrap;flex:none}
+.cprof .lbl{background:none;border:0;padding:2px 0;color:#7C3AED;font-weight:700;animation:none}
+.cpanel.ai .msgs{position:relative;gap:10px;padding:14px 12px;background:var(--gray-bg)}
+.cm{display:flex;gap:8px;align-items:flex-end;max-width:100%}
+.cm.me{justify-content:flex-end}
+.cm>svg.bot,.cm>.cav0{flex:none;width:30px;height:30px}
+.cm .ccards,.cm .ccard{min-width:min(260px,100%)}
+.cbody{display:flex;flex-direction:column;gap:8px;min-width:0;max-width:calc(100% - 38px)}
+.cpanel.ai .bub{max-width:100%;font-size:14px}
+.cpanel.ai .bub.bot{background:var(--surface);border:1px solid rgba(124,58,237,.2);border-bottom-left-radius:4px;box-shadow:0 2px 10px -6px rgba(76,29,149,.35)}
+.cpanel.ai .bub.me{max-width:84%;background:linear-gradient(135deg,#7C3AED,#2563EB);color:#fff;border-bottom-right-radius:4px}
+.cpanel.ai .bub.sys{max-width:92%;text-align:center}
+.cav{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;background:var(--ok-bg);color:var(--ok)}
+.cm.new .bub span{opacity:0;animation:caW .28s ease forwards}
+@keyframes caW{from{opacity:0;filter:blur(3px)}to{opacity:1;filter:none}}
+.cm.new .ccards,.cm.new .ccard{animation:aiIn .45s ease both;animation-delay:.25s}
+.ctyping{display:inline-flex;gap:4px;padding:12px 14px;border-radius:14px;border-bottom-left-radius:4px;background:var(--surface);border:1px solid rgba(124,58,237,.2)}
+.ctyping i{width:7px;height:7px;border-radius:50%;background:var(--aig);animation:caDot 1s infinite}
+.ctyping i:nth-child(2){animation-delay:.15s}.ctyping i:nth-child(3){animation-delay:.3s}
+@keyframes caDot{0%,60%,100%{transform:translateY(0);opacity:.45}30%{transform:translateY(-5px);opacity:1}}
+.cthink{align-self:flex-start;margin-left:38px;max-width:calc(100% - 38px);border-radius:12px;padding:9px 12px;background:rgba(124,58,237,.07);border:1px dashed rgba(124,58,237,.35);display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:var(--ink2)}
+.cthink .ti{display:flex;gap:8px;align-items:center;transition:opacity .2s}
+.cthink .ti.s0{opacity:.4}
+.cthink .ti i{flex:none;width:14px;height:14px;border-radius:50%;border:2px solid #A78BFA}
+.cthink .ti.s1 i{border-color:#7C3AED;border-right-color:transparent;animation:caSpin .7s linear infinite}
+.cthink .ti.s2 i{border:0;background:#22C55E;position:relative}
+.cthink .ti.s2 i::after{content:'';position:absolute;left:4.5px;top:2px;width:3px;height:7px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.cthink .hd{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#7C3AED}
+@keyframes caSpin{to{transform:rotate(360deg)}}
+.ccards{display:flex;flex-direction:column;gap:8px}
+.pcard{position:relative;border-radius:14px;padding:12px;background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;gap:5px}
+.pcard.best{border:1.5px solid transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box,var(--aig) border-box;box-shadow:0 8px 24px -12px rgba(124,58,237,.6)}
+.pcard .tag{align-self:flex-start;font-size:10.5px;font-weight:800;color:#fff;background:var(--aig);border-radius:6px;padding:2px 7px}
+.pcard .nm{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.pcard .nm b{font-size:14.5px;color:var(--ink)}.pcard .nm span{font-size:12.5px;color:var(--ink2);text-align:right}
+.pcard .mt{height:5px;border-radius:5px;background:var(--gray-bg);overflow:hidden}.pcard .mt i{display:block;height:100%;background:var(--aig);border-radius:5px}
+.pcard small{font-size:11.5px;color:#7C3AED;font-weight:700}
+.pcard ul{margin:0;padding-left:16px;font-size:12.5px;color:var(--ink2);line-height:1.45}
+.pcard .btn{align-self:flex-start;margin-top:3px}
+.ccard{border-radius:14px;padding:12px;background:var(--surface);border:1px solid var(--line);font-size:13px;display:flex;flex-direction:column;gap:8px}
+.ccard .ih{font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px}
+.ccard.ok{border-color:rgba(34,197,94,.5);background:linear-gradient(180deg,rgba(34,197,94,.08),var(--surface) 60%)}
+.ccard.warn{border-color:rgba(234,179,8,.55);background:linear-gradient(180deg,rgba(234,179,8,.1),var(--surface) 60%)}
+.ccard.ai{border:1.5px solid transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box,var(--aig) border-box}
+.ccard dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0}.ccard dt{color:var(--muted)}.ccard dd{margin:0;color:var(--ink);font-weight:600}
+.ccard .opts{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.ccard .opt{border:1px solid var(--line);background:var(--gray-bg);border-radius:10px;padding:9px;text-align:left;font:inherit;font-size:12.5px;color:var(--ink);cursor:pointer}
+.ccard .opt b{display:block;font-size:13px}.ccard .opt:hover:not(:disabled){border-color:#7C3AED;background:rgba(124,58,237,.08)}
+.ccard button:disabled,.pcard button:disabled{opacity:.45;cursor:default}
+.ccard ul{margin:0;padding-left:18px;line-height:1.5;color:var(--ink2)}
+.ccard .big{font-size:22px;font-weight:800;letter-spacing:.2em;font-variant-numeric:tabular-nums}
+.cpanel.ai .chips{flex-wrap:nowrap!important;overflow-x:auto;scrollbar-width:thin;padding:8px 12px;gap:6px;background:var(--surface);border-top:1px solid var(--line)}
+.cpanel.ai .chip2{flex:none;white-space:nowrap;border:1px solid rgba(124,58,237,.4);color:var(--ink);background:rgba(124,58,237,.06);font-size:12.5px;min-height:32px;padding:4px 11px;cursor:pointer}
+.cpanel.ai .chip2:hover{background:rgba(124,58,237,.14);border-color:#7C3AED}
+.cpanel.ai .pin{align-items:center;gap:6px;padding:10px 12px 4px;background:var(--surface)}
+.cpanel.ai .pin .spark{font-size:15px;flex:none}
+.cpanel.ai .pin input{border-radius:12px;min-height:42px;padding:9px 12px}
+.cpanel.ai .pin input:focus{outline:2px solid #8B5CF6;outline-offset:0;border-color:transparent}
+.csend{flex:none;width:42px;height:42px;border-radius:12px;border:0;background:var(--aig);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 6px 16px -6px rgba(124,58,237,.7)}
+.csend svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.cnote{margin:0;padding:2px 12px 9px;font-size:11px;color:var(--muted);background:var(--surface);text-align:center}
+.fab.ai{background:linear-gradient(135deg,#7C3AED,#0891B2);box-shadow:0 10px 30px -6px rgba(124,58,237,.65);overflow:visible}
+.fab.ai::before{content:'';position:absolute;inset:-5px;border-radius:50%;border:2px solid rgba(139,92,246,.55);animation:caRing 2.4s ease-out infinite}
+@keyframes caRing{0%{transform:scale(.9);opacity:.9}100%{transform:scale(1.35);opacity:0}}
+.fab.ai .bot{width:40px;height:40px}
+.cahi{position:fixed;right:calc(92px + env(safe-area-inset-right,0px));bottom:calc(32px + env(safe-area-inset-bottom,0px));z-index:71;display:flex;align-items:center;gap:4px;background:var(--surface);border:1.5px solid transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box,var(--aig) border-box;border-radius:14px 14px 4px 14px;padding:4px 4px 4px 12px;box-shadow:0 12px 30px -10px rgba(76,29,149,.5);animation:aiIn .5s ease both}
+.cahi[hidden]{display:none}
+.cahi>button:first-child{background:none;border:0;font:inherit;font-size:13.5px;color:var(--ink);cursor:pointer;padding:6px 0;text-align:left}
+.cahi>button:first-child b{background:var(--aig);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cahi .x{width:26px;height:26px;border-radius:8px;border:0;background:var(--gray-bg);color:var(--ink2);cursor:pointer}
+.ai-sumbox{border-radius:12px;padding:12px 14px;margin:0 0 10px;border:1.5px solid transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box,var(--aig) border-box;font-size:13.5px}
+.ai-sumbox h3{margin:0 0 6px;font-size:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ai-sumbox ul{margin:0;padding-left:18px;line-height:1.5;color:var(--ink2)}
+@media (max-width:767px){.cpanel.ai,.cpanel.ai.big{left:0;right:0;top:0;bottom:0;width:100%;height:100%;height:100dvh;border-radius:0;border:0}.cpanel.ai [data-act=ca-big]{display:none}.cstep{font-size:10.5px}.cahi{right:84px;bottom:28px;max-width:calc(100vw - 110px)}}
+@media (prefers-reduced-motion:reduce){.cm.new .bub span,.cm.new .ccards,.cm.new .ccard,.fab.ai::before,.cpanel.ai .phead{animation:none!important;opacity:1}}
 /* xuất báo cáo */
 .h-act{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .rp-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-left:auto}
@@ -5771,6 +5873,286 @@ ACT['ai-sim']=function(){
   ACTPERM['ai-ok']='dw.manage';ACTPERM['ai-no']='dw.manage';ACTPERM['ai-asm-save']='rules.manage';
   document.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target&&e.target.id==='ai-q'){e.preventDefault();ACT['ai-ask']({getAttribute:function(){return null;}});}if(e.key==='Escape'&&document.getElementById('aiw')){aiWelcomeClose();}});
   var lastK='';setInterval(function(){if(!SESSION||UI.view!=='ai'||UI.overlay)return;var tb=(UI.tab&&UI.tab.ai)||'flow';if(['flow','feed','team'].indexOf(tb)<0)return;var le=S.events[S.events.length-1],k=S.events.length+'|'+(le?le.t:0);if(k!==lastK){lastK=k;renderMain();}},1500);
+})();
+
+/* ================= Chat AI agent (DW1) ================= */
+var CA={q:Promise.resolve(),typing:false};
+function caSeq(fn){CA.q=CA.q.then(fn).catch(function(e){if(window.console)console.error(e);CA.typing=false;caDraw();});return CA.q;}
+function caWait(ms){return new Promise(function(r){setTimeout(r,ms);});}
+function caName(){var n=(S.brand&&S.brand.bot)||'Thăng Long AI';return /\bbot$/i.test(n)?n.replace(/bot$/i,'AI'):n;}
+function caTitle(s){return String(s).toLowerCase().replace(/(^|\s)(\S)/g,function(m,a,b){return a+b.toUpperCase();});}
+STEPVN.contact='họ tên, số điện thoại';STEPVN.done='đã xong';
+var CAEX=['Nhà 3 tầng, 4 người, hay xem phim','Chung cư, 2 người, làm việc tại nhà','Lắp camera cho cửa hàng','Internet doanh nghiệp','Cần nhân viên gọi tư vấn'];
+
+/* hiểu câu tự do */
+function caExtract(t){
+  var n=norm(t),o={},m,clean=t.replace(/0[35789][\d\s.]{8,12}/g,' ');
+  var nd=needOf(t);if(nd)o.need=nd;
+  if(/xem phim|truyen hinh|tivi|\btv\b|bong da|fpt play|k\+/.test(n)){o.tv=1;if(!o.need||o.need==='int')o.need='combo';}
+  if(/camera/.test(n))o.need='cam';
+  if(/game|stream|livestream/.test(n))o.game=1;
+  if(/lam viec tai nha|lam viec o nha|hop online|hoc online|wfh|zoom/.test(n))o.wfh=1;
+  if((m=n.match(/(\d+)\s*(nguoi|thanh vien|khau)/)))o.people=+m[1];
+  if((m=n.match(/(\d+)\s*(tang|lau)\b/)))o.floors=+m[1];
+  if((m=n.match(/(\d+)\s*(thiet bi|may tinh|dien thoai|may)\b/)))o.devices=+m[1];
+  if((m=n.match(/(\d{2,4})\s*(k|nghin|ngan)\b/)))o.budget=+m[1]*1000;else if((m=n.match(/(\d+(?:[.,]\d+)?)\s*(tr|trieu)\b/)))o.budget=Math.round(parseFloat(m[1].replace(',','.'))*1e6);
+  if(/chung cu|can ho/.test(n))o.house='Chung cư';else if(/van phong|cong ty|cua hang|quan ca phe|quan an|\bshop\b|nha hang/.test(n))o.house='Văn phòng, cửa hàng';else if((o.floors||0)>=3||/nha nhieu tang/.test(n))o.house='Nhà nhiều tầng';else if(/nha pho|nha rieng|nha mat dat/.test(n))o.house='Nhà phố, nhà riêng';
+  var a=areaOf(t);if(a&&a!=='Chưa rõ khu vực')o.area=a;
+  var ph=extractPhone(t);if(ph)o.phone=ph;
+  if(/(^|[\s,])(so|ngo|ngach|hem|kiet)\s*\d/.test(n)||/\d+[a-z]?\s+(duong|pho)\s/.test(n))o.addr=clean.replace(/^[\s,.]+|[\s,.]+$/g,'');
+  if((m=t.match(/(?:tên(?: là)?|tôi là|em là|mình là|anh là|chị là)\s+([A-Za-zÀ-ỹ][A-Za-zÀ-ỹ ]{1,28}?)(?=\s*(?:[,.;!]|$|\s(?:số|sđt|sdt|ở|nhà|điện)\b|\s\d))/i))&&!/thăng long|sinh viên|khách/i.test(m[1]))o.name=caTitle(m[1].trim());
+  if(!o.need&&(o.game||o.wfh||o.people||o.floors||o.devices||(o.house&&o.house!=='Văn phòng, cửa hàng')||/lap mang|lap mang|wifi|mang/.test(n)))o.need='int';
+  if(/buc minh|buc qua|chan qua|te qua|that vong|khieu nai|lua dao|cham qua|toi te|qua te|kem qua/.test(n))o.angry=1;
+  if(/giam gia|giam them|re hon|bot di|mien phi|khuyen mai them|chiet khau|dat qua/.test(n))o.nego=1;
+  return o;
+}
+async function caLLMExtract(t){
+  if(!CAP.sample||!CAP.sample.json)return {};
+  try{var r=await Promise.race([CAP.sample.json('Trích thông tin từ tin nhắn khách hỏi lắp Internet FPT tại Hà Nội. Trả về DUY NHẤT JSON với các khóa có thể null: {"need":"int"|"combo"|"cam"|"biz"|null,"people":number|null,"floors":number|null,"budget":number|null,"tv":boolean|null,"game":boolean|null,"wfh":boolean|null,"name":string|null}. Tin nhắn: '+t,{modelTier:'quick'}),caWait(4000).then(function(){return null;})]);
+    var o={};if(!r)return o;if(['int','combo','cam','biz'].indexOf(r.need)>-1)o.need=r.need;['people','floors','budget'].forEach(function(k){if(typeof r[k]==='number'&&r[k]>0)o[k]=r[k];});['tv','game','wfh'].forEach(function(k){if(r[k]===true)o[k]=1;});if(r.name&&typeof r.name==='string'&&r.name.length<40)o.name=caTitle(r.name);return o;}catch(e){return {};}
+}
+function caMerge(o){
+  var d=B.d,got=[];
+  ['need','tv','game','wfh','people','floors','devices','budget','house','area','phone','addr','name'].forEach(function(k){if(o[k]!=null&&o[k]!==''&&d[k]!==o[k]){if(k==='addr'&&d.addr&&B.s!=='addr')return;d[k]=o[k];got.push(k);}});
+  if(got.some(function(k){return ['need','tv','game','wfh','people','floors','devices','budget','house'].indexOf(k)>-1;})&&d.pkgId&&!d.hd){d.pkgId='';d.pkg='';}
+  if(got.indexOf('area')>-1||got.indexOf('addr')>-1){if(!d.hd){d.infraOk=null;d.infra='';}}
+  if(o.angry)d.angry=1;if(o.nego)d.nego=1;
+  return got;
+}
+function caProf(d){
+  var r=[];d=d||B.d;
+  if(d.need)r.push(['📦',NEEDNAME[d.need]]);if(d.house)r.push(['🏠',d.house]);if(d.floors)r.push(['🏢',d.floors+' tầng']);if(d.people)r.push(['👥',d.people+' người']);if(d.devices)r.push(['📱',d.devices+' thiết bị']);
+  if(d.tv)r.push(['📺','Xem truyền hình']);if(d.game)r.push(['🎮','Chơi game']);if(d.wfh)r.push(['💻','Làm việc, học online']);if(d.budget)r.push(['💰','≤ '+fmt(d.budget)+'đ/tháng']);
+  if(d.area)r.push(['📍',d.area]);if(d.pkg)r.push(['✅',d.pkg]);
+  return r;
+}
+function caAck(got){var d=B.d,p=caProf(d).filter(function(x){return x[0]!=='✅';}).map(function(x){return x[1].toLowerCase();});if(got.length<2&&!(got.length&&B.s==='need'))return '';return 'Em đã hiểu: '+p.join(', ')+'. ';}
+
+/* đề xuất gói */
+var CAWHY={
+  giga:function(d,big){return [big?0:30,big?'Tốc độ cơ bản, chưa tối ưu cho '+(d.game?'chơi game':d.wfh?'họp, học online':(d.floors>=3?'nhà '+d.floors+' tầng':'nhà nhiều người dùng')):'Đủ dùng cho gia đình nhỏ, ít thiết bị, chi phí tiết kiệm'];},
+  sky:function(d,big){return [(d.people>=3||d.floors>=2||d.devices>=6)?28:12,'Wi-Fi 6 cho '+(d.people?d.people+' người':'nhiều thiết bị')+' dùng cùng lúc, không giật lag'];},
+  skyf1:function(d,big){var s=0,w=[];if(d.floors>=3||(d.floors>=2&&d.people>=4)){s+=22;w.push('Kèm 1 Mesh phủ sóng đều '+d.floors+' tầng');}if(d.game){s+=16;w.push('1 Gbps cho chơi game, livestream');}if(d.wfh){s+=14;w.push('Ổn định cho họp, học online');}if(d.need==='biz'){s+=26;w.push('Tốc độ cao cho văn phòng nhiều máy');}if(big&&!w.length){s+=12;w.push('Dư băng thông cho cả nhà');}return [s,w.join('; ')||'1 Gbps/300 Mbps, Wi-Fi 6 kèm 1 Mesh'];},
+  cgiga:function(d,big){return [d.tv?(big?14:30):0,'Internet kèm truyền hình FPT Play, gọn cho gia đình nhỏ'];},
+  csky:function(d,big){return [d.tv?(big?32:16):0,'Wi-Fi 6 và FPT Play để cả nhà xem phim, bóng đá cùng lúc'];},
+  camin:function(d){return [d.house==='Văn phòng, cửa hàng'?12:26,'Trông nhà, trông trẻ, xem lại trên điện thoại nhờ lưu trữ Cloud'];},
+  camout:function(d){return [d.house==='Văn phòng, cửa hàng'?30:14,'Chống nước, nhìn rõ ban đêm cho cửa hàng, cổng nhà'];}
+};
+function caRecs(d){
+  var need=d.need||'int',list=pkgsFor(need==='biz'?'int':need);if(!list.length)list=pkgsFor('int');
+  var big=(d.people||0)>=4||(d.floors||0)>=3||(d.devices||0)>=8||!!d.game||!!d.wfh||need==='biz';
+  var sc=list.map(function(p){var f=CAWHY[p.id],r=f?f(d,big):[10,p.d],s=55+r[0],why=[r[1]];
+    if(p.price&&d.budget){if(p.price<=d.budget){s+=8;why.push('Trong ngân sách '+fmt(d.budget)+'đ/tháng');}else{s-=18;why.push('Cao hơn ngân sách khoảng '+fmt(p.price-d.budget)+'đ/tháng');}}
+    return {id:p.id,name:p.name,d:p.d,price:priceTxt(p),why:why,s:Math.max(40,Math.min(97,s))};});
+  sc.sort(function(a,b){return b.s-a.s;});sc=sc.slice(0,3);if(sc[0])sc[0].best=1;return sc;
+}
+
+/* chuỗi trạng thái, tóm tắt, điểm */
+function caIntent(d){d=d||B.d;return d.angry?'Phàn nàn, cần người xử lý':d.nego?'Hỏi giá, muốn thêm ưu đãi':d.signed?'Đã ký hợp đồng online':d.path==='full'?'Đăng ký online':d.path==='consult'?'Cần nhân viên tư vấn':d.pkgId?'Muốn lắp, đã chọn gói':d.need?'Tìm hiểu dịch vụ':'Chưa rõ nhu cầu';}
+function caScore(d){d=d||B.d;var s=15+(d.need?15:0)+(d.area?10:0)+(d.pkgId?20:0)+(d.addr?8:0)+(d.phone?15:0)+(d.infraOk?10:0)+(d.path==='full'?5:0)-(d.angry?12:0);return Math.max(5,Math.min(97,s));}
+function caSummary(d){
+  d=d||B.d;var r=[],x=[];
+  if(d.need)r.push('Nhu cầu: '+NEEDNAME[d.need]+([d.tv?'xem truyền hình':'',d.game?'chơi game':'',d.wfh?'làm việc, học online':''].filter(Boolean).map(function(v){return ', '+v;}).join('')));
+  if(d.house)x.push(d.house);if(d.floors)x.push(d.floors+' tầng');if(d.people)x.push(d.people+' người');if(d.devices)x.push(d.devices+' thiết bị');if(x.length)r.push('Nhà: '+x.join(', '));
+  if(d.budget)r.push('Ngân sách: khoảng '+fmt(d.budget)+'đ/tháng');
+  if(d.area||d.addr)r.push('Địa chỉ: '+[d.addr,d.area].filter(Boolean).join(', '));
+  if(d.pkg)r.push('Gói quan tâm: '+d.pkg);
+  if(d.infra)r.push('Hạ tầng: '+d.infra);
+  r.push('Dừng ở bước: '+(STEPVN[B.s]||B.s));
+  if(d.angry)r.push('Lưu ý: khách đang không hài lòng, cần xin lỗi trước');if(d.nego)r.push('Lưu ý: khách muốn thêm ưu đãi, cần xin duyệt nếu ngoài chính sách');
+  return r;
+}
+(function(){var _sm=syncMeta;syncMeta=function(){var c=curChat();if(c)c.ai={intent:caIntent(),score:caScore(),sum:caSummary(),at:now()};_sm();};})();
+
+/* hiển thị */
+function caWords(t){var k=0,step=t.length>220?9:t.length>120?16:26;return t.split(/(\s+)/).map(function(w){return /^\s+$/.test(w)||!w?w:'<span style="animation-delay:'+(k++*step)+'ms">'+esc(w)+'</span>';}).join('');}
+function caCtx(){
+  var el=$('#caCtx');if(!el||!B)return;var d=B.d||{};
+  var st=[['Nhu cầu',!!d.need],['Gói cước',!!d.pkgId],['Hạ tầng',d.infraOk===true],['Ký hợp đồng',!!d.signed]],cur=-1;
+  st.forEach(function(s,i){if(cur<0&&!s[1])cur=i;});
+  var steps='<div class="cstep" aria-label="Tiến trình">'+st.map(function(s,i){return (i?'<b class="'+(s[1]&&st[i-1][1]?'d':'')+'"></b>':'')+'<span class="'+(s[1]?'d':i===cur?'c':'')+'"><i>'+(s[1]?'✓':i+1)+'</i>'+s[0]+'</span>';}).join('')+'</div>';
+  var p=caProf(d);
+  el.innerHTML=steps+(p.length?'<div class="cprof"><span class="lbl">✨ AI ghi nhận</span>'+p.map(function(x){return '<span>'+x[0]+' '+esc(x[1])+'</span>';}).join('')+'</div>':'');
+}
+function caCardHTML(x,dis){
+  var c=x.card,D=dis?' disabled':'';
+  function bt(t,cls,lab){return '<button class="'+(cls||'btn sm')+'" data-act="bot-chip" data-t="'+esc(t)+'"'+D+'>'+(lab||esc(t))+'</button>';}
+  if(c.type==='pkgs')return '<div class="ccards">'+c.items.map(function(p){return '<div class="pcard'+(p.best?' best':'')+'">'+(p.best?'<span class="tag">✨ AI đề xuất</span>':'')+'<div class="nm"><b>'+esc(p.name)+'</b><span>'+esc(p.price)+'</span></div><div class="mt"><i style="width:'+p.s+'%"></i></div><small>Phù hợp '+p.s+'%</small><ul>'+p.why.map(function(w){return '<li>'+esc(w)+'</li>';}).join('')+'</ul>'+bt('Chọn gói '+p.name,'btn sm'+(p.best?' ai-btn':''),'Chọn gói này')+'</div>';}).join('')+'</div>';
+  if(c.type==='infra')return '<div class="ccard '+(c.ok?'ok':'warn')+'"><div class="ih">'+(c.ok?'✅ Đủ điều kiện lắp đặt':'⚠️ Cần kỹ thuật khảo sát')+'</div><dl><dt>Địa chỉ</dt><dd>'+esc(c.addr||'')+'</dd><dt>Khu vực</dt><dd>'+esc(c.area||'')+'</dd>'+(c.pop?'<dt>Trạm POP</dt><dd>'+esc(c.pop)+'</dd><dt>Cổng trống</dt><dd>'+c.ports+' port</dd><dt>Chất lượng</dt><dd>'+esc(c.q)+'</dd>':'')+'</dl></div>';
+  if(c.type==='pay')return '<div class="ccard"><div class="ih">💳 Hình thức thanh toán</div><div class="opts"><button class="opt" data-act="bot-chip" data-t="Trả trước online"'+D+'><b>Trả trước online</b>Thanh toán ngay, kích hoạt nhanh</button><button class="opt" data-act="bot-chip" data-t="Trả sau khi lắp"'+D+'><b>Trả sau khi lắp</b>Thanh toán khi kỹ thuật lắp xong</button></div></div>';
+  if(c.type==='otp')return '<div class="ccard ai"><div class="ih">✍️ Ký hợp đồng điện tử '+esc(c.hd)+'</div><span>Mã OTP 6 số đã gửi qua SMS đến <b>'+esc(c.ph)+'</b>. Anh/chị nhập mã vào ô chat bên dưới để ký.</span></div>';
+  if(c.type==='slots')return '<div class="ccard"><div class="ih">📅 Chọn lịch lắp đặt</div><div class="opts">'+c.items.map(function(s){return '<button class="opt" data-act="bot-chip" data-t="'+esc(s[0])+'"'+D+'><b>'+esc(s[0])+'</b>'+esc(s[1])+'</button>';}).join('')+'</div></div>';
+  if(c.type==='confirm')return '<div class="ccard ai"><div class="ih">🧾 Xác nhận đơn hàng</div><dl>'+c.rows.map(function(r){return '<dt>'+r[0]+'</dt><dd>'+esc(r[1])+'</dd>';}).join('')+'</dl><div class="row" style="margin:0">'+bt('Xác nhận lịch hẹn','btn sm ai-btn','Xác nhận đặt lắp')+bt('Cần tư vấn thêm')+'</div></div>';
+  if(c.type==='done')return '<div class="ccard ok"><div class="ih">🎉 Đặt lắp thành công</div><dl><dt>Hợp đồng</dt><dd>'+esc(c.hd)+'</dd><dt>Gói</dt><dd>'+esc(c.pkg)+'</dd><dt>Lịch lắp</dt><dd>'+esc(c.slot)+'</dd></dl><ul><li>Kỹ thuật viên gọi xác nhận trước khi đến</li><li>DVKH chăm sóc anh/chị trong 90 ngày đầu</li></ul></div>';
+  if(c.type==='handoff')return '<div class="ccard ai"><div class="ih">🤝 '+(c.wait?'Đang kết nối nhân viên':'Đã chuyển nhân viên phụ trách')+'</div><span style="color:var(--ink2)">Em đã gửi kèm bản tóm tắt để anh/chị không phải nói lại:</span><ul>'+c.sum.map(function(s){return '<li>'+esc(s)+'</li>';}).join('')+'</ul></div>';
+  return '';
+}
+function caDraw(){
+  var m=$('#msgs');if(!m||!B)return;
+  var lastCard=-1;B.log.forEach(function(x,i){if(x.card)lastCard=i;});
+  var html='',prevBot=false;
+  B.log.forEach(function(x,i){
+    var nw=x.st&&!x.sd;
+    if(x.w==='me'){html+='<div class="cm me"><div class="bub me">'+esc(x.t)+'</div></div>';prevBot=false;return;}
+    if(x.w==='sys'){html+='<div class="bub sys">'+esc(x.t)+'</div>';prevBot=false;return;}
+    if(x.w==='agent'){html+='<div class="cm"><span class="cav">'+esc((x.by||'N').trim().split(' ').pop().charAt(0))+'</span><div class="cbody"><div class="bub agent"><i>'+esc(x.by||'Nhân viên')+'</i>'+esc(x.t)+'</div></div></div>';prevBot=false;return;}
+    if(x.w==='think'){html+='<div class="cthink"><span class="hd">✨ AI đang xử lý</span>'+x.items.map(function(it){return '<div class="ti s'+it[1]+'"><i></i>'+esc(it[0])+'</div>';}).join('')+'</div>';prevBot=false;return;}
+    var av=prevBot?'<span class="cav0"></span>':agSvg('DW1',30);prevBot=true;
+    html+='<div class="cm bot-m'+(nw?' new':'')+'">'+av+'<div class="cbody">'+(x.t&&!x.hideT?'<div class="bub bot">'+(nw?caWords(x.t):esc(x.t))+'</div>':'')+(x.card?caCardHTML(x,i<lastCard||B.s==='done'&&x.card.type!=='done'&&x.card.type!=='handoff'):'')+'</div></div>';
+  });
+  if(CA.typing)html+='<div class="cm">'+(prevBot?'<span class="cav0"></span>':agSvg('DW1',30))+'<div class="ctyping" aria-label="AI đang soạn"><i></i><i></i><i></i></div></div>';
+  m.innerHTML=html;B.log.forEach(function(x){if(x.st)x.sd=1;});
+  m.scrollTop=m.scrollHeight;var nb=m.querySelectorAll('.cm.bot-m.new');nb=nb[nb.length-1];if(nb&&nb.offsetHeight>m.clientHeight*0.75)m.scrollTop=Math.max(0,nb.offsetTop-8);
+  var live=chStatus()==='agent'||chStatus()==='waiting'||chStatus()==='closed';
+  var ch=$('#chips');ch.innerHTML=live||CA.typing?'':(B.chips||[]).map(function(c){return '<button class="chip2" type="button" data-act="bot-chip" data-t="'+esc(c)+'">'+esc(c)+'</button>';}).join('');
+  ch.style.display=(!live&&!CA.typing&&B.chips&&B.chips.length)?'flex':'none';
+  var bh=$('#botHuman');if(bh)bh.style.display=live?'none':'';
+  caCtx();refreshInbox();
+}
+async function caT(ms){CA.typing=true;caDraw();await caWait(ms||(420+Math.random()*380));CA.typing=false;}
+async function caThink(items){var x={w:'think',items:items.map(function(t){return [t,0];}),t:'AI xử lý: '+items.join(' → '),at:now()};B.log.push(x);
+  for(var i=0;i<x.items.length;i++){x.items[i][1]=1;caDraw();await caWait(480+Math.random()*260);x.items[i][1]=2;}caDraw();await caWait(200);}
+function caCard(type,data,t,chips){var c=data||{};c.type=type;B.log.push({w:'bot',t:t||'',card:c,at:now(),st:1});B.chips=chips||[];caDraw();save();}
+say=function(t,chips){B.log.push({w:'bot',t:t,at:now(),st:1});B.chips=chips||[];caDraw();save();};
+drawChat=caDraw;
+
+/* điều phối hội thoại */
+function caStageChips(){var d=B.d;return B.s==='need'?CAEX:B.s==='area'?areaChips():B.s==='pkg'?caRecs(d).map(function(p){return 'Chọn gói '+p.name;}).concat(['Cần tư vấn thêm']):B.s==='decide'?['Đăng ký online luôn','Cần nhân viên tư vấn']:B.s==='pay'?['Trả trước online','Trả sau khi lắp']:[];}
+function caAskContact(){var d=B.d;B.s='contact';
+  if(d.name&&!d.phone)say('Anh/chị '+d.name.split(' ').pop()+' cho em xin số điện thoại liên hệ ạ.');
+  else if(!d.name&&d.phone)say('Anh/chị cho em xin họ tên để ghi vào '+(d.path==='full'?'hợp đồng':'phiếu yêu cầu')+' ạ.');
+  else say(d.path==='full'?'Bước tiếp theo là thông tin chủ hợp đồng. Anh/chị cho em xin họ tên và số điện thoại (gửi chung một tin cũng được) ạ.':'Anh/chị cho em xin họ tên và số điện thoại, nhân viên khu vực sẽ gọi lại trong ít phút ạ.');}
+function caAfterContact(){var d=B.d;syncMeta();
+  if(d.path==='full'){var dup=findDup(d.phone);if(dup){finishConsult('trùng thông tin với yêu cầu trước ('+dup.id+')');return;}B.s='pay';caCard('pay',{},'Cảm ơn anh/chị '+d.name.split(' ').pop()+'. Anh/chị chọn hình thức thanh toán ạ.',['Trả trước online','Trả sau khi lắp']);return;}
+  finishConsult(d.angry?'khách không hài lòng, cần người xử lý':d.nego?'khách muốn thêm ưu đãi':'khách cần tư vấn thêm');
+}
+async function caNext(got){
+  var d=B.d,ack=caAck(got||[]);
+  if(d.path==='consult'){if(!d.area){B.s='area';await caT();say(ack+'Anh/chị ở quận, huyện nào để em chuyển nhân viên gần nhất ạ?',areaChips());return;}if(!d.name||!d.phone){await caT();caAskContact();return;}caAfterContact();return;}
+  if(!d.need){B.s='need';await caT();say(ack+'Anh/chị đang cần lắp dịch vụ nào ạ? Anh/chị có thể kể tự nhiên, ví dụ “nhà 3 tầng, 4 người, hay xem phim”.',CAEX);return;}
+  if(!d.area){B.s='area';await caT();say(ack+'Anh/chị ở quận, huyện nào để em kiểm tra hạ tầng ạ?',areaChips());return;}
+  if(!d.pkgId){B.s='pkg';if(ack){await caT();say(ack);}
+    var n=pkgsFor(d.need==='biz'?'int':d.need).length;
+    await caThink(['Phân tích nhu cầu: '+(caProf(d).filter(function(x){return x[0]!=='📍';}).map(function(x){return x[1];}).join(', ')||NEEDNAME[d.need]),'So sánh '+n+' gói '+NEEDNAME[d.need==='biz'?'int':d.need],'Chấm điểm mức phù hợp, chọn gói tốt nhất']);
+    var r=caRecs(d);await caT(300);
+    caCard('pkgs',{items:r},'Em đề xuất '+(r.length>1?r.length+' gói, xếp theo mức phù hợp':'gói sau')+'. Gói “'+r[0].name+'” hợp nhất với nhà mình. '+PRICE_NOTE,r.map(function(p){return 'Chọn gói '+p.name;}).concat(['So sánh thêm','Cần tư vấn thêm']));return;}
+  if(!d.addr){B.s='addr';await caT();say('Gói '+d.pkg+' nhé. Anh/chị cho em xin địa chỉ cụ thể (số nhà, ngõ, đường) để em kiểm tra hạ tầng ạ.');return;}
+  if(d.infraOk==null){
+    await caThink(['Tìm trạm POP gần '+short(d.addr,40),'Kiểm tra cổng trống và chất lượng tín hiệu','Đối chiếu lịch kỹ thuật khu vực '+d.area]);
+    var inf=infraFor(d.area);d.infra=inf.txt;d.pop=inf.pop?inf.pop.id:'';d.infraOk=!!inf.ok;syncMeta();
+    if(inf.ok){B.s='decide';caCard('infra',{ok:true,addr:d.addr,area:d.area,pop:inf.pop.id,ports:inf.pop.ports,q:inf.pop.q},'Tin vui: địa chỉ của anh/chị đủ điều kiện lắp đặt. Anh/chị muốn đăng ký online luôn (ký hợp đồng bằng OTP, chọn lịch lắp), hay cần nhân viên tư vấn thêm ạ?',d.need==='biz'?['Cần nhân viên tư vấn','Đăng ký online luôn']:['Đăng ký online luôn','Cần nhân viên tư vấn']);}
+    else{d.path='consult';caCard('infra',{ok:false,addr:d.addr,area:d.area,pop:inf.pop?inf.pop.id:'',ports:inf.pop?inf.pop.ports:0,q:inf.pop?inf.pop.q:''},'Khu vực này cần kỹ thuật khảo sát trước khi lắp. Em sẽ chuyển nhân viên khu vực liên hệ anh/chị.');await caWait(300);caAskContact();}
+    return;}
+  if(!d.path){B.s='decide';await caT();say('Anh/chị muốn đăng ký online luôn, hay cần nhân viên tư vấn thêm ạ?',['Đăng ký online luôn','Cần nhân viên tư vấn']);return;}
+  if(!d.name||!d.phone){await caT();caAskContact();return;}
+  caAfterContact();
+}
+async function caStage(t,n,o){
+  var d=B.d,s=B.s;
+  if(s==='name'||s==='phone')s=B.s='contact';
+  if(s==='area'&&!o.area){if(/khac|khong biet|chua ro/.test(n)){d.area='Chưa rõ khu vực';d.path=d.path||'consult';await caNext();return true;}if(!Object.keys(o).length){await caT();say('Em chưa nhận ra khu vực. Anh/chị chọn giúp em quận, huyện bên dưới ạ.',areaChips());return true;}}
+  if(s==='pkg'||(s==='addr'&&/chon goi/.test(n))){
+    var all=PKGS.filter(function(p){return p.on!==false&&n.indexOf(norm(p.name))>-1;}).sort(function(a,b){return b.name.length-a.name.length;})[0];
+    if(all){d.pkgId=all.id;d.pkg=all.name;if(all.cat!=='int'||d.need!=='biz')d.need=all.cat==='int'&&d.need==='biz'?'biz':all.cat;syncMeta();await caNext();return true;}
+    if(/so sanh/.test(n)){await caT();var r=caRecs(d);say(r.map(function(p,i){return (i+1)+'. '+p.name+' ('+p.price+'), phù hợp '+p.s+'%: '+p.why.join('; ')+'.';}).join('\n')+'\nAnh/chị chọn gói nào ạ?',r.map(function(p){return 'Chọn gói '+p.name;}));return true;}
+  }
+  if(s==='addr'&&!o.need&&!o.area){d.addr=o.addr||t.replace(/0[35789][\d\s.]{8,12}/g,'').trim();if(o.phone)d.phone=o.phone;syncMeta();await caNext();return true;}
+  if(s==='decide'){if(/dang ky|luon|dong y|\bok\b|online/.test(n)){d.path='full';await caT();caAskContact();return true;}if(/tu van|nhan vien/.test(n)){d.path='consult';await caNext();return true;}}
+  if(s==='contact'){
+    if(o.phone)d.phone=o.phone;if(o.name)d.name=o.name;
+    else if(!d.name&&!o.need&&!o.area){var rest=t.replace(/(\+84|0)[\d\s.]{8,12}/g,' ').replace(/[,;.:]/g,' ').replace(/(^|\s)(sđt|sdt|số điện thoại|điện thoại|số|tên|là|tôi|em|mình|của)(?=\s|$)/gi,' ').replace(/\s+/g,' ').trim();if(rest&&!/\d/.test(rest)&&rest.length<=40&&rest.split(' ').length<=5)d.name=caTitle(rest);}
+    if(!o.phone&&/\d{6,}/.test(t.replace(/\s/g,''))){await caT();say('Số điện thoại chưa đúng, anh/chị nhập giúp em số di động 10 chữ số ạ.');return true;}
+    syncMeta();if(d.name&&d.phone){await caT();caAfterContact();}else{await caT();caAskContact();}return true;}
+  if(s==='pay'){d.pay=/sau/.test(n)?'Trả sau khi lắp':'Trả trước online';
+    if(d.pay==='Trả trước online'){await caThink(['Kết nối cổng thanh toán (bản thử)','Xác nhận giao dịch']);sysMsg('Cổng thanh toán (thử): đã thanh toán thành công');}
+    d.hd='OL-'+('000'+(S.seq+1)).slice(-4);d.otp=String(Math.floor(100000+Math.random()*900000));B.s='otp';
+    await caT();caCard('otp',{hd:d.hd,ph:mask(d.phone)},'Em đã tạo hợp đồng điện tử số '+d.hd+'.');sysMsg('Bản trình diễn: mã OTP là '+d.otp);return true;}
+  if(s==='otp'){if(t.replace(/\D/g,'')!==d.otp){await caT();say('Mã OTP chưa đúng, anh/chị kiểm tra lại tin nhắn giúp em ạ.');return true;}
+    await caThink(['Xác thực mã OTP','Ký số hợp đồng '+d.hd]);d.signed=1;sysMsg('Hợp đồng điện tử '+d.hd+' đã ký');B.s='sched';
+    var sl=['Sáng mai (8–12h)','Chiều mai (13–17h)','Tối mai (18–20h)','Cuối tuần này'],kt=d.pop?ktvFor(d.pop):null;
+    caCard('slots',{items:sl.map(function(x,i){return [x,i===1?'Còn nhiều lịch trống':i===3?'Thứ Bảy hoặc Chủ nhật':'Còn lịch'];})},'Ký thành công. Kỹ thuật viên khu vực '+d.area+(kt?' ('+kt.name+')':'')+' còn các khung giờ sau, anh/chị chọn giúp em ạ.',sl);return true;}
+  if(s==='sched'){d.sched=t;B.s='confirm';await caT();
+    caCard('confirm',{rows:[['Gói',d.pkg||NEEDNAME[d.need]],['Địa chỉ',(d.addr||'')+', '+d.area],['Chủ hợp đồng',d.name],['Điện thoại',mask(d.phone)],['Thanh toán',d.pay],['Hợp đồng',d.hd],['Lịch lắp',t]]},'Anh/chị kiểm tra lại giúp em nhé.',['Xác nhận lịch hẹn','Cần tư vấn thêm']);return true;}
+  if(s==='confirm'){if(/xac nhan|dong y|\bok\b/.test(n)){await caThink(['Tạo đơn lắp đặt','Giao lịch cho Kỹ thuật','Báo DVKH chăm sóc']);finishFull();}else{d.path='consult';finishConsult('khách cần tư vấn thêm trước khi hẹn lịch');}return true;}
+  return false;
+}
+async function caHandle(t){
+  var n=norm(t),d=B.d;
+  if(B.s==='done'){await caT();say('Yêu cầu của anh/chị đã được ghi nhận. Cần thêm gì anh/chị cứ nhắn, hoặc mở menu ⋯ để gặp nhân viên ạ.');return;}
+  if(/gap nhan vien|nguoi that|noi chuyen voi nguoi/.test(n)){requestHuman();return;}
+  if(/tiep tuc voi ai/.test(n)){d.angry=0;d.nego=0;await caNext();return;}
+  if(/(nhan vien goi|goi lai cho|tu van them|tu van truc tiep|can nhan vien)/.test(n)&&['contact','otp','pay','confirm','sched'].indexOf(B.s)<0){var o0=caExtract(t);caMerge(o0);d.path='consult';await caNext();return;}
+  var o=caExtract(t);
+  if(await caStage(t,n,o))return;
+  var got=caMerge(o);
+  if(!got.length&&B.s==='need'){var lx=await caLLMExtract(t);got=caMerge(lx);}
+  if(o.angry){await caT(700);say('Em rất xin lỗi vì trải nghiệm chưa tốt của anh/chị. Việc này em muốn chuyển ngay cho nhân viên để xử lý trực tiếp, kèm bản tóm tắt để anh/chị không phải kể lại. Anh/chị đồng ý chứ ạ?',['Gặp nhân viên','Tiếp tục với AI']);syncMeta();return;}
+  if(o.nego){await caT(600);say('Giá trên đã là ưu đãi hiện hành. Ưu đãi thêm ngoài chính sách cần nhân viên kinh doanh xin duyệt, em chuyển anh/chị gặp nhân viên nhé?',['Gặp nhân viên','Tiếp tục với AI']);syncMeta();return;}
+  var f=faqMatch(n);
+  if(f){f.hits=(f.hits||0)+1;await caT();say(f.a+(got.length?'':' '+(B.s==='need'?'Anh/chị đang cần lắp dịch vụ nào ạ?':'')),got.length?[]:caStageChips());if(!got.length)return;}
+  if(!got.length){
+    if(CAP.sample){CA.typing=true;caDraw();var ans=null;try{var r=await Promise.race([CAP.sample('Bạn là '+caName()+', trợ lý AI tư vấn lắp Internet, truyền hình, camera của FPT Telecom Hà Nội. Trả lời khách bằng tiếng Việt, lịch sự, tối đa 3 câu, không bịa giá (giá xác nhận khi lên hợp đồng), cuối câu hướng khách sang bước tiếp theo: '+(STEPVN[B.s]||'nhu cầu')+'. Thông tin đã biết: '+(caSummary().join('; '))+'. Khách nhắn: '+t,{modelTier:'quick',cache:false}),caWait(6000).then(function(){return null;})]);ans=r&&r.text&&r.text.trim();}catch(e){}CA.typing=false;if(ans){say(ans,caStageChips());return;}}
+    if(botMiss())return;
+    await caT();say('Em chưa chắc đã hiểu ý anh/chị. Anh/chị có thể kể như: “nhà 3 tầng, 4 người, hay xem phim, ở '+(areasList()[0]||'Cầu Giấy')+'”, hoặc chọn nhanh bên dưới ạ.',caStageChips().length?caStageChips():CAEX);return;}
+  syncMeta();await caNext(got);
+}
+hear=function(t){
+  t=String(t||'').trim();if(!t)return;
+  ensureChat();B.log.push({w:'me',t:t,at:now()});B.chips=[];caDraw();save();
+  var st=chStatus();if(st==='agent'||st==='waiting'||st==='closed')return;
+  return caSeq(function(){return caHandle(t);});
+};
+askName=function(){caAskContact();};
+afterPhone=function(){caAfterContact();};
+(function(){
+  var _fc=finishConsult;finishConsult=function(reason,silent){var sum=caSummary(),c0=curChat();_fc(reason,silent);
+    var c=curChat()||c0,L=c&&c.leadId?leadOf(c.leadId):null;if(L&&!L.aiSum){L.aiSum=1;L.note=(L.note?L.note+'\n':'')+'AI tóm tắt hội thoại: '+sum.join('; ');}
+    if(c)c.ai={intent:caIntent(),score:caScore(),sum:sum,at:now()};
+    if(!silent&&B.d.phone)caCard('handoff',{sum:sum},'');save();};
+  var _ff=finishFull;finishFull=function(){var d=B.d,pk=PKGS.filter(function(p){return p.id===d.pkgId;})[0];_ff();var c=curChat();if(c&&c.leadId){var L=leadOf(c.leadId);if(L&&L.contract)caCard('done',{hd:L.contract.id,pkg:pk?pk.name:(d.pkg||''),slot:d.sched});c.ai={intent:caIntent(),score:97,sum:caSummary(),at:now()};}save();};
+  var _rh=requestHuman;requestHuman=function(){var sum=caSummary();ensureChat();var c=curChat();if(c)c.ai={intent:d0(),score:caScore(),sum:sum,at:now()};_rh();if(chStatus()==='waiting'){caCard('handoff',{wait:true,sum:sum},'');}save();
+    function d0(){return B.d.angry?'Phàn nàn, cần người xử lý':B.d.nego?'Hỏi giá, muốn thêm ưu đãi':'Khách muốn gặp nhân viên';}};
+  var _br=botReset;botReset=function(ch){_br(ch);B.log.length=0;CA.typing=false;
+    B.log.push({w:'bot',t:'Chào anh/chị 👋 Em là '+caName()+', trợ lý AI của FPT Telecom Hà Nội.',at:now(),st:1});
+    B.log.push({w:'bot',t:'Anh/chị cứ kể nhu cầu tự nhiên, ví dụ “nhà 3 tầng, 4 người, hay xem phim, ở Cầu Giấy”. Em sẽ tự phân tích, chọn gói phù hợp, kiểm tra hạ tầng và đăng ký giúp anh/chị ngay trong khung chat này.',at:now(),st:1});
+    B.chips=CAEX.slice();$('#pName').textContent=caName();$('#pSub').textContent=({BOTW:'Website',BOTF:'Fanpage Messenger',BOTZ:'Zalo OA'})[B.ch]+' · phản hồi tức thì 24/7';$('#pHead').className='phead';caDraw();save();};
+})();
+/* dựng lại khung chat và nút nổi */
+function caMount(){
+  var p=$('#cpanel');if(!p||p.classList.contains('ai'))return;p.classList.add('ai');
+  var ch=$('#botCh'),foot=p.querySelector('.chtabs.foot');
+  var h=$('#pHead');h.innerHTML='<span class="cav-h">'+agSvg('DW1',38)+'<i class="on"></i></span><div class="ph-t"><b id="pName">'+esc(caName())+'</b><small><span class="ai-tag">AI AGENT</span><span id="pSub">Website · phản hồi tức thì 24/7</span></small></div><button class="phb" data-act="ca-big" aria-label="Phóng to khung chat" title="Phóng to">⤢</button><button class="phb" data-act="ca-menu" aria-label="Tùy chọn" aria-expanded="false" title="Tùy chọn">⋯</button><button class="x" data-act="chat-close" aria-label="Đóng chat">×</button>';
+  var menu=document.createElement('div');menu.className='camenu';menu.id='caMenu';menu.hidden=true;menu.innerHTML='<p>Kênh trò chuyện</p>';menu.appendChild(ch);
+  menu.insertAdjacentHTML('beforeend','<button id="botHuman" data-act="bot-human">👤 Gặp nhân viên</button><button data-act="bot-new">↻ Cuộc trò chuyện mới</button><button data-act="bot-drop">🎬 Mô phỏng khách rời đi (demo)</button>');
+  h.appendChild(menu);if(foot)foot.remove();
+  h.insertAdjacentHTML('afterend','<div class="cactx" id="caCtx"></div>');
+  var pin=p.querySelector('.pin');pin.innerHTML='<span class="spark" aria-hidden="true">✨</span><input id="botIn" placeholder="Kể nhu cầu hoặc hỏi AI…" aria-label="Tin nhắn cho trợ lý AI" autocomplete="off"><button class="csend" data-act="bot-send" aria-label="Gửi"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>';
+  pin.insertAdjacentHTML('afterend','<p class="cnote">AI có thể nhầm. Giá và ưu đãi được xác nhận khi lên hợp đồng.</p>');
+  p.setAttribute('aria-label','Trợ lý AI tư vấn');
+  var f=$('#fab');if(f){f.classList.add('ai');var bd=$('#fabBadge');f.innerHTML=agSvg('DW1',40);if(bd)f.appendChild(bd);f.setAttribute('aria-label','Mở trợ lý AI tư vấn');f.title='Trợ lý AI tư vấn 24/7';}
+  document.body.insertAdjacentHTML('beforeend','<div class="cahi" id="caHi" hidden><button data-act="chat-open">👋 Cần tư vấn gói mạng? <b>Hỏi AI ngay ✨</b></button><button class="x" data-act="cahi-x" aria-label="Ẩn lời chào">×</button></div>');
+  if(B&&B.log&&B.log.length)caDraw();
+}
+function caHiShow(){var hi=$('#caHi'),f=$('#fab');if(!hi||!f||f.hidden||!$('#cpanel').hidden||SESSION)return;try{if(sessionStorage.getItem('tllh_cahi'))return;}catch(e){}hi.hidden=false;}
+ACT['cahi-x']=function(){var hi=$('#caHi');if(hi)hi.hidden=true;try{sessionStorage.setItem('tllh_cahi','1');}catch(e){}};
+ACT['ca-big']=function(){var p=$('#cpanel');p.classList.toggle('big');var m=$('#msgs');if(m)m.scrollTop=m.scrollHeight;};
+ACT['ca-menu']=function(el){var m=$('#caMenu');m.hidden=!m.hidden;el.setAttribute('aria-expanded',String(!m.hidden));};
+(function(){
+  var _oc=ACT['chat-open'];ACT['chat-open']=function(){caMount();var hi=$('#caHi');if(hi)hi.hidden=true;try{sessionStorage.setItem('tllh_cahi','1');}catch(e){}_oc();};
+  ['bot-human','bot-new','bot-drop','bot-ch'].forEach(function(k){var f=ACT[k];ACT[k]=function(el){var m=$('#caMenu');if(m)m.hidden=true;return f(el);};});
+  document.addEventListener('click',function(e){var m=$('#caMenu');if(m&&!m.hidden&&!e.target.closest('#caMenu')&&!e.target.closest('[data-act=ca-menu]'))m.hidden=true;});
+  setTimeout(function(){caMount();setTimeout(caHiShow,2200);},50);
+})();
+/* phía nhân viên: tóm tắt AI trong hội thoại */
+function caSumBox(c){var a=c&&c.ai;if(!a)return '';var sc=a.score||0;
+  return '<div class="ai-sumbox"><h3>'+agSvg('DW1',26)+'AI tóm tắt hội thoại '+chip(a.intent,'gray')+'<span class="chip '+(sc>=70?'hot':sc>=45?'warm':'cold')+'">'+(sc>=70?'🔥 ':'')+sc+'% khả năng chốt</span></h3><ul>'+(a.sum||[]).map(function(s){return '<li>'+esc(s)+'</li>';}).join('')+'</ul></div>';}
+(function(){
+  var _vc=vChat;setTimeout(function(){if(VIEWS.cs.chat===_vc)VIEWS.cs.chat=vChat;if(VIEWS.admin['o-chat'])VIEWS.admin['o-chat']=vOpChat;},0);vChat=function(){var h=_vc(),sel=UI.chatSel?chatOf(UI.chatSel):null;if(sel&&sel.ai)h=h.replace('<div class="msgs inb">',caSumBox(sel)+'<div class="msgs inb">');return h;};
+  var _dc=drawerChat;drawerChat=function(c){var h=_dc(c);return c.ai?h.replace('<div class="msgs inb">',caSumBox(c)+'<div class="msgs inb">'):h;};
+  vOpChat=function(){
+    var rows=chatList().map(function(c){var s=CHST[c.status]||CHST.bot,a=c.ai||{},sc=a.score;return '<tr class="click" data-act="open-chat" data-id="'+c.id+'"><td>'+esc(c.name||'Khách chưa để tên')+'</td><td>'+esc(CHNAME[c.ch]||c.ch)+'</td><td>'+chip(s[0],s[1])+'</td><td>'+esc(a.intent||'—')+'</td><td>'+(sc!=null?'<span class="chip '+(sc>=70?'hot':sc>=45?'warm':'cold')+'">'+sc+'%</span>':'—')+'</td><td>'+(c.leadId?'<button class="lnk mono" data-act="open-lead" data-id="'+c.leadId+'">'+c.leadId+'</button>':'—')+'</td><td>'+esc(short(chatLast(c),50))+'</td><td>'+ago(c.t)+'</td></tr>';});
+    return pageH('Hội thoại chatbot','Trợ lý AI (DW1) trả lời 24/7, tự hiểu nhu cầu, đề xuất gói và tóm tắt hội thoại. Bấm một dòng để xem chi tiết.')+(rows.length?tbl(['Khách','Kênh','Trạng thái','Ý định (AI)','Khả năng chốt','Lead','Tin nhắn cuối','Bắt đầu'],rows):'<div class="card empty">Chưa có hội thoại.</div>');
+  };
 })();
 
 /* ================= khởi động ================= */
