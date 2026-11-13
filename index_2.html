@@ -712,6 +712,132 @@ dl.fin .tot{font-weight:700;color:var(--ink);border-top:1px solid var(--line2);p
 details.card>summary{cursor:pointer;list-style:none}details.card>summary::-webkit-details-marker{display:none}
 details.card>summary::before{content:"▸ ";color:var(--muted)}details.card[open]>summary::before{content:"▾ "}
 .trend-lg{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:6px}
+/* ===== AI: nhận diện, màn chào, Trung tâm AI ===== */
+:root{--ai1:#7C3AED;--ai2:#06B6D4;--aig:linear-gradient(120deg,#7C3AED,#2563EB 55%,#06B6D4)}
+.ai-grad-t{background:var(--aig);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#8B5CF6}
+.bot{display:block;overflow:visible}
+.bot-eye{animation:aiBlink 4.5s infinite;transform-box:fill-box;transform-origin:center}
+.bot-ant{animation:aiGlow 1.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes aiBlink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+@keyframes aiGlow{0%,100%{opacity:1}50%{opacity:.45}}
+@keyframes aiIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes aiFly{0%{opacity:0;transform:translateY(40px) scale(.6) rotate(-8deg)}70%{opacity:1;transform:translateY(-6px) scale(1.05)}100%{opacity:1;transform:none}}
+@keyframes aiFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes aiDash{to{background-position:40px 0}}
+@keyframes aiPulse{0%{box-shadow:0 0 0 0 rgba(124,58,237,.55)}100%{box-shadow:0 0 0 18px rgba(124,58,237,0)}}
+@keyframes aiDot{0%{left:0;opacity:0}10%{opacity:1}90%{opacity:1}100%{left:100%;opacity:0}}
+@keyframes aiBg{0%{background-position:0% 50%}100%{background-position:100% 50%}}
+.ai-pill{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:7px 14px;font-weight:700;font-size:13px;color:#fff;background:var(--aig);background-size:200% 100%;animation:aiBg 6s linear infinite alternate;box-shadow:0 4px 16px rgba(124,58,237,.35);cursor:pointer;white-space:nowrap}
+.ai-pill i{width:8px;height:8px;border-radius:50%;background:#4ADE80;box-shadow:0 0 0 3px rgba(74,222,128,.35);animation:aiGlow 1.4s infinite}
+.ai-btn{background:var(--aig)!important;color:#fff!important;border:0!important}
+.chip.ai{background:linear-gradient(120deg,rgba(124,58,237,.22),rgba(6,182,212,.22));color:#C4B5FD;border:1px solid rgba(139,92,246,.45)}
+:root:not([data-theme="dark"]) .chip.ai{color:#5B21B6}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .chip.ai{color:#C4B5FD}}
+.chip.hot{background:#7F1D1D;color:#FECACA}.chip.warm{background:#78350F;color:#FDE68A}.chip.cold{background:#1E3A8A;color:#BFDBFE}
+.dw7,.assist{background:linear-gradient(var(--surface),var(--surface)) padding-box,var(--aig) border-box!important;border:1.5px solid transparent!important;position:relative}
+.dw7 h2,.assist h3{display:flex;align-items:center;gap:8px}
+.dw7 li,.assist li{animation:aiIn .55s both}
+.dw7 li:nth-child(2),.assist li:nth-child(2){animation-delay:.25s}.dw7 li:nth-child(3),.assist li:nth-child(3){animation-delay:.5s}.dw7 li:nth-child(4){animation-delay:.75s}.dw7 li:nth-child(5){animation-delay:1s}.dw7 li:nth-child(6){animation-delay:1.25s}
+.ai-strip{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 16px;padding:8px 14px;border-radius:12px;background:linear-gradient(120deg,rgba(124,58,237,.14),rgba(6,182,212,.12));border:1px solid rgba(139,92,246,.35);font-size:13.5px}
+.ai-strip .ags{display:flex}.ai-strip .ags svg{margin-left:-6px}.ai-strip .ags svg:first-child{margin-left:0}
+.ai-strip b.k{font-weight:800;color:#A78BFA}
+:root:not([data-theme="dark"]) .ai-strip b.k{color:#6D28D9}
+.ai-strip a,.ai-strip button.lnk{margin-left:auto}
+.aitoasts{position:fixed;left:84px;bottom:20px;z-index:115;display:flex;flex-direction:column;gap:8px;width:min(380px,calc(100vw - 36px));pointer-events:none}@media(max-width:760px){.aitoasts{left:16px;bottom:84px}}
+.aitoast{display:flex;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--c,#7C3AED);border-radius:14px;padding:8px 12px;box-shadow:0 12px 30px rgba(10,20,50,.35);animation:aiIn .35s both;font-size:13px;pointer-events:auto}
+.aitoast b{display:block;font-size:12.5px}.aitoast span{color:var(--ink2);line-height:1.35}
+/* màn chào */
+.aiw{position:fixed;inset:0;z-index:130;display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto;background:radial-gradient(1200px 600px at 20% 10%,rgba(124,58,237,.45),transparent 60%),radial-gradient(900px 500px at 85% 90%,rgba(6,182,212,.35),transparent 60%),#070B1C;color:#EEF2FF}
+.aiw::before{content:"";position:fixed;inset:0;background-image:radial-gradient(2px 2px at 20px 30px,#fff8,transparent),radial-gradient(1.5px 1.5px at 80px 120px,#a5f3fc99,transparent),radial-gradient(2px 2px at 160px 60px,#c4b5fd99,transparent);background-size:220px 180px;animation:aiBg 40s linear infinite;opacity:.5;pointer-events:none}
+.aiw-in{position:relative;width:min(1180px,100%);display:flex;flex-direction:column;gap:18px;text-align:center}
+.aiw-kick{margin:0;font-size:13px;font-weight:800;letter-spacing:3px;color:#A5F3FC}
+.aiw-h{font-size:clamp(26px,3.6vw,44px);font-weight:800;line-height:1.15;margin:0}
+.aiw-h span{background:linear-gradient(90deg,#C4B5FD,#67E8F9,#F0ABFC);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.aiw-sub{margin:0 auto;max-width:760px;color:#C7D2FE;font-size:15.5px}
+.aiw-team{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:12px;margin-top:6px}
+.aiw-ag{display:flex;flex-direction:column;align-items:center;gap:6px;animation:aiFly .8s both;animation-delay:var(--d)}
+.aiw-ag .bot{animation:aiFloat 3.2s ease-in-out infinite;animation-delay:var(--d);filter:drop-shadow(0 8px 18px var(--c))}
+.aiw-ag.focus .bot{transform:scale(1.12)}
+.aiw-ag b{font-size:13px;color:#fff}.aiw-ag>span{font-size:12px;color:#A5B4FC}
+.aiw-bub{position:relative;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(6px);border-radius:12px;padding:7px 9px;font-size:12px;line-height:1.35;color:#E0E7FF;min-height:64px;display:flex;align-items:center;animation:aiIn .5s both;animation-delay:calc(var(--d) + .6s)}
+.aiw-bub::after{content:"";position:absolute;left:50%;bottom:-7px;width:12px;height:12px;background:inherit;border-right:1px solid rgba(255,255,255,.18);border-bottom:1px solid rgba(255,255,255,.18);transform:translateX(-50%) rotate(45deg)}
+.aiw-ag.focus .aiw-bub{border-color:var(--c);background:rgba(124,58,237,.25)}
+.aiw-flow{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:0;margin-top:4px;animation:aiIn .6s both;animation-delay:1.3s}
+.aiw-node{padding:7px 12px;border-radius:999px;font-size:12.5px;font-weight:700;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06)}
+.aiw-node.ai{border-color:var(--c);box-shadow:0 0 14px var(--c)}
+.aiw-link{position:relative;width:34px;height:2px;background:linear-gradient(90deg,rgba(255,255,255,.15),rgba(255,255,255,.4))}
+.aiw-link i{position:absolute;top:-3px;width:8px;height:8px;border-radius:50%;background:#67E8F9;box-shadow:0 0 10px #67E8F9;animation:aiDot 1.8s linear infinite}
+.aiw-stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;animation:aiIn .6s both;animation-delay:1.6s}
+.aiw-st{border-radius:14px;padding:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14)}
+.aiw-st b{display:block;font-size:28px;font-weight:800;background:linear-gradient(90deg,#C4B5FD,#67E8F9);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-variant-numeric:tabular-nums}
+.aiw-st span{font-size:12.5px;color:#C7D2FE}
+.aiw-act{display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;animation:aiIn .6s both;animation-delay:1.9s}
+.aiw-act .btn{min-height:46px;padding:10px 22px;font-size:15px;border-radius:12px}
+.aiw-act .btn.ghost{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3);color:#fff}
+.aiw-act label{color:#C7D2FE;font-size:13px;display:flex;gap:6px;align-items:center}
+.aiw-x{position:absolute;top:0;right:0;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:10px;padding:6px 12px}
+@media (max-width:900px){.aiw-team{grid-template-columns:repeat(4,minmax(0,1fr))}.aiw-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.aiw-link{width:16px}}
+@media (max-width:520px){.aiw-team{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* Trung tâm AI */
+.ai-hero{position:relative;overflow:hidden;border-radius:18px;padding:18px 20px;color:#EEF2FF;background:radial-gradient(600px 300px at 10% 0%,rgba(124,58,237,.55),transparent 60%),radial-gradient(500px 260px at 95% 100%,rgba(6,182,212,.45),transparent 60%),#0A1030;display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.ai-hero h2{color:#fff;font-size:20px;margin:0}.ai-hero p{margin:4px 0 0;color:#C7D2FE}
+.ai-hero .ags{display:flex;gap:2px}.ai-hero .row{margin:0 0 0 auto}
+.ai-hero .btn:not(.ai-btn){background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3);color:#fff}
+.ai-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
+.ai-kpi{border-radius:14px;padding:14px 16px;background:linear-gradient(var(--surface),var(--surface)) padding-box,var(--aig) border-box;border:1.5px solid transparent}
+.ai-kpi .l{font-size:13px;font-weight:600;color:var(--muted)}.ai-kpi .v{font-size:28px;font-weight:800;line-height:1.15}.ai-kpi .t{font-size:12px;color:var(--muted)}
+.aif{border-radius:18px;padding:16px;background:#0A1030;border:1px solid rgba(139,92,246,.35);display:flex;flex-direction:column;gap:14px}
+.aif-stages{display:grid;grid-template-columns:minmax(0,1fr) 34px minmax(0,1fr) 34px minmax(0,1fr);align-items:stretch}
+.aif-st{display:flex;flex-direction:column;gap:10px;min-width:0;padding:12px;border-radius:16px;background:rgba(255,255,255,.025);border:1px dashed rgba(165,180,252,.22)}
+.aif-st h3{margin:0 0 2px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#67E8F9;display:flex;align-items:center;gap:8px}
+.aif-st h3 i{font-style:normal;width:22px;height:22px;border-radius:50%;background:var(--aig);color:#fff;display:grid;place-items:center;font-size:12px;letter-spacing:0}
+.aif-arr{align-self:center;justify-self:center;position:relative;width:26px;height:3px;background:repeating-linear-gradient(90deg,#67E8F9 0 6px,transparent 6px 10px);background-size:20px 3px;animation:aiDash .9s linear infinite}
+.aif-arr::after{content:'';position:absolute;right:-2px;top:-5px;border:6.5px solid transparent;border-left-color:#67E8F9;border-right:0}
+.aif-n,.aif-band{display:grid;grid-template-columns:auto minmax(0,1fr) auto;column-gap:12px;align-items:center;border-radius:14px;padding:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);color:#E0E7FF;text-align:left;cursor:pointer;font:inherit;width:100%;flex:1}
+.aif-band{padding:12px 16px;flex:none}
+.aif-n.ag,.aif-band.ag{border-color:var(--c);box-shadow:0 0 18px -7px var(--c)}
+.aif-n.off,.aif-band.off{opacity:.45;filter:grayscale(1)}
+.aif-n.pulse,.aif-band.pulse{animation:aiPulse 1.2s ease-out 2}
+.aif-n:hover,.aif-band:hover{background:rgba(255,255,255,.09)}
+.aif-n.plain{cursor:default;border-style:dashed}.aif-n.plain:hover{background:rgba(255,255,255,.05)}
+.aif-n .ic{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.08);display:grid;place-items:center;font-size:20px}
+.aif-n .tx,.aif-band .tx{display:flex;flex-direction:column;gap:2px;min-width:0}
+.aif-n b,.aif-band b{font-size:14px;color:#fff;line-height:1.3}
+.aif-n .role,.aif-band .role{font-size:12.5px;color:#C7D2FE;line-height:1.35}
+.aif-n .cnt2,.aif-band .cnt2{font-size:22px;font-weight:800;color:#fff;text-align:right;line-height:1.05;font-variant-numeric:tabular-nums}
+.aif-n .cnt2 small,.aif-band .cnt2 small{display:block;font-size:10.5px;font-weight:500;color:#A5B4FC;white-space:nowrap}
+.aif-n .last,.aif-band .last{font-size:12px;color:#A5B4FC;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.aif-n .last{grid-column:1/-1;margin-top:8px;padding-top:8px;border-top:1px dashed rgba(255,255,255,.14)}
+.aif-n{grid-template-areas:"ic nm ct" "ic rl rl" "ls ls ls";row-gap:2px}
+.aif-n>.bot,.aif-n>.ic{grid-area:ic;align-self:start}
+.aif-n .tx{display:contents}.aif-n .tx b{grid-area:nm;align-self:center}.aif-n .tx .role{grid-area:rl}
+.aif-n .cnt2{grid-area:ct;font-size:19px}.aif-n .last{grid-area:ls}
+@media(max-width:700px){.aif-band{grid-template-areas:"ic nm ct" "ic rl rl" "ls ls ls";row-gap:2px}.aif-band>.bot{grid-area:ic;align-self:start}.aif-band .tx{display:contents}.aif-band .tx b{grid-area:nm}.aif-band .tx .role{grid-area:rl}.aif-band .cnt2{grid-area:ct;font-size:19px}.aif-band .last{grid-area:ls;margin-top:8px;padding-top:8px;border-top:1px dashed rgba(255,255,255,.14)}}
+@media(max-width:1100px){.aif-stages{grid-template-columns:minmax(0,1fr);row-gap:6px}.aif-arr{transform:rotate(90deg);margin:8px 0}}
+.ai-feed{display:flex;flex-direction:column;gap:8px}
+.ai-fi{display:grid;grid-template-columns:40px 1fr auto;gap:12px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--c);animation:aiIn .4s both}
+.ai-fi .m{font-size:13.5px}.ai-fi .m b{margin-right:6px}.ai-fi .tm{font-size:12px;color:var(--muted);white-space:nowrap;text-align:right}
+.ai-team{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.ai-card{border-radius:16px;padding:16px;background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(140deg,var(--c),transparent 70%) border-box;border:1.5px solid transparent;display:flex;flex-direction:column;gap:10px}
+.ai-card header{display:flex;gap:12px;align-items:center}.ai-card header b{display:block;font-size:16px}.ai-card header span{font-size:12.5px;color:var(--muted)}
+.ai-card .q{font-style:italic;color:var(--ink2);font-size:13.5px;margin:0}
+.ai-card dl{display:grid;grid-template-columns:1fr auto;gap:4px 10px;margin:0;font-size:13px}.ai-card dt{color:var(--muted)}.ai-card dd{margin:0;text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.ai-card .row{margin-top:auto}
+.ai-imp{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.ai-imp .ai-kpi .v{font-size:30px}
+.ai-ap{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;border:1px solid var(--line);border-left:4px solid var(--c);background:var(--surface);margin-bottom:10px}
+.ai-ap h3{margin:0;font-size:15px}.ai-ap p{margin:2px 0 0;font-size:13px;color:var(--ink2)}
+.ai-chat{display:flex;flex-direction:column;gap:12px;max-height:56vh;overflow:auto;padding:4px}
+.ai-q{align-self:flex-end;max-width:80%;background:var(--of);color:#fff;border-radius:14px 14px 4px 14px;padding:8px 12px}
+.ai-a{align-self:flex-start;max-width:88%;display:flex;gap:10px;align-items:flex-start}
+.ai-a .b{background:linear-gradient(var(--surface),var(--surface)) padding-box,var(--aig) border-box;border:1.5px solid transparent;border-radius:14px 14px 14px 4px;padding:10px 14px;white-space:pre-wrap;line-height:1.5;font-size:14px;animation:aiIn .5s both}
+.ai-chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.ai-chips button{border:1px solid rgba(139,92,246,.5);background:transparent;color:var(--ink);border-radius:999px;padding:5px 12px;font-size:13px}
+.ai-chips button:hover{background:rgba(124,58,237,.15)}
+#aiSim{position:fixed;left:50%;top:12px;transform:translateX(-50%);z-index:125;display:flex;gap:12px;align-items:center;padding:10px 16px;border-radius:999px;color:#fff;background:var(--aig);box-shadow:0 10px 30px rgba(124,58,237,.45);font-weight:700;font-size:13.5px}
+#aiSim .bar{width:160px;height:6px;border-radius:3px;background:rgba(255,255,255,.3);overflow:hidden}#aiSim .bar i{display:block;height:100%;background:#fff}
+#aiSim button{background:rgba(255,255,255,.2);border:0;color:#fff;border-radius:999px;padding:4px 12px;font-weight:700}
+@media (prefers-reduced-motion:reduce){.bot-eye,.bot-ant,.aiw-ag,.aiw-ag .bot,.aif-l,.aiw-link i,.ai-pill,.aiw::before,.dw7 li,.assist li{animation:none!important}}
 /* xuất báo cáo */
 .h-act{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .rp-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-left:auto}
@@ -2322,7 +2448,7 @@ function renderTop(){
   var title='';R[UI.role].nav.forEach(function(n){if(n[0]===UI.view)title=n[1];});
   var ex=acctExtra();
   var who='<span class="who">'+esc(SESSION.name)+(ex?' · '+esc(ex):'')+'</span>';
-  $('#topbar').innerHTML='<span class="logo tb-logo" aria-hidden="true"></span><button class="mbtn" data-act="menu-open" aria-label="Mở menu"><span class="av" aria-hidden="true">'+esc(initials(SESSION.name))+'</span></button><div class="tb-l"><h1>'+esc(title)+'</h1><div class="sub">'+R[UI.role].name+'</div></div><div class="tb-r">'+who+'<button class="btn qs-btn" data-act="qs-open" title="Tìm nhanh trang, lead, hợp đồng, khách, salesman" aria-keyshortcuts="Control+K">Tìm nhanh <kbd>Ctrl K</kbd></button>'+(PRESENT?'':'<button class="btn pri" data-act="addlead" title="'+(UI.role==='sale'?'Tạo một lead mẫu giao thẳng cho bạn':'Tạo một lead mẫu, DW3 tự giao cho salesman phù hợp')+'">'+(UI.role==='sale'?'+ Lead mới cho tôi':'+ Lead mới')+'</button><span class="demo-wrap"><button class="btn" data-act="demo-tog" aria-haspopup="true" aria-expanded="'+(UI.demoOpen?'true':'false')+'">Điều khiển demo · <b class="mono" id="clock">'+hhmm(now())+'</b> ▾</button>'+(UI.demoOpen?'<div class="demo-pop" role="menu"><p class="hint" style="margin:0 0 8px">Giờ mô phỏng của bản demo</p><div class="row" style="margin:0"><button class="btn" data-act="tua5">Tua 5 phút</button><button class="btn" data-act="tua60">Tua 1 giờ</button><button class="btn" data-act="reset">'+(UI.resetArm?'Bấm lần nữa để xóa':'Đặt lại dữ liệu')+'</button></div><label class="sw" style="margin-top:12px"><input type="checkbox" data-act="present-on"><span></span>Chế độ thuyết trình: ẩn các nút demo</label></div>':'')+'</span>')+'<button class="btn" data-act="logout">Đăng xuất</button></div>';
+  $('#topbar').innerHTML='<span class="logo tb-logo" aria-hidden="true"></span><button class="mbtn" data-act="menu-open" aria-label="Mở menu"><span class="av" aria-hidden="true">'+esc(initials(SESSION.name))+'</span></button><div class="tb-l"><h1>'+esc(title)+'</h1><div class="sub">'+R[UI.role].name+'</div></div><div class="tb-r">'+who+aiPill()+'<button class="btn qs-btn" data-act="qs-open" title="Tìm nhanh trang, lead, hợp đồng, khách, salesman" aria-keyshortcuts="Control+K">Tìm nhanh <kbd>Ctrl K</kbd></button>'+(PRESENT?'':'<button class="btn pri" data-act="addlead" title="'+(UI.role==='sale'?'Tạo một lead mẫu giao thẳng cho bạn':'Tạo một lead mẫu, DW3 tự giao cho salesman phù hợp')+'">'+(UI.role==='sale'?'+ Lead mới cho tôi':'+ Lead mới')+'</button><span class="demo-wrap"><button class="btn" data-act="demo-tog" aria-haspopup="true" aria-expanded="'+(UI.demoOpen?'true':'false')+'">Điều khiển demo · <b class="mono" id="clock">'+hhmm(now())+'</b> ▾</button>'+(UI.demoOpen?'<div class="demo-pop" role="menu"><p class="hint" style="margin:0 0 8px">Giờ mô phỏng của bản demo</p><div class="row" style="margin:0"><button class="btn" data-act="tua5">Tua 5 phút</button><button class="btn" data-act="tua60">Tua 1 giờ</button><button class="btn" data-act="reset">'+(UI.resetArm?'Bấm lần nữa để xóa':'Đặt lại dữ liệu')+'</button></div><div class="row" style="margin:10px 0 0"><button class="btn sm ai-btn" data-act="ai-sim">▶ Mô phỏng 1 ngày AI vận hành</button><button class="btn sm" data-act="ai-welcome">Xem lại màn chào AI</button></div><label class="sw" style="margin-top:12px"><input type="checkbox" data-act="present-on"><span></span>Chế độ thuyết trình: ẩn các nút demo</label></div>':'')+'</span>')+'<button class="btn" data-act="logout">Đăng xuất</button></div>';
   applyBrand();
 }
 var VIEWS={
@@ -5328,6 +5454,324 @@ ACT['exp-cancel']=function(){var j=UI.expJob;if(!j)return;j.cancelled=true;if(j.
 ACT['exp-back']=function(){UI.overlay={type:'export'};renderOverlay();};
 ACTPERM['exp-go']='report.view';
 function rpHead(t,p){return '<div class="page-h"><h1 class="h-act"><span>'+esc(t)+'</span><button class="btn pri exp-main" data-act="rp-csv" title="Xuất Excel nhiều sheet, CSV hoặc PDF tóm tắt theo kỳ và bộ lọc đang chọn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Xuất báo cáo</button></h1>'+(p?'<p>'+p+'</p>':'')+'</div>';}
+
+/* ================= AI: 7 agent, màn chào, Trung tâm AI, thông báo, chấm điểm lead, mô phỏng ================= */
+var AGIDS=['DW1','DW2','DW3','DW4','DW5','DW6','DW7'];
+var AG={
+  DW1:{c:'#3B82F6',c2:'#93C5FD',ic:'M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0',say:'Em nhận và lọc mọi lead 24/7'},
+  DW2:{c:'#16A34A',c2:'#4ADE80',ic:'M2 20h.01M7 20v-4M12 20v-8M17 20V8M22 20V4',say:'Em kiểm tra POP trước khi bán'},
+  DW3:{c:'#EA580C',c2:'#FDBA74',ic:'M12 2a10 10 0 1 0 0 20a10 10 0 1 0 0-20M16.2 7.8l-2.1 6.3-6.3 2.1 2.1-6.3z',say:'Em giao lead đúng người trong vài giây'},
+  DW4:{c:'#DB2777',c2:'#F9A8D4',ic:'M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.8 5.8 21l1.4-7L2 9.3l7-.8z',say:'Em gợi ý gói và kịch bản gọi'},
+  DW5:{c:'#E11D48',c2:'#FDA4AF',ic:'M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7z',say:'Em giữ chân khách 90 ngày'},
+  DW6:{c:'#CA8A04',c2:'#FDE047',ic:'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',say:'Em canh chi phí từng kênh'},
+  DW7:{c:'#7C3AED',c2:'#C4B5FD',ic:'M3 3v18h18M7 16v-4M12 16V8M17 16v-6',say:'Em tổng hợp báo cáo cho sếp'}
+};
+var AGROLE={DW1:'Nhận lead từ mọi kênh, chuẩn hóa và lọc trùng',DW2:'Kiểm tra hạ tầng POP trước khi giao bán',DW3:'Giao lead đúng người, giao lại khi quá hạn',DW4:'Gợi ý gói cước và kịch bản gọi cho salesman',DW5:'Chăm sóc 90 ngày, giữ chân khách nguy cơ',DW6:'Giám sát chi phí quảng cáo, đối soát quy trình',DW7:'Tổng hợp doanh thu, chi phí và gửi báo cáo'};
+Object.keys(AGROLE).forEach(function(k){AG[k].role=AGROLE[k];});
+var AGN=0;
+function agName(id){var d=S&&S.dw?S.dw.filter(function(x){return x.id===id;})[0]:null;return d?d.name:id;}
+function agSvg(id,sz){var g=AG[id]||AG.DW7,k='agr'+(++AGN);
+  return '<svg class="bot" width="'+sz+'" height="'+sz+'" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="'+k+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="'+g.c2+'"/><stop offset="1" stop-color="'+g.c+'"/></linearGradient></defs><line x1="32" y1="6" x2="32" y2="13" stroke="'+g.c+'" stroke-width="3" stroke-linecap="round"/><circle class="bot-ant" cx="32" cy="6" r="4" fill="'+g.c2+'"/><rect x="5" y="25" width="6" height="12" rx="3" fill="'+g.c+'"/><rect x="53" y="25" width="6" height="12" rx="3" fill="'+g.c+'"/><rect x="10" y="13" width="44" height="36" rx="13" fill="url(#'+k+')"/><rect x="16" y="21" width="32" height="17" rx="8.5" fill="#0B1530"/><circle class="bot-eye" cx="25" cy="29.5" r="3.6" fill="#7DF9FF"/><circle class="bot-eye" cx="39" cy="29.5" r="3.6" fill="#7DF9FF"/><rect x="26" y="42" width="12" height="3" rx="1.5" fill="#fff" opacity=".85"/><circle cx="50" cy="50" r="11" fill="#0B1530" stroke="'+g.c2+'" stroke-width="2"/><g transform="translate(43 43) scale(.58)" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="'+g.ic+'"/></g></svg>';
+}
+function agOf(e){if(/^DW[1-7]$/.test(e.who))return e.who;if(e.who==='Chatbot'||e.type==='chat.drop')return 'DW1';return null;}
+function aiCounts(a,b){
+  var c={DW1:0,DW2:0,DW3:0,DW4:0,DW5:0,DW6:0,DW7:0},x={created:0,dup:0,infra:0,hold:0,assign:0,reassign:0,round2:0,sugg4:0,sugg5:0,draft:0,recon:0,rep:0,ins:0,alert:0,chat:0},last={};
+  S.events.forEach(function(e){if(e.t<a||e.t>=b)return;var g=agOf(e);if(!g)return;c[g]++;last[g]=e;var ty=e.type;
+    if(ty==='lead.created')x.created++;else if(ty==='lead.duplicate')x.dup++;else if(ty.indexOf('infra.')===0){x.infra++;if(ty==='infra.hold')x.hold++;}
+    else if(ty==='lead.assigned')x.assign++;else if(ty==='lead.reassigned')x.reassign++;else if(ty==='lead.round2')x.round2++;
+    else if(ty==='ai.suggestion.used'){if(g==='DW4')x.sugg4++;else x.sugg5++;}else if(ty==='ai.draft')x.draft++;
+    else if(ty==='recon.done'||ty.indexOf('sop.')===0)x.recon++;else if(ty==='report.sent')x.rep++;else if(ty==='ai.insight')x.ins++;else if(ty==='ai.alert')x.alert++;else if(g==='DW1')x.chat++;});
+  return {c:c,x:x,last:last,tot:AGIDS.reduce(function(s,k){return s+c[k];},0)};
+}
+function aiAvgAssign(a,b){var Ls=S.leads.filter(function(L){return L.t>=a&&L.t<b&&L.hist.length;});return Ls.length?Ls.reduce(function(s,L){return s+Math.max(0,L.hist[0].at-L.t);},0)/Ls.length/1000:0;}
+function secTxt(s){return s<1?'dưới 1 giây':s<60?Math.round(s)+' giây':Math.round(s/60)+' phút';}
+function aiAsm(){if(!S.aiAsm)S.aiAsm={assign:3,dup:2,infra:2,recon:45,report:60,sugg:3,manual:15,wage:150000};return S.aiAsm;}
+function aiImpact(a,b){
+  var A=aiAsm(),C=aiCounts(a,b),x=C.x;
+  var rows=[['Giao lead tự động (DW3)',x.assign,A.assign],['Lọc lead trùng (DW1)',x.dup,A.dup],['Kiểm tra hạ tầng POP (DW2)',x.infra,A.infra],['Gợi ý, bản nháp được dùng (DW4, DW5)',x.sugg4+x.sugg5+x.draft,A.sugg],['Đối soát SOP (DW6)',x.recon,A.recon],['Báo cáo, nhận định (DW7)',x.rep+x.ins,A.report]];
+  var mins=rows.reduce(function(s,r){return s+r[1]*r[2];},0),hrs=mins/60;
+  var asg=S.leads.filter(function(L){return L.hist.length;}).length,won=S.leads.filter(function(L){return L.contract;}).length,cr=asg?won/asg:0.3;
+  var cs=finData().list.filter(function(c){return c.t>=a&&c.t<b;}),arpu=cs.length?agg(cs).arpu:revOf('sky');
+  var onl=agg(cs.filter(function(c){return !c.sale;})),days=Math.max(1,(b-a)/DAY);
+  return {rows:rows,mins:mins,hrs:hrs,money:hrs*A.wage,avg:aiAvgAssign(a,b),manual:A.manual,reassign:x.reassign,cr:cr,savedRev:x.reassign*cr*arpu,onl:onl,comm:onl.rev*S.fin.comm/100,adsSaved:S.ch.filter(function(c){return c.closed;}).reduce(function(s,c){return s+c.spend;},0)*1e6*S.fin.share/100*days/30,C:C};
+}
+function aiPill(){var on=S.dw.filter(function(d){return d.on;}).length,C=aiCounts(startOfDay(now()),now()+1);return '<button class="ai-pill" data-act="ai-go" data-tab="flow" title="Mở Trung tâm AI"><i></i>'+on+' AI agent đang trực · '+fmt(C.tot)+' việc hôm nay</button>';}
+function aiCountUp(root){$$('[data-to]',root).forEach(function(el){var to=+el.getAttribute('data-to'),d=+(el.getAttribute('data-delay')||0),dec=+(el.getAttribute('data-dec')||0),st=null;el.textContent='0';
+  setTimeout(function(){function f(ts){if(!st)st=ts;var p=Math.min(1,(ts-st)/1300),v=to*(1-Math.pow(1-p,3));el.textContent=dec?v.toFixed(dec).replace('.',','):fmt(Math.round(v));if(p<1)requestAnimationFrame(f);}requestAnimationFrame(f);},d);
+  setTimeout(function(){el.textContent=dec?to.toFixed(dec).replace('.',','):fmt(to);},d+1500);});}
+
+/* ---- màn chào ---- */
+function aiWelcomeHTML(){
+  var a=now()-DAY,C=aiCounts(a,now()+1),x=C.x,I=aiImpact(a,now()+1),role=UI.role,me=role==='sale'?curSale():null,t=now();
+  var focus={admin:AGIDS,sale:['DW3','DW4'],ktv:['DW2'],cs:['DW5']}[role]||AGIDS;
+  var myOpen=me?S.leads.filter(function(L){return L.sale===me.id&&['assigned','contacted','quoted'].indexOf(L.status)>-1;}).length:S.leads.filter(function(L){return ['assigned','contacted','quoted'].indexOf(L.status)>-1;}).length;
+  var myGot=me?S.events.filter(function(e){return e.t>=a&&e.type==='lead.assigned'&&e.msg.indexOf(me.name)>-1;}).length:0;
+  var hi=S.subs.filter(function(s){return s.st==='active'&&s.risk>=70;}).length,rec=S.subs.filter(function(s){return s.st==='churned'&&t-s.churnedAt<72*HOUR;}).length;
+  var stop=S.ch.filter(function(c){return !c.closed&&chTier(c)==='Dừng';}).length,mrev=agg(finData().list.filter(function(c){return c.t>=pStart('m',t)&&(!me||c.sale===me.id);})).rev;
+  var say={DW1:'Em đã nhận '+x.created+' lead, chặn '+x.dup+' lead trùng trong 24 giờ.',DW2:'Em kiểm tra hạ tầng '+x.infra+' lần, giữ '+S.leads.filter(function(L){return L.status==='infra_hold';}).length+' lead ở POP yếu.',
+    DW3:me?'Em đã giao cho bạn '+myGot+' lead trong 24 giờ, giao trong '+secTxt(I.avg)+'.':'Em giao '+x.assign+' lead, trung bình '+secTxt(I.avg)+'; giao lại '+x.reassign+' lead quá hạn.',
+    DW4:me?'Em soạn sẵn gợi ý gói, kịch bản cho '+myOpen+' lead bạn đang chăm.':'Em gợi ý gói, kịch bản cho '+myOpen+' lead đang chăm.',
+    DW5:'Em theo dõi '+hi+' khách nguy cơ cao, '+rec+' khách cần khôi phục 72 giờ.',DW6:'Em canh '+S.ch.filter(function(c){return !c.closed;}).length+' kênh quảng cáo, '+stop+' kênh nên rà soát.',
+    DW7:(me?'Doanh thu tháng này của bạn ':'Doanh thu tháng này ')+vnd(mrev)+'. Em đã viết sẵn nhận định.'};
+  var sub={admin:'Bảy nhân viên số làm việc 24/7: nhận lead, kiểm tra hạ tầng, giao đúng người, gợi ý bán hàng, chăm sóc khách, kiểm soát chi phí và báo cáo. AI xử lý trong luật, con người quyết định việc quan trọng.',sale:'DW3 giao lead cho bạn trong vài giây, DW4 gợi ý gói và kịch bản gọi, DW7 tính doanh thu và hoa hồng của bạn.',ktv:'DW2 canh hạ tầng POP, giữ lead ở vùng yếu; hợp đồng chốt xong tự chuyển sang bạn.',cs:'DW5 soạn nháp kịch bản chăm sóc, giữ chân, khôi phục; bạn duyệt rồi gọi.'}[role];
+  var team=AGIDS.map(function(id,i){var g=AG[id];return '<div class="aiw-ag'+(focus.indexOf(id)>-1&&focus.length<7?' focus':'')+'" style="--d:'+(i*0.14)+'s;--c:'+g.c+'"><div class="aiw-bub">'+esc(say[id])+'</div>'+agSvg(id,72)+'<b>'+id+'</b><span>'+esc(agName(id))+'</span></div>';}).join('');
+  var nodes=[['Lead vào',''],['DW1','DW1'],['DW2','DW2'],['DW3','DW3'],['Salesman · DW4','DW4'],['Kỹ thuật',''],['DVKH · DW5','DW5'],['DW7 báo cáo','DW7']];
+  var flow=nodes.map(function(n,i){return (i?'<span class="aiw-link"><i style="animation-delay:'+(i*0.22)+'s"></i></span>':'')+'<span class="aiw-node'+(n[1]?' ai':'')+'"'+(n[1]?' style="--c:'+AG[n[1]].c+'"':'')+'>'+n[0]+'</span>';}).join('');
+  var st=[[C.tot,'việc AI đã làm trong 24 giờ',0],[x.assign,'lead giao tự động',0],[Math.round(I.avg*10)/10,'giây giao trung bình (thủ công ~'+I.manual+' phút)',1],[x.dup+x.reassign,'lead trùng bị chặn, lead quá hạn được cứu',0],[Math.round(I.hrs*10)/10,'giờ công tiết kiệm (ước tính)',1]];
+  return '<div class="aiw" id="aiw" role="dialog" aria-modal="true" aria-label="Đội AI chào bạn"><div class="aiw-in"><button class="aiw-x" data-act="aiw-close" aria-label="Đóng màn chào">Bỏ qua ✕</button>'+
+    '<p class="aiw-kick">✨ THĂNG LONG HUB · VẬN HÀNH BẰNG 7 AI AGENT</p><h1 class="aiw-h">Xin chào '+esc(SESSION?SESSION.name:'')+',<br><span>đội AI của bạn đã sẵn sàng</span></h1><p class="aiw-sub">'+esc(sub)+'</p>'+
+    '<div class="aiw-team">'+team+'</div><div class="aiw-flow" aria-label="Luồng lead qua các AI agent">'+flow+'</div>'+
+    '<div class="aiw-stats">'+st.map(function(s,i){return '<div class="aiw-st"><b data-to="'+s[0]+'" data-dec="'+s[2]+'" data-delay="'+(1700+i*120)+'">0</b><span>'+s[1]+'</span></div>';}).join('')+'</div>'+
+    '<div class="aiw-act"><button class="btn pri" data-act="aiw-close">Bắt đầu làm việc</button><button class="btn ai-btn" data-act="aiw-center">✨ Khám phá Trung tâm AI</button><button class="btn ghost" data-act="aiw-sim">▶ Xem AI vận hành 60 giây</button><label><input type="checkbox" id="aiw-off"> Không hiện lại hôm nay</label></div></div></div>';
+}
+function aiWelcomeShow(){var old=document.getElementById('aiw');if(old)old.remove();document.body.insertAdjacentHTML('beforeend',aiWelcomeHTML());var w=document.getElementById('aiw');aiCountUp(w);setTimeout(function(){var b=w.querySelector('.btn.pri');if(b)b.focus();},50);}
+function aiWelcomeClose(){var w=document.getElementById('aiw');if(!w)return;var off=w.querySelector('#aiw-off');if(off&&off.checked&&SESSION){try{localStorage.setItem('tllh_aiw_off_'+SESSION.u,isoD(Date.now()));}catch(e){}}w.remove();}
+function aiWelcomeMaybe(){if(!SESSION)return;var off=null,seen=null;try{off=localStorage.getItem('tllh_aiw_off_'+SESSION.u);seen=sessionStorage.getItem('tllh_aiw_seen');}catch(e){}if(off===isoD(Date.now())||seen)return;try{sessionStorage.setItem('tllh_aiw_seen','1');}catch(e){}aiWelcomeShow();}
+ACT['aiw-close']=function(){aiWelcomeClose();};
+ACT['aiw-center']=function(){aiWelcomeClose();UI.view='ai';UI.tab=UI.tab||{};UI.tab.ai='flow';UI.overlay=null;render();window.scrollTo(0,0);};
+ACT['aiw-sim']=function(){aiWelcomeClose();UI.view='ai';UI.tab=UI.tab||{};UI.tab.ai='flow';render();if(!UI.aiSim)ACT['ai-sim']();};
+ACT['ai-welcome']=function(){UI.demoOpen=false;renderTop();aiWelcomeShow();};
+
+/* ---- thông báo khi AI hành động ---- */
+var AIQ=[],AIQT=null;
+function aiToast(g,msg){AIQ.push([g,msg]);if(AIQ.length>6)AIQ.shift();if(!AIQT)aiToastNext();}
+function aiToastNext(){var it=AIQ.shift();if(!it){AIQT=null;return;}var box=document.getElementById('aitoasts');if(!box){box=document.createElement('div');box.id='aitoasts';box.className='aitoasts';box.setAttribute('role','status');box.setAttribute('aria-live','polite');document.body.appendChild(box);}
+  while(box.children.length>=3)box.removeChild(box.firstChild);
+  var d=document.createElement('div');d.className='aitoast';d.style.setProperty('--c',AG[it[0]].c);d.innerHTML=agSvg(it[0],34)+'<div><b>'+it[0]+' · '+esc(agName(it[0]))+'</b><span>'+esc(short(it[1],110))+'</span></div>';box.appendChild(d);
+  setTimeout(function(){if(d.parentNode)d.parentNode.removeChild(d);},4800);AIQT=setTimeout(aiToastNext,750);}
+
+/* ---- dải "AI đang hỗ trợ trang này" ---- */
+function aiStripFor(view){
+  var C=aiCounts(startOfDay(now()),now()+1),x=C.x,t=now(),me=UI.role==='sale'?curSale():null;
+  function n(fn){return S.leads.filter(fn).length;}
+  var M={
+    leads:[['DW1','DW3'],'Hôm nay DW1 nhận <b class="k">'+x.created+'</b> lead, chặn <b class="k">'+x.dup+'</b> lead trùng; DW3 giao <b class="k">'+x.assign+'</b> lead, trung bình '+secTxt(aiAvgAssign(startOfDay(t),t+1))+'.'],
+    'o-sale':[['DW3','DW4'],'DW3 đang đếm hạn '+SLA_M()+' phút cho <b class="k">'+n(function(L){return L.status==='assigned';})+'</b> lead và chấm điểm 🔥 từng lead; DW4 có gợi ý gói, kịch bản trong mỗi lead.'],
+    pipeline:[['DW3','DW4'],'DW3 chấm điểm khả năng chốt cho từng lead của bạn; DW4 soạn sẵn gợi ý gói và kịch bản gọi trong từng thẻ.'],
+    inbox:[['DW3','DW4'],'DW3 vừa giao các lead này cho bạn; gọi trong '+SLA_M()+' phút để không bị giao lại. DW4 đã chuẩn bị kịch bản.'],
+    sources:[['DW6'],'DW6 chấm <b class="k">'+S.ch.length+'</b> kênh: <b class="k">'+S.ch.filter(function(c){return !c.closed&&chTier(c)==='Dừng';}).length+'</b> kênh đề xuất dừng, chờ bạn duyệt ở Trung tâm AI.'],
+    'o-ktv':[['DW2','DW5'],'DW2 theo dõi <b class="k">'+S.pops.length+'</b> POP; DW5 nhắc DVKH xác nhận lịch <b class="k">'+n(function(L){return L.contract&&L.contract.csDone===false&&!L.contract.onlineAt;})+'</b> hợp đồng.'],
+    'o-pop':[['DW2'],'DW2 đang giữ <b class="k">'+n(function(L){return L.status==='infra_hold';})+'</b> lead ở POP yếu, tự giao lại khi Kỹ thuật mở bán.'],
+    care:[['DW5'],'DW5 soạn nháp kịch bản cho <b class="k">'+S.subs.filter(function(s){return s.st==='active'&&s.risk>=70;}).length+'</b> khách nguy cơ cao và <b class="k">'+S.subs.filter(function(s){return s.st==='churned'&&t-s.churnedAt<72*HOUR;}).length+'</b> khách cần khôi phục.'],
+    report:[['DW7'],'DW7 tổng hợp <b class="k">'+fmt(finData().list.length)+'</b> hợp đồng và viết nhận định tự động bên dưới.'],
+    contracts:[['DW7','DW4'],'DW7 tính doanh thu, chi phí từng hợp đồng; DW4 gợi ý bán thêm cho khách đang dùng.'],
+    customers:[['DW4','DW7'],'DW4 gợi ý bán thêm Camera, truyền hình cho khách của bạn; DW7 tính doanh thu, hoa hồng từng hợp đồng.'],
+    todo:[AGIDS,'Đội AI đã làm <b class="k">'+C.tot+'</b> việc hôm nay; những việc dưới đây cần con người quyết định.'],
+    overview:[['DW7','DW6'],'DW7 cập nhật số liệu toàn Trung tâm; DW6 canh chi phí quảng cáo từng kênh.'],
+    'm-chat':[['DW1'],'Chatbot của DW1 trả lời khách 24/7 trên Website, Fanpage, Zalo; tự chuyển nhân viên khi khách cần.'],
+    chat:[['DW1'],'Chatbot của DW1 trả lời khách 24/7; khi khách bấm “Gặp nhân viên”, bạn tiếp nhận tại đây.'],
+    data:[['DW1','DW6'],'DW1 làm sạch, lọc trùng dữ liệu nạp vào; DW6 đối soát chi phí, hợp đồng.'],
+    mystats:[['DW3','DW4'],'DW3 xếp hạng Level theo điểm của bạn; DW4 giúp tăng tỷ lệ chốt bằng gợi ý từng lead.'],
+    jobs:[['DW2','DW5'],'DW2 canh hạ tầng khu vực của bạn; DW5 nhắc khách xác nhận lịch trước khi bạn đến.'],
+    pop:[['DW2'],'DW2 kiểm tra bảng POP mỗi khi có lead; POP yếu thì giữ lead lại chờ bạn mở bán.'],
+    inc:[['DW2','DW5'],'Sự cố lặp lại được DW5 đưa vào điểm nguy cơ rời mạng; xử lý xong thì điểm tự giảm.'],
+    queue:[['DW5'],'DW5 sắp xếp hàng đợi theo mức gấp và soạn nháp kịch bản cho từng cuộc gọi.'],risk:[['DW5'],'DW5 tính điểm nguy cơ rời mạng theo sự cố, công nợ, ưu đãi.'],rec:[['DW5'],'DW5 ưu tiên khách vừa hủy trong 72 giờ đầu, lúc dễ khôi phục nhất.'],health:[['DW5','DW2'],'DW5 và DW2 chấm sức khỏe từng chi nhánh theo 6 tiêu chí.']
+  };
+  var m=M[view];if(!m)return '';
+  return '<div class="ai-strip"><span class="ags">'+m[0].map(function(id){return agSvg(id,28);}).join('')+'</span><span>✨ '+m[1]+'</span><button class="lnk" data-act="ai-go" data-tab="flow">Trung tâm AI →</button></div>';
+}
+function aiDecorate(root){
+  if(!root)return;
+  $$('.dw7 h2',root).forEach(function(h){if(!h.querySelector('.bot'))h.insertAdjacentHTML('afterbegin',agSvg('DW7',30));});
+  $$('.assist h3',root).forEach(function(h){var m=/DW(\d)/.exec(h.textContent);if(m&&!h.querySelector('.bot'))h.insertAdjacentHTML('afterbegin',agSvg('DW'+m[1],28));});
+}
+
+/* ---- chấm điểm lead ---- */
+var SRCW={'Bán thêm (khách hiện hữu)':.82,'Điểm chạm KTV':.72,'Điểm chạm DVKH':.7,'Tổng đài':.62,'Chat web':.55,'Chatbot website':.58,'Chatbot Fanpage':.52,'Chatbot Zalo OA':.56,'Trang đăng ký online':.66,'Google (96 kênh)':.48,'Sàn TMĐT':.42,'Không xác định':.32,'Nạp dữ liệu':.5};
+function aiScore(L){
+  var f=[],s=SRCW[L.src]!=null?SRCW[L.src]:.45;f.push(['Nguồn '+srcShort(L.src),'nền '+Math.round(s*100)+'%']);
+  var nd=norm(L.need||'');if(/300|nhieu tang|quan ca phe|lap moi/.test(nd)){s+=.08;f.push(['Nhu cầu rõ ràng','+8']);}if(/doi nha|chuyen dia chi/.test(nd)){s-=.06;f.push(['Đổi nhà, chuyển địa chỉ','−6']);}
+  var p=popOf(L.pop);if(p){if(p.q==='yếu'||p.ports<=0){s-=.3;f.push(['POP yếu hoặc hết port','−30']);}else if(p.q==='trung bình'){s-=.08;f.push(['POP chất lượng trung bình','−8']);}else{s+=.04;f.push(['Hạ tầng tốt, còn port','+4']);}}
+  var h=new Date(L.t).getHours();if(h>=8&&h<=20){s+=.03;f.push(['Đăng ký trong giờ hành chính','+3']);}
+  if(S.leads.some(function(x){return x!==L&&x.phone===L.phone&&x.contract;})){s+=.12;f.push(['Khách đang dùng dịch vụ','+12']);}
+  var age=(now()-L.t)/DAY;if(!L.calledAt&&age>0.5){var dd=Math.min(.25,age*.1);s-=dd;f.push(['Chưa gọi sau '+Math.round(age*24)+' giờ','−'+Math.round(dd*100)]);}
+  if(L.calledAt){s+=.05;f.push(['Đã liên hệ được','+5']);}if(L.status==='quoted'){s+=.1;f.push(['Đã hẹn tư vấn, khảo sát','+10']);}
+  s=Math.max(.05,Math.min(.95,s));var pp=Math.round(s*100);
+  return {p:pp,lab:pp>=70?'Nóng':pp>=45?'Ấm':'Nguội',cls:pp>=70?'hot':pp>=45?'warm':'cold',f:f};
+}
+
+/* ---- Trung tâm AI ---- */
+function aiHero(){var C=aiCounts(startOfDay(now()),now()+1),on=S.dw.filter(function(d){return d.on;}).length;
+  return '<section class="ai-hero"><div class="ags">'+AGIDS.map(function(id){return agSvg(id,40);}).join('')+'</div><div><h2>'+on+'/7 AI agent đang trực</h2><p>Hôm nay đã làm <b>'+fmt(C.tot)+'</b> việc. AI tự xử lý trong luật; con người duyệt những việc quan trọng.</p></div><div class="row"><button class="btn ai-btn" data-act="ai-sim">'+(UI.aiSim?'■ Dừng mô phỏng':'▶ Mô phỏng 1 ngày AI vận hành')+'</button><button class="btn" data-act="ai-welcome">Xem màn chào AI</button></div></section>';}
+function vAiFlow(){
+  var a=startOfDay(now()),C=aiCounts(a,now()+1),seen=UI.aiSeen||{},on={},L=S.leads,I=aiImpact(a,now()+1);
+  S.dw.forEach(function(d){on[d.id]=d.on;});
+  function last(id){return C.last[id]?esc(C.last[id].msg)+' · '+ago(C.last[id].t):(on[id]?'Đang chờ việc mới':'Đang tắt');}
+  function node(id,band){var g=AG[id],n=C.c[id],pulse=seen[id]!=null&&n>seen[id],full=C.last[id]?C.last[id].msg:'';
+    return '<button class="'+(band?'aif-band':'aif-n')+' ag'+(on[id]?'':' off')+(pulse?' pulse':'')+'" style="--c:'+g.c+'" data-act="ai-go" data-tab="feed" data-ag="'+id+'" title="'+esc(full||'Xem dòng việc của '+id)+'">'+agSvg(id,band?44:40)+
+      '<span class="tx"><b>'+id+' · '+esc(agName(id))+'</b><span class="role">'+esc(g.role)+'</span>'+(band?'<span class="last">'+last(id)+'</span>':'')+'</span><span class="cnt2">'+fmt(n)+'<small>việc hôm nay</small></span>'+(band?'':'<span class="last">'+last(id)+'</span>')+'</button>';}
+  function plain(ic,t,sub,n,unit){return '<div class="aif-n plain"><span class="ic" aria-hidden="true">'+ic+'</span><span class="tx"><b>'+t+'</b><span class="role">'+sub+'</span></span><span class="cnt2">'+fmt(n)+'<small>'+unit+'</small></span></div>';}
+  function stage(k,t,body){return '<div class="aif-st"><h3><i>'+k+'</i>'+t+'</h3>'+body+'</div>';}
+  var arr='<span class="aif-arr" aria-hidden="true"><i></i></span>';
+  UI.aiSeen=C.c;
+  var kp='<div class="ai-kpis">'+[['Việc AI làm hôm nay',fmt(C.tot),'7 agent cộng lại'],['Lead giao tự động',C.x.assign,'DW3 giao, không cần người chia'],['Thời gian giao lead',secTxt(I.avg),'thủ công khoảng '+I.manual+' phút'],['Lead quá hạn được cứu',C.x.reassign,'DW3 giao lại cho người khác'],['Giờ công tiết kiệm',(Math.round(I.hrs*10)/10).toString().replace('.',','),'ước tính hôm nay']].map(function(k){return '<div class="ai-kpi"><div class="l">'+k[0]+'</div><div class="v ai-grad-t">'+k[1]+'</div><div class="t">'+k[2]+'</div></div>';}).join('')+'</div>';
+  var open=L.filter(function(l){return ['assigned','contacted','quoted'].indexOf(l.status)>-1;}).length,inst=L.filter(function(l){return l.contract&&!l.contract.onlineAt&&l.status!=='lost';}).length,onl=L.filter(function(l){return l.contract&&l.contract.onlineAt&&l.contract.onlineAt>=a;}).length;
+  var flow='<div class="aif">'+node('DW6',true)+'<div class="aif-stages">'+
+    stage(1,'Tiếp nhận lead',plain('📥','Nguồn lead','Google, chat, tổng đài, chatbot',L.filter(function(l){return l.t>=a;}).length,'lead hôm nay')+node('DW1')+node('DW2'))+arr+
+    stage(2,'Bán hàng',node('DW3')+node('DW4')+plain('🧑‍💼','Salesman','Gọi, tư vấn, chốt hợp đồng',open,'lead đang chăm'))+arr+
+    stage(3,'Lắp đặt và chăm sóc',plain('🛠️','Kỹ thuật','Lắp đặt trong 48 giờ',inst,'đang lắp, chờ lắp')+node('DW5')+plain('✅','Khách đã online','Bàn giao, bắt đầu chăm sóc 90 ngày',onl,'hôm nay'))+
+    '</div>'+node('DW7',true)+'</div><p class="hint" style="margin:8px 0 0">Bấm một agent để xem dòng việc của agent đó. Sơ đồ tự cập nhật khi có việc mới; agent vừa làm việc sẽ phát sáng.</p>';
+  return pageH('Trung tâm AI','Nơi theo dõi 7 AI agent: đang làm gì, hiệu quả ra sao, và những đề xuất đang chờ con người duyệt.')+aiHero()+kp+flow;
+}
+function vAiFeed(){
+  var ag=UI.aiAg||'all',per=UI.aiPer||'d',a=per==='d'?startOfDay(now()):per==='7'?now()-7*DAY:0,cnt={all:0};
+  S.events.forEach(function(e){if(e.t<a)return;var g=agOf(e);if(!g)return;cnt[g]=(cnt[g]||0)+1;cnt.all++;});
+  var list=S.events.filter(function(e){return e.t>=a&&agOf(e)&&(ag==='all'||agOf(e)===ag);}).slice(-150).reverse();
+  var chips='<div class="schips">'+[['all','Tất cả agent']].concat(AGIDS.map(function(id){return [id,id+' '+agName(id)];})).map(function(x){return '<button class="sc'+(ag===x[0]?' on':'')+'" data-act="ai-ag" data-v="'+x[0]+'">'+esc(x[1])+'<b>'+(cnt[x[0]]||0)+'</b></button>';}).join('')+'</div>';
+  var pc='<div class="seg sm" role="group">'+[['d','Hôm nay'],['7','7 ngày'],['all','Tất cả']].map(function(x){return '<button data-act="ai-per" data-v="'+x[0]+'"'+(per===x[0]?' class="on"':'')+'>'+x[1]+'</button>';}).join('')+'</div>';
+  var rows=list.map(function(e){var g=agOf(e);return '<div class="ai-fi" style="--c:'+AG[g].c+'">'+agSvg(g,36)+'<div class="m"><b>'+g+' · '+esc(agName(g))+'</b>'+esc(e.msg)+(e.lead?' <button class="lnk mono" data-act="open-lead" data-id="'+e.lead+'">'+e.lead+'</button>':'')+'</div><span class="tm">'+hhmm(e.t)+'<br>'+ago(e.t)+'</span></div>';}).join('');
+  return pageH('Dòng việc AI','Mọi việc các agent vừa làm, viết bằng câu dễ hiểu. Bấm mã lead để mở chi tiết.')+'<section class="card fbar2"><div class="frow" style="justify-content:space-between"><span class="lbl">Thời gian</span>'+pc+'</div>'+rowF('Agent',chips)+'</section><div class="ai-feed" style="margin-top:14px">'+(rows||'<div class="card empty">Chưa có việc nào trong khoảng này. Bấm “▶ Mô phỏng 1 ngày AI vận hành” ở tab Sơ đồ hoạt động.</div>')+'</div>';
+}
+function vAiTeam(){
+  var a=now()-7*DAY,C=aiCounts(a,now()+1),x=C.x,t=now(),T=aiCounts(startOfDay(t),t+1),LV={L0:'Chỉ đọc, phân tích, báo cáo','L1–L2':'Gợi ý, con người quyết','L2':'Soạn nháp, con người duyệt','L3':'Tự làm trong luật, có nhật ký'};
+  var M={
+    DW1:[['Lead nhận (7 ngày)',x.created],['Lead trùng bị chặn',x.dup],['Hội thoại chatbot',(S.chats||[]).length]],
+    DW2:[['Lần kiểm tra hạ tầng',x.infra],['Lead đang giữ vì POP yếu',S.leads.filter(function(L){return L.status==='infra_hold';}).length],['POP theo dõi',S.pops.length]],
+    DW3:[['Lead giao tự động',x.assign],['Lead quá hạn giao lại',x.reassign],['Thời gian giao trung bình',secTxt(aiAvgAssign(a,t+1))]],
+    DW4:[['Gợi ý được salesman dùng',S.sugg.DW4],['Lead đang có gợi ý',S.leads.filter(function(L){return ['assigned','contacted','quoted'].indexOf(L.status)>-1;}).length],['Lead nóng (≥ 70%)',S.leads.filter(function(L){return ['assigned','contacted','quoted'].indexOf(L.status)>-1&&aiScore(L).p>=70;}).length]],
+    DW5:[['Bản nháp được duyệt',S.sugg.DW5],['Khách nguy cơ cao',S.subs.filter(function(s){return s.st==='active'&&s.risk>=70;}).length],['Khôi phục còn hạn 72 giờ',S.subs.filter(function(s){return s.st==='churned'&&t-s.churnedAt<72*HOUR;}).length]],
+    DW6:[['Kênh theo dõi',S.ch.length],['Kênh đề xuất dừng',S.ch.filter(function(c){return !c.closed&&chTier(c)==='Dừng';}).length],['Lần đối soát SOP',x.recon]],
+    DW7:[['Hợp đồng tổng hợp',fmt(finData().list.length)],['Báo cáo đã gửi',(S.fin.sent||[]).length],['Lần xuất báo cáo',S.fin.exports||0]]
+  };
+  var cards=S.dw.filter(function(d){return AG[d.id];}).map(function(d){var g=AG[d.id];return '<article class="ai-card" style="--c:'+g.c+'"><header>'+agSvg(d.id,56)+'<div><b>'+d.id+' · '+esc(d.name)+'</b><span>'+(d.on?'🟢 Đang trực':'⚪ Đang tắt')+' · '+T.c[d.id]+' việc hôm nay</span></div></header><p class="q">“'+esc(g.say)+'”</p><p style="margin:0;font-size:13.5px;color:var(--ink2)">'+esc(d.job)+'</p>'+
+    '<dl>'+M[d.id].map(function(r){return '<dt>'+r[0]+'</dt><dd>'+(typeof r[1]==='number'?fmt(r[1]):r[1])+'</dd>';}).join('')+'<dt>Ủy quyền</dt><dd>'+esc(d.lv)+' · '+esc(LV[d.lv]||'')+'</dd><dt>Người chịu trách nhiệm</dt><dd>'+esc(d.owner)+'</dd></dl>'+
+    '<div class="row"><button class="btn sm" data-act="ai-go" data-tab="feed" data-ag="'+d.id+'">Xem dòng việc</button>'+(UI.role==='admin'?'<label class="sw"><input type="checkbox" data-act="toggle-dw" data-id="'+d.id+'"'+(d.on?' checked':'')+'><span></span>'+(d.on?'Bật':'Tắt')+'</label>':'')+'</div></article>';}).join('');
+  return pageH('Đội AI','Hồ sơ từng agent: nhiệm vụ, mức ủy quyền, người chịu trách nhiệm và kết quả 7 ngày qua. Không giao cho AI: chốt giá ngoài chính sách, ký hoặc hủy hợp đồng, sửa dữ liệu khách.')+'<div class="ai-team">'+cards+'</div>';
+}
+function vAiImpact(){
+  var per=UI.aiImp||'m',t=now(),a=per==='d'?startOfDay(t):per==='m'?pStart('m',t):t-7*DAY,I=aiImpact(a,t+1),A=aiAsm(),dec=(S.aiDec||{}),acc=(dec.ok||0)+(dec.no||0);
+  var pc='<div class="seg sm" role="group">'+[['d','Hôm nay'],['7','7 ngày'],['m','Tháng này']].map(function(x){return '<button data-act="ai-imp" data-v="'+x[0]+'"'+(per===x[0]?' class="on"':'')+'>'+x[1]+'</button>';}).join('')+'</div>';
+  var tiles=[['Giờ công tiết kiệm',Math.round(I.hrs*10)/10,1,' giờ','≈ '+vnd(I.money)+' chi phí nhân sự'],['Thời gian giao lead',Math.round(I.avg*10)/10,1,' giây','thủ công khoảng '+I.manual+' phút mỗi lead'],['Lead quá hạn được cứu',I.reassign,0,'','doanh thu giữ lại ước tính '+vnd(I.savedRev)],['Hoa hồng tiết kiệm',Math.round(I.comm/1e5)/10,1,' tr','nhờ '+I.onl.n+' HĐ kênh online, không qua salesman'],['Chi phí QC tiết kiệm',Math.round(I.adsSaved/1e5)/10,1,' tr','từ các kênh đã đóng theo đề xuất DW6'],['Đề xuất AI được duyệt',acc?Math.round((dec.ok||0)/acc*100):0,0,'%',(dec.ok||0)+' duyệt, '+(dec.no||0)+' từ chối · DW4 dùng '+S.sugg.DW4+', DW5 dùng '+S.sugg.DW5]];
+  var tl='<div class="ai-imp">'+tiles.map(function(k,i){return '<div class="ai-kpi"><div class="l">'+k[0]+'</div><div class="v ai-grad-t"><span data-to="'+k[1]+'" data-dec="'+k[2]+'" data-delay="'+(i*90)+'">'+String(k[1]).replace('.',',')+'</span>'+k[3]+'</div><div class="t">'+esc(k[4])+'</div></div>';}).join('')+'</div>';
+  var rows=I.rows.map(function(r){return '<tr><td>'+esc(r[0])+'</td><td class="num">'+fmt(r[1])+'</td><td class="num">'+r[2]+'</td><td class="num">'+fmt(Math.round(r[1]*r[2]))+'</td></tr>';});
+  var asm=[['assign','Phút giao tay mỗi lead',A.assign],['dup','Phút kiểm tra trùng mỗi lead',A.dup],['infra','Phút tra hạ tầng mỗi lần',A.infra],['sugg','Phút soạn gợi ý, kịch bản',A.sugg],['recon','Phút đối soát SOP mỗi lần',A.recon],['report','Phút làm báo cáo mỗi lần',A.report],['manual','Phút từ lead vào tới khi chia tay (cách cũ)',A.manual],['wage','Chi phí nhân sự (đồng/giờ)',A.wage]];
+  var form='<section class="card" style="margin-top:16px"><h2>Giả định dùng để tính</h2><p class="hint">Số tác động là ước tính theo giả định dưới đây; chỉnh để khớp thực tế Trung tâm.</p><div class="grid3" style="margin-top:0">'+asm.map(function(x){return '<label class="field" style="margin:0"><span>'+x[1]+'</span><input type="number" min="0" id="aia-'+x[0]+'" value="'+x[2]+'"></label>';}).join('')+'</div><div class="row"><button class="btn pri" data-act="ai-asm-save">Lưu giả định</button></div></section>';
+  return pageH('Tác động của AI','AI quy ra giờ công và tiền: việc AI đã làm thay con người, lead cứu được, chi phí tiết kiệm.')+'<div class="frow" style="justify-content:space-between;margin-bottom:14px"><span class="lbl">Kỳ tính</span>'+pc+'</div>'+tl+
+    '<h2 style="margin:22px 0 8px">Chi tiết giờ công AI làm thay</h2>'+tbl(['Việc AI làm','#Số lần','#Phút mỗi lần (giả định)','#Phút tiết kiệm'],rows.concat(['<tr><td><b>Tổng</b></td><td></td><td></td><td class="num"><b>'+fmt(Math.round(I.mins))+' phút ≈ '+(Math.round(I.hrs*10)/10).toString().replace('.',',')+' giờ</b></td></tr>']))+form;
+}
+function aiApprovals(){
+  var out=[],dis=(S.aiDec&&S.aiDec.dis)||{};
+  S.ch.forEach(function(c){if(!c.closed&&chTier(c)==='Dừng'&&!dis['ch:'+c.id])out.push({k:'ch:'+c.id,ag:'DW6',title:'Đề xuất đóng kênh quảng cáo '+c.id,desc:'Chi phí/INT '+Math.round(cpa(c))+'k, vượt 1,5 lần bình quân ('+S.rules.cpaAvg+'k). Đóng kênh tiết kiệm khoảng '+vnd(c.spend*1e6*S.fin.share/100)+' mỗi tháng (phần Hub). Chủ kênh: '+c.owner+'.',ok:'Duyệt đóng kênh'});});
+  S.leads.filter(function(L){return L.status==='escalated';}).forEach(function(L){var cand=S.sales.filter(function(s){return s.on&&s.pops.indexOf(L.pop)>-1;}).sort(function(a,b){return b.score-a.score;})[0];if(cand&&!dis['esc:'+L.id])out.push({k:'esc:'+L.id,ag:'DW3',title:'Giao lead '+L.id+' ('+L.name+') cho '+cand.name,desc:'Theo luật không còn người nhận; DW3 đề xuất salesman điểm cao nhất còn phụ trách POP '+L.pop+' (Level '+levelOf(cand.score)+', '+cand.score+' điểm).',ok:'Duyệt giao lead',data:cand.id});});
+  S.subs.filter(function(s){return s.st==='active'&&s.risk>=75&&!s.log.length;}).slice(0,6).forEach(function(s){if(!dis['sub:'+s.id])out.push({k:'sub:'+s.id,ag:'DW5',title:'Bản nháp kịch bản giữ chân: '+s.name+' (nguy cơ '+s.risk+')',desc:script5(s)[0],ok:'Duyệt bản nháp',sid:s.id});});
+  return out;
+}
+function vAiApprove(){
+  var ap=aiApprovals(),dec=S.aiDec||{};
+  var rows=ap.map(function(x){return '<div class="ai-ap" style="--c:'+AG[x.ag].c+'">'+agSvg(x.ag,42)+'<div><h3>'+esc(x.title)+'</h3><p>'+esc(x.desc)+'</p></div><div class="row" style="margin:0"><button class="btn sm pri" data-act="ai-ok" data-k="'+esc(x.k)+'"'+(x.data?' data-s="'+esc(x.data)+'"':'')+'>'+esc(x.ok)+'</button>'+(x.sid?'<button class="btn sm" data-act="open-sub" data-id="'+x.sid+'">Xem khách</button>':'')+'<button class="btn sm" data-act="ai-no" data-k="'+esc(x.k)+'">Từ chối</button></div></div>';}).join('');
+  return pageH('Chờ con người duyệt','Nguyên tắc: AI đề xuất, con người quyết. Mỗi lần duyệt hoặc từ chối đều ghi nhật ký và được dùng để đo độ tin cậy của AI.')+
+    '<div class="ai-kpis">'+[['Đề xuất đang chờ',ap.length],['Đã duyệt',dec.ok||0],['Đã từ chối',dec.no||0],['Tỷ lệ chấp nhận',((dec.ok||0)+(dec.no||0))?Math.round((dec.ok||0)/((dec.ok||0)+(dec.no||0))*100)+'%':'—']].map(function(k){return '<div class="ai-kpi"><div class="l">'+k[0]+'</div><div class="v ai-grad-t">'+k[1]+'</div></div>';}).join('')+'</div>'+
+    (rows||'<div class="card empty">Không có đề xuất nào đang chờ. AI sẽ đưa đề xuất mới vào đây khi phát hiện.</div>');
+}
+ACT['ai-ok']=function(el){
+  var k=el.getAttribute('data-k'),id=k.split(':')[1];S.aiDec=S.aiDec||{ok:0,no:0,dis:{}};
+  if(k.indexOf('ch:')===0){var c=chOf(id);if(c){c.closed=true;ev(null,'Quản lý','channel.closed','Duyệt đóng kênh '+c.id+' theo đề xuất DW6');}}
+  else if(k.indexOf('esc:')===0){var L=leadOf(id),s=saleOf(el.getAttribute('data-s'));if(L&&s)assignTo(L,s,'Quản lý');}
+  else if(k.indexOf('sub:')===0){var sb=subOf(id);if(sb){S.sugg.DW5++;sb.log.push({t:now(),who:'DW5',msg:'Bản nháp kịch bản giữ chân đã được Quản lý duyệt'});ev(null,'DW5','ai.suggestion.used','Quản lý duyệt bản nháp kịch bản giữ chân cho '+sb.name+' ('+sb.id+')');}}
+  S.aiDec.ok=(S.aiDec.ok||0)+1;S.aiDec.dis[k]=1;save();render();toast('Đã duyệt đề xuất của AI.');
+};
+ACT['ai-no']=function(el){var k=el.getAttribute('data-k');S.aiDec=S.aiDec||{ok:0,no:0,dis:{}};S.aiDec.no=(S.aiDec.no||0)+1;S.aiDec.dis[k]=1;ev(null,'Quản lý','ai.rejected','Từ chối đề xuất AI: '+k);save();render();toast('Đã từ chối. AI ghi nhận để điều chỉnh.');};
+ACT['ai-asm-save']=function(){var A=aiAsm(),bad=false;['assign','dup','infra','sugg','recon','report','manual','wage'].forEach(function(k){var v=Number($('#aia-'+k).value);if(!(v>=0))bad=true;else A[k]=v;});if(bad){toast('Nhập số không âm.');return;}ev(null,'Quản lý','ai.assumption','Cập nhật giả định tính tác động AI');save();renderMain();toast('Đã lưu giả định.');};
+
+/* ---- Hỏi AI (DW7) ---- */
+function aiAnswer(q){
+  var n=norm(q),F=finData(),me=UI.role==='sale'?curSale():null,list=me?F.list.filter(function(c){return c.sale===me.id;}):F.list,t=now(),wk=/tuan/.test(n);
+  var a=pStart(wk?'w':'m',t),pa=pAdd(wk?'w':'m',a,-1),pb=Math.min(a,pa+(t-a));
+  var cur=list.filter(function(c){return c.t>=a;}),prv=list.filter(function(c){return c.t>=pa&&c.t<pb;}),A=agg(cur),B=agg(prv),kl=wk?'tuần này':'tháng này',pk=wk?'tuần trước cùng kỳ':'tháng trước cùng kỳ';
+  function ch(x,y){return y?((x-y)/Math.abs(y)>=0?'tăng ':'giảm ')+pctD(Math.abs((x-y)/y)):'chưa có số kỳ trước';}
+  if(/(chi nhanh|trung tam|hn\s?\d)/.test(n)&&!me){
+    var g=repGroups(cur,prv,function(c){return c.br||'—';},function(k){return k;}).filter(function(x){return /^HN/.test(x.k);});if(!g.length)return 'Chưa có hợp đồng '+kl+'.';
+    if(/(giam|kem|thap|yeu|tut)/.test(n)){var d=g.filter(function(x){return x.p.rev>0;}).map(function(x){return {x:x,d:(x.a.rev-x.p.rev)/x.p.rev};}).sort(function(p,q2){return p.d-q2.d;});
+      if(!d.length)return 'Chưa đủ số liệu kỳ trước để so sánh.';var w=d[0];
+      return 'Trung tâm '+(w.d<0?'giảm mạnh nhất':'tăng chậm nhất')+' '+kl+': '+hn1(w.x.k)+', doanh thu '+vnd(w.x.a.rev)+' ('+(w.d>=0?'+':'−')+pctD(Math.abs(w.d))+' so với '+pk+').'+(d[1]?'\nTiếp theo: '+hn1(d[1].x.k)+' ('+(d[1].d>=0?'+':'−')+pctD(Math.abs(d[1].d))+').':'')+'\nGợi ý: mở Báo cáo & Thống kê, tab Theo trung tâm, rồi trao đổi với Giám đốc chi nhánh.';}
+    return 'Trung tâm dẫn đầu doanh thu '+kl+':\n'+g.slice(0,3).map(function(x,i){return (i+1)+'. '+hn1(x.k)+': '+vnd(x.a.rev)+' từ '+x.a.n+' HĐ, biên '+pctD(x.a.mg);}).join('\n');
+  }
+  if(/(salesman|nhan vien|ai chot|chot nhieu|top sale|ban gioi)/.test(n)&&!me){var gs=repGroups(cur,prv,function(c){return c.sale||'_co';},function(k,c){return c.sname;}).filter(function(x){return x.k!=='_co';}).slice(0,5);
+    return gs.length?'Top salesman '+kl+' theo doanh thu:\n'+gs.map(function(x,i){return (i+1)+'. '+x.l+': '+vnd(x.a.rev)+' ('+x.a.n+' HĐ, hoa hồng '+vnd(x.a.comm)+')';}).join('\n'):'Chưa có hợp đồng '+kl+'.';}
+  if(/(chi phi|quang cao|kenh|cpa|ads)/.test(n)){var bad=S.ch.filter(function(c){return !c.closed;}).sort(function(x,y){return cpa(y)-cpa(x);})[0];
+    return 'Chi phí quảng cáo phân bổ '+kl+': '+vnd(A.ads)+', trung bình '+vnd(A.cpa)+' mỗi hợp đồng ('+ch(A.cpa,B.cpa)+' so với '+pk+'; mục tiêu ≤ '+S.rules.cpaTarget+'k mỗi INT).'+(bad?'\nKênh tốn nhất hiện tại: '+bad.id+' ('+Math.round(cpa(bad))+'k mỗi INT, '+bad.owner+').'+(chTier(bad)==='Dừng'?' DW6 đã đề xuất dừng, đang chờ duyệt ở tab Chờ con người duyệt.':''):'');}
+  if(/(loi nhuan|bien|lai lo)/.test(n))return 'Lợi nhuận '+kl+': '+vnd(A.pro)+' ('+ch(A.pro,B.pro)+' so với '+pk+'), biên '+pctD(A.mg)+' so với '+pctD(B.mg)+'.';
+  if(/(doanh thu|doanh so|ban duoc|bao nhieu tien|hoa hong)/.test(n))return 'Doanh thu '+kl+(me?' của bạn':'')+': '+vnd(A.rev)+' từ '+A.n+' hợp đồng, '+ch(A.rev,B.rev)+' so với '+pk+'. Lợi nhuận '+vnd(A.pro)+', biên '+pctD(A.mg)+'.'+(me?'\nHoa hồng dự kiến của bạn: '+vnd(A.comm)+'.':'');
+  if((/lead/.test(n)&&/(hom nay|ngay)/.test(n))||/bao nhieu lead/.test(n)){var t0=startOfDay(t),Ls=S.leads.filter(function(L){return L.t>=t0&&(!me||L.sale===me.id);}),as=Ls.filter(function(L){return L.hist.length;});
+    return 'Hôm nay có '+Ls.length+' lead'+(me?' giao cho bạn':'')+'; '+as.length+' lead đã được DW3 giao, trung bình '+secTxt(aiAvgAssign(t0,t+1))+' sau khi vào. Lead nóng (≥ 70%): '+S.leads.filter(function(L){return (!me||L.sale===me.id)&&['assigned','contacted','quoted'].indexOf(L.status)>-1&&aiScore(L).p>=70;}).length+'.';}
+  if(/(qua han|cham|sla|5 phut|chua goi)/.test(n)){var re=S.events.filter(function(e){return e.type==='lead.reassigned'&&e.t>=startOfDay(t);}).length,wait=S.leads.filter(function(L){return L.status==='assigned'&&(!me||L.sale===me.id);}).length;return 'Đang có '+wait+' lead chờ gọi trong hạn '+SLA_M()+' phút. Hôm nay DW3 đã giao lại '+re+' lead vì quá hạn.';}
+  if(/(lap dat|48|online|ky thuat)/.test(n)){var ov=S.leads.filter(function(L){return L.contract&&!L.contract.onlineAt&&L.status!=='lost'&&t-L.contract.signedAt>48*HOUR;});return ov.length+' hợp đồng đã quá 48 giờ chưa online'+(ov.length?': '+ov.slice(0,5).map(function(L){return L.contract.id;}).join(', ')+'.':'.')+' Xem ở Lắp đặt, lọc “Quá hạn”.';}
+  if(/(roi mang|nguy co|giu chan|huy)/.test(n)){var hi=S.subs.filter(function(s){return s.st==='active'&&s.risk>=70;}),rc=S.subs.filter(function(s){return s.st==='churned'&&t-s.churnedAt<72*HOUR;});return hi.length+' khách nguy cơ rời mạng cao (từ 70 điểm), '+rc.length+' khách vừa hủy còn hạn khôi phục 72 giờ. DW5 đã soạn nháp kịch bản trong từng khách.';}
+  return 'Em là DW7 Thư ký số. Anh/chị có thể hỏi về: doanh thu, lợi nhuận, chi phí quảng cáo, trung tâm dẫn đầu hoặc giảm mạnh, top salesman, lead hôm nay, lead quá hạn, hợp đồng quá 48 giờ, khách nguy cơ rời mạng. Thêm “tuần này” để xem theo tuần.';
+}
+var AIQS=['Doanh thu tháng này thế nào?','Chi nhánh nào giảm mạnh nhất?','Top salesman tuần này?','Chi phí quảng cáo có vượt mục tiêu không?','Hôm nay có bao nhiêu lead?','Có hợp đồng nào quá 48 giờ chưa online?','Bao nhiêu khách có nguy cơ rời mạng?'];
+function vAiAsk(){
+  var ch=UI.aiChat||[],me=UI.role==='sale';
+  var qs=me?['Doanh thu tháng này của tôi?','Hoa hồng của tôi tháng này?','Hôm nay có bao nhiêu lead?','Có lead nào sắp quá hạn?']:AIQS;
+  var msgs=ch.map(function(m){return '<div class="ai-q">'+esc(m.q)+'</div><div class="ai-a">'+agSvg('DW7',34)+'<div class="b">'+(m.a==null?'<span class="muted">Đang phân tích…</span>':esc(m.a))+'</div></div>';}).join('');
+  return pageH('Hỏi AI','Hỏi DW7 Thư ký số bằng tiếng Việt về số liệu của Trung tâm. AI trả lời từ dữ liệu thật trong hệ thống'+(CAP.sample?' (có mô hình ngôn ngữ hỗ trợ).':'.'))+
+    '<section class="card"><div class="ai-chat" id="ai-chat">'+(msgs||'<div class="ai-a">'+agSvg('DW7',34)+'<div class="b">Chào '+esc(SESSION?SESSION.name:'')+'! Em là DW7 Thư ký số. Anh/chị muốn biết gì về doanh thu, chi phí, lead hay khách hàng hôm nay?</div></div>')+'</div>'+
+    '<div class="ai-chips">'+qs.map(function(q){return '<button data-act="ai-ask" data-q="'+esc(q)+'">'+esc(q)+'</button>';}).join('')+'</div>'+
+    '<div class="row"><input id="ai-q" style="flex:1;min-width:0;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--gray-bg);color:var(--ink)" placeholder="Ví dụ: Chi nhánh nào giảm mạnh nhất tháng này?" aria-label="Câu hỏi cho AI" autocomplete="off"><button class="btn ai-btn" data-act="ai-ask">Hỏi AI</button>'+(ch.length?'<button class="btn" data-act="ai-clear">Xóa hội thoại</button>':'')+'</div></section>';
+}
+ACT['ai-ask']=function(el){
+  var q=el.getAttribute('data-q')||(($('#ai-q')||{}).value||'').trim();if(!q)return;
+  UI.aiChat=UI.aiChat||[];var m={q:q,a:null};UI.aiChat.push(m);renderMain();var c=$('#ai-chat');if(c)c.scrollTop=c.scrollHeight;
+  var rule=aiAnswer(q);
+  function fin(txt){m.a=txt;if(UI.view==='ai'&&UI.tab&&UI.tab.ai==='ask'){renderMain();var cc=$('#ai-chat');if(cc)cc.scrollTop=cc.scrollHeight;var i=$('#ai-q');if(i)i.focus();}}
+  if(CAP.sample){CAP.sample('Bạn là DW7 Thư ký số của Trung tâm Online FPT Telecom Hà Nội. Trả lời ngắn gọn bằng tiếng Việt, tối đa 5 câu, chỉ dùng số liệu sau, không bịa:\n'+rule+'\nCâu hỏi: '+q,{modelTier:'quick',cache:false}).then(function(r){fin(((r&&r.text)||'').trim()||rule);},function(){fin(rule);});}
+  else setTimeout(function(){fin(rule);},650);
+};
+ACT['ai-clear']=function(){UI.aiChat=[];renderMain();};
+ACT['ai-go']=function(el){UI.view='ai';UI.tab=UI.tab||{};UI.tab.ai=el.getAttribute('data-tab')||'flow';var g=el.getAttribute('data-ag');if(g)UI.aiAg=g;UI.overlay=null;UI.demoOpen=false;render();window.scrollTo(0,0);};
+ACT['ai-ag']=function(el){UI.aiAg=el.getAttribute('data-v');renderMain();};
+ACT['ai-per']=function(el){UI.aiPer=el.getAttribute('data-v');renderMain();};
+ACT['ai-imp']=function(el){UI.aiImp=el.getAttribute('data-v');renderMain();aiCountUp($('#main'));};
+
+/* ---- mô phỏng 1 ngày AI vận hành ---- */
+function aiSimStop(done){
+  if(UI.aiSim)clearInterval(UI.aiSim);UI.aiSim=null;var b=document.getElementById('aiSim');if(b)b.remove();
+  if(UI.aiSimBase!=null){var C=aiCounts(UI.aiSimBase,now()+1);toast('Mô phỏng '+(done?'xong':'dừng')+': AI làm '+C.tot+' việc, giao '+C.x.assign+' lead, lọc '+C.x.dup+' trùng, giao lại '+C.x.reassign+' lead quá hạn.');}
+  UI.aiSimBase=null;render();
+}
+function aiSimStep(n){
+  if(n%4!==0)randLead(null);
+  var live=S.leads.filter(function(x){return x.live;});
+  if(n%2===0){var L=live.filter(function(x){return x.status==='assigned';})[0];if(L){var s=saleOf(L.sale),h=L.hist[L.hist.length-1];if(h){h.out='called';h.calledAt=now();}L.calledAt=L.calledAt||now();L.dueAt=null;L.status='contacted';ev(L,s?s.name:'Salesman','call.logged','Gọi khách trong hạn, khách có nhu cầu');}}
+  if(n%3===0){var L2=live.filter(function(x){return x.status==='contacted';})[0];if(L2){var pk='';try{pk=assistFor(L2).pk.name;}catch(e){pk='Internet Sky';}S.sugg.DW4++;ev(L2,'DW4','ai.suggestion.used','Gợi ý gói '+pk+' và kịch bản gọi cho '+L2.id+'; salesman dùng gợi ý');L2.status='quoted';L2.quoted=true;ev(L2,(saleOf(L2.sale)||{}).name||'Salesman','lead.quoted','Hẹn tư vấn, khảo sát');}}
+  if(n%5===0){var L3=live.filter(function(x){return x.status==='quoted';})[0];if(L3){var pid='sky';try{pid=assistFor(L3).pk.id;}catch(e){}openContract(L3,pid,(saleOf(L3.sale)||{}).name||'Salesman');}}
+  if(n%6===0){OFFSET+=5*MIN;slaTick();}
+  if(n%7===0){var hs=S.subs.filter(function(s){return s.st==='active'&&s.risk>=70;})[n%3]||S.subs[0];ev(null,'DW5','ai.draft','Soạn kịch bản giữ chân cho '+(hs?hs.name+' (nguy cơ '+hs.risk+')':'khách nguy cơ cao')+', chờ DVKH duyệt');}
+  if(n%9===0){var w=S.ch.filter(function(c){return !c.closed;}).sort(function(a,b){return cpa(b)-cpa(a);})[0];if(w)ev(null,'DW6','ai.alert','Kênh '+w.id+' có chi phí '+Math.round(cpa(w))+'k mỗi INT, đề xuất rà soát');}
+  if(n%10===0){var A=agg(finData().list.filter(function(c){return c.t>=pStart('m',now());}));ev(null,'DW7','ai.insight','Cập nhật nhận định: doanh thu tháng này '+vnd(A.rev)+', biên '+pctD(A.mg)+', '+A.n+' hợp đồng');}
+  save();render();
+}
+ACT['ai-sim']=function(){
+  if(UI.aiSim){aiSimStop(false);return;}
+  UI.demoOpen=false;UI.aiSimBase=now()-1000;var n=0,N=40;
+  var bar=document.createElement('div');bar.id='aiSim';bar.setAttribute('role','status');bar.innerHTML='<span>✨ AI đang vận hành mô phỏng</span><span class="bar"><i style="width:0"></i></span><span id="aiSimN">0/'+N+'</span><button data-act="ai-sim">Dừng</button>';document.body.appendChild(bar);
+  UI.aiSim=setInterval(function(){n++;try{aiSimStep(n);}catch(e){}var b=document.getElementById('aiSim');if(b){b.querySelector('.bar i').style.width=Math.round(n/N*100)+'%';b.querySelector('#aiSimN').textContent=n+'/'+N;}if(n>=N)aiSimStop(true);},1500);
+  render();
+};
+
+/* ---- gắn vào hệ thống ---- */
+(function(){
+  var _ev=ev;ev=function(L,who,type,msg,t){_ev(L,who,type,msg,t);var g=/^DW[1-7]$/.test(who)?who:null;if(g&&SESSION&&!document.getElementById('aiw'))aiToast(g,msg);};
+  var _rm=renderMain;renderMain=function(){_rm();try{var mn=$('#main');aiDecorate(mn);var s=UI.view==='ai'?'':aiStripFor(UI.view);if(s){var ph=$('#main .page-h');if(ph)ph.insertAdjacentHTML('afterend',s);}}catch(e){}};
+  var _ro=renderOverlay;renderOverlay=function(){_ro();try{aiDecorate($('#overlay'));}catch(e){}};
+  var _kc=kcard;kcard=function(L){var h=_kc(L);if(['assigned','contacted','quoted'].indexOf(L.status)<0)return h;var sc=aiScore(L),x='<span class="chip '+sc.cls+'" title="AI chấm điểm khả năng chốt">'+(sc.cls==='hot'?'🔥 ':'')+sc.p+'% '+sc.lab+'</span>';if(L.hist.length){var sec=Math.max(0,Math.round((L.hist[0].at-L.t)/1000));x+='<span class="chip ai" title="DW3 tự giao lead">✨ DW3 · '+(sec<1?'<1':sec)+' giây</span>';}return h.replace('<div class="kf">','<div class="kf">'+x);};
+  var _dl=drawerLead;drawerLead=function(L){var h=_dl(L);if(['assigned','contacted','quoted','cleaned','escalated'].indexOf(L.status)<0)return h;var sc=aiScore(L);
+    var blk='<div class="sec"><div class="assist"><h3>DW3 · AI chấm điểm khả năng chốt: '+sc.p+'% ('+sc.lab+')</h3><div class="riskbar"><i class="'+(sc.cls==='hot'?'hi':'')+'" style="width:'+sc.p+'%"></i></div><ul class="q">'+sc.f.map(function(x){return '<li>'+esc(x[0])+': <b>'+esc(x[1])+'</b></li>';}).join('')+'</ul><p class="hint" style="margin:6px 0 0">'+(sc.cls==='hot'?'Lead nóng: DW3 ưu tiên salesman Level cao, nên gọi ngay.':sc.cls==='warm'?'Lead ấm: gọi trong hạn '+SLA_M()+' phút, dùng kịch bản của DW4.':'Lead nguội: có thể để chatbot chăm sóc trước, gọi lại sau.')+'</p></div></div>';
+    var i=h.indexOf('</dl>');return i>-1?h.slice(0,i+5)+blk+h.slice(i+5):h+blk;};
+  var _bd=badges;badges=function(){var b=_bd();if(UI.role==='admin'&&can('dw.manage')){b.ai=aiApprovals().length;b.aiap=b.ai;}return b;};
+  var _en=enter;enter=function(a){_en(a);setTimeout(aiWelcomeMaybe,80);};
+  var _lg=ACT.login;ACT.login=function(){try{sessionStorage.removeItem('tllh_aiw_seen');}catch(e){}_lg();};
+  R.admin.nav[0]=['todo','Việc cần xử lý'];R.admin.nav.unshift(['ai','Trung tâm AI','Điều hành']);
+  ['sale','ktv','cs'].forEach(function(r){R[r].nav.splice(1,0,['ai','Trung tâm AI']);});
+  TABS.ai=[['flow','Sơ đồ hoạt động',function(){return vAiFlow();},null],['feed','Dòng việc AI',function(){return vAiFeed();},null],['team','Đội AI',function(){return vAiTeam();},null],['impact','Tác động của AI',function(){return vAiImpact();},'dw.manage'],['approve','Chờ con người duyệt',function(){return vAiApprove();},'dw.manage'],['ask','Hỏi AI',function(){return vAiAsk();},null]];
+  TABBADGE.ai={approve:'aiap'};
+  ['admin','sale','ktv','cs'].forEach(function(r){VIEWS[r].ai=function(){var h=tabbed('ai');setTimeout(function(){if(UI.view==='ai'&&UI.tab&&UI.tab.ai==='impact')aiCountUp($('#main'));},0);return h;};});
+  ICON.ai='<path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8zM5 15l.6 1.4 1.4.6-1.4.6L5 19l-.6-1.4L3 17l1.4-.6z"/>';
+  SHORT.ai='AI';BOTTOM.admin=['todo','ai','leads','report'];
+  ACTPERM['ai-ok']='dw.manage';ACTPERM['ai-no']='dw.manage';ACTPERM['ai-asm-save']='rules.manage';
+  document.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target&&e.target.id==='ai-q'){e.preventDefault();ACT['ai-ask']({getAttribute:function(){return null;}});}if(e.key==='Escape'&&document.getElementById('aiw')){aiWelcomeClose();}});
+  var lastK='';setInterval(function(){if(!SESSION||UI.view!=='ai'||UI.overlay)return;var tb=(UI.tab&&UI.tab.ai)||'flow';if(['flow','feed','team'].indexOf(tb)<0)return;var le=S.events[S.events.length-1],k=S.events.length+'|'+(le?le.t:0);if(k!==lastK){lastK=k;renderMain();}},1500);
+})();
 
 /* ================= khởi động ================= */
 if(!load()){S=seed();}
