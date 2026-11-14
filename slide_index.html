@@ -58,6 +58,45 @@ table.t.dwt{font-size:15px}table.t.dwt td{padding:9px 12px}
 .xl table.t{font-size:17.5px}.xl table.t td{padding:17px 14px}.xl table.t th{font-size:13px;padding:12px 14px}.xl .band{font-size:17px;padding:16px 20px}.xl .tag{font-size:13px}.xl .big{font-size:48px}
 .xl table.t.dwt{font-size:16.5px}.xl table.t.dwt td{padding:12px 12px}
 html.m .xl .val{font-size:30px}
+.dwgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.dwcard{position:relative;display:flex;flex-direction:column;gap:9px;padding:15px 16px 14px;border-radius:18px;background:linear-gradient(160deg,color-mix(in srgb,var(--c) 22%,transparent),rgba(10,22,55,.72) 55%);border:1px solid color-mix(in srgb,var(--c) 55%,transparent);box-shadow:0 0 0 1px rgba(255,255,255,.03) inset,0 10px 30px rgba(0,0,0,.35),0 0 26px color-mix(in srgb,var(--c) 22%,transparent);overflow:hidden}
+.dwcard::after{content:"";position:absolute;right:-30px;top:-30px;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--c) 45%,transparent),transparent 70%);pointer-events:none}
+.dwtop{display:flex;align-items:center;gap:12px}
+.orb2{flex:none;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.18),rgba(8,18,45,.9) 65%);border:2px solid var(--c);box-shadow:0 0 18px var(--c)}
+.orb2 span{font-size:26px;line-height:1}
+.dwid{display:inline-block;font-size:11.5px;font-weight:900;letter-spacing:1px;color:#fff;background:var(--c);border-radius:6px;padding:2px 7px;margin-bottom:4px}
+.dwtop b{display:block;font-size:17.5px;color:#fff;line-height:1.25}
+.dwv{margin:0;font-size:15.5px;color:var(--ink2);line-height:1.45;flex:1}
+.dwbot{display:flex;flex-direction:column;gap:6px}
+.lv{align-self:flex-start;font-size:12px;font-weight:800;letter-spacing:.6px;padding:3px 10px;border-radius:999px;text-transform:uppercase}
+.lv.l3{background:rgba(52,211,153,.2);color:#6EE7B7}.lv.l2{background:rgba(253,224,71,.18);color:#FDE68A}.lv.l1{background:rgba(232,121,249,.2);color:#F5D0FE}.lv.l0{background:rgba(56,189,248,.18);color:#7DD3FC}
+.own{font-size:13px;color:var(--mute)}
+.lv.ca{background:rgba(232,121,249,.22);color:#F5D0FE}.lv.cs{background:rgba(253,224,71,.18);color:#FDE68A}.lv.cu{background:rgba(52,211,153,.2);color:#6EE7B7}
+.dwcard.core{justify-content:center;background:linear-gradient(140deg,rgba(14,165,233,.28),rgba(139,92,246,.32));border-color:rgba(56,225,255,.6)}
+.dwcard.core .big{font-size:40px}
+.casan{border:1px solid var(--line);border-radius:16px;padding:12px 14px;background:rgba(255,255,255,.03)}
+.cs-h{margin:0 0 10px;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--mute);font-weight:700}.cs-h b{color:var(--cy)}
+.cs-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.cs-st{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:rgba(20,40,90,.45);position:relative}
+.cs-st:not(:last-child)::after{content:"›";position:absolute;right:-9px;top:50%;transform:translateY(-50%);color:var(--cy);font-weight:900;font-size:18px}
+.cs-l{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;color:#fff;background:linear-gradient(135deg,var(--cy2),var(--pu))}
+.cs-st div b{display:block;color:#fff;font-size:14.5px}.cs-st div span{display:block;font-size:12.5px;color:var(--ink2);line-height:1.35}.cs-st div em{display:inline-block;margin-top:4px;font-style:normal;font-size:11.5px;font-weight:800;padding:2px 8px;border-radius:999px}
+.cs-st.ca{border-color:rgba(232,121,249,.6)}.cs-st.ca em{background:rgba(232,121,249,.22);color:#F5D0FE}
+.cs-st.cs{border-color:rgba(253,224,71,.55)}.cs-st.cs em{background:rgba(253,224,71,.18);color:#FDE68A}
+.cs-st.cu{border-color:rgba(52,211,153,.6);box-shadow:0 0 18px rgba(52,211,153,.18)}.cs-st.cu em{background:rgba(52,211,153,.2);color:#6EE7B7}
+.cs-st.dim{opacity:.6}.cs-st.dim em{background:rgba(255,255,255,.08);color:var(--ink2)}
+html.m .cs-row{grid-template-columns:1fr}html.m .cs-st::after{display:none}
+.dwleg{justify-content:center}.lgt{color:#fff;font-size:16px}
+.meter{height:10px;border-radius:999px;background:linear-gradient(90deg,#38BDF8,#E879F9 50%,#34D399);box-shadow:0 0 14px rgba(56,225,255,.4)}
+.mtk{display:flex;justify-content:space-between;font-size:12px;color:var(--ink2);line-height:1.3}.mtk span:nth-child(2){text-align:center}.mtk span:last-child{text-align:right}
+@keyframes dwin{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes orbp{0%,100%{box-shadow:0 0 14px var(--c)}50%{box-shadow:0 0 26px var(--c)}}
+.s.on .dwcard{animation:dwin .5s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--d)}
+.s.on .orb2{animation:orbp 3s ease-in-out infinite;animation-delay:var(--d)}
+html.m h1[style*=nowrap]{white-space:normal!important;font-size:24px!important}
+html.m .dwgrid{grid-template-columns:1fr;max-height:none}
+@media (min-width:640px){html.m .dwgrid{grid-template-columns:1fr 1fr}}
+@media (prefers-reduced-motion:reduce){.s.on .dwcard,.s.on .orb2{animation:none}}
 .ok{color:var(--gr)}.bad{color:var(--rd)}
 .shot{border-radius:12px;border:1px solid var(--line);box-shadow:0 14px 40px rgba(0,0,0,.5);display:block;width:100%;height:auto;object-fit:cover;object-position:top}
 .cap{font-size:13.5px;color:var(--mute);margin-top:6px;line-height:1.45}
@@ -256,24 +295,33 @@ html.m .big{font-size:36px}
 </section>
 <section class="s " data-t="6 · Digital Worker">
   <div class="kick"><i></i>02 · Giải pháp AI</div>
-  <h1><span class="dwk">Digital Worker</span> 7 AI agent, mỗi agent một việc, <em>một người chịu trách nhiệm</em></h1>
+  <h1 style="font-size:30px;white-space:nowrap"><span class="dwk">Digital Worker</span> 7 AI agent, mỗi agent một việc, <em>một người chịu trách nhiệm</em></h1>
   
-  <div class="body xl" style="justify-content:center">
-  <div class="tw"><table class="t dwt">
-    <tr><th>Agent</th><th>Việc</th><th>Mức ủy quyền</th><th>Người chịu trách nhiệm</th></tr>
-    <tr><td><span class="ag" style="background:#3B82F6">DW1</span><b>Lễ tân số</b></td><td>Nhận lead 24/7, hỏi đủ 4 trường, chuẩn hóa, lọc trùng</td><td>L3 · tự làm trong luật</td><td>Trưởng Trung tâm Online</td></tr>
-    <tr><td><span class="ag" style="background:#16A34A">DW2</span><b>Kỹ sư hạ tầng số</b></td><td>Kiểm tra POP, port, sự cố trước khi bán</td><td>L0 · chỉ đọc, kết luận</td><td>Phòng Kỹ thuật</td></tr>
-    <tr><td><span class="ag" style="background:#EA580C">DW3</span><b>Điều phối số</b></td><td>Giao lead theo địa bàn, đếm hạn 5 phút, giao lại khi quá hạn</td><td>L3 · tự làm trong luật</td><td>Trưởng Trung tâm Online</td></tr>
-    <tr><td><span class="ag" style="background:#DB2777">DW4</span><b>Trợ lý sale số</b></td><td>Gợi ý gói, kịch bản gọi, câu trả lời phản đối</td><td>L1–L2 · gợi ý, người quyết</td><td>Trưởng phòng Kinh doanh</td></tr>
-    <tr><td><span class="ag" style="background:#E11D48">DW5</span><b>Chăm sóc số</b></td><td>Soạn tin chào mừng, lịch 90 ngày, điểm nguy cơ</td><td>L2 · soạn nháp, người duyệt</td><td>Trưởng nhóm DVKH</td></tr>
-    <tr><td><span class="ag" style="background:#CA8A04">DW6</span><b>Kiểm soát số</b></td><td>Đối soát SOP, chấm kênh quảng cáo, rà luật</td><td>L0 · chỉ đọc, đề xuất</td><td>Đội vận hành MCC</td></tr>
-    <tr><td><span class="ag" style="background:#7C3AED">DW7</span><b>Thư ký số</b></td><td>Lãi lỗ từng HĐ, báo cáo tự gửi 07:00</td><td>L0 · chỉ đọc, báo cáo</td><td>Trưởng Trung tâm Online</td></tr>
-  </table></div>
-  <p class="cap">Mức ủy quyền: L0 chỉ đọc · L1 gợi ý · L2 soạn nháp, người duyệt · L3 tự làm trong luật.</p></div>
+  <div class="body xl" style="justify-content:center;gap:14px">
+  <div class="dwgrid">
+    <div class="dwcard" style="--c:#3B82F6;--d:0ms"><div class="dwtop"><div class="orb2"><span>🤖</span></div><div><span class="dwid">DW1</span><b>Lễ tân số</b></div></div><p class="dwv">Nhận lead 24/7, lọc trùng</p><div class="dwbot"><span class="lv cu">Automatic</span><span class="own">👤 Trưởng TT Online</span></div></div>
+    <div class="dwcard" style="--c:#16A34A;--d:80ms"><div class="dwtop"><div class="orb2"><span>📡</span></div><div><span class="dwid">DW2</span><b>Kỹ sư hạ tầng số</b></div></div><p class="dwv">Kiểm POP trước khi bán</p><div class="dwbot"><span class="lv cs">Standard</span><span class="own">👤 Phòng Kỹ thuật</span></div></div>
+    <div class="dwcard" style="--c:#EA580C;--d:160ms"><div class="dwtop"><div class="orb2"><span>🧭</span></div><div><span class="dwid">DW3</span><b>Điều phối số</b></div></div><p class="dwv">Giao lead, đếm hạn 5 phút</p><div class="dwbot"><span class="lv cu">Automatic</span><span class="own">👤 Trưởng TT Online</span></div></div>
+    <div class="dwcard" style="--c:#DB2777;--d:240ms"><div class="dwtop"><div class="orb2"><span>💡</span></div><div><span class="dwid">DW4</span><b>Trợ lý sale số</b></div></div><p class="dwv">Gợi ý gói, kịch bản gọi</p><div class="dwbot"><span class="lv ca">Augmented</span><span class="own">👤 TP Kinh doanh</span></div></div>
+    <div class="dwcard" style="--c:#E11D48;--d:320ms"><div class="dwtop"><div class="orb2"><span>💚</span></div><div><span class="dwid">DW5</span><b>Chăm sóc số</b></div></div><p class="dwv">Chăm sóc 90 ngày, điểm nguy cơ</p><div class="dwbot"><span class="lv ca">Augmented</span><span class="own">👤 Trưởng nhóm DVKH</span></div></div>
+    <div class="dwcard" style="--c:#CA8A04;--d:400ms"><div class="dwtop"><div class="orb2"><span>🔍</span></div><div><span class="dwid">DW6</span><b>Kiểm soát số</b></div></div><p class="dwv">Đối soát SOP, chấm kênh QC</p><div class="dwbot"><span class="lv cs">Standard</span><span class="own">👤 Đội vận hành MCC</span></div></div>
+    <div class="dwcard" style="--c:#7C3AED;--d:480ms"><div class="dwtop"><div class="orb2"><span>📊</span></div><div><span class="dwid">DW7</span><b>Thư ký số</b></div></div><p class="dwv">Lãi lỗ từng HĐ, báo cáo 07:00</p><div class="dwbot"><span class="lv cu">Automatic</span><span class="own">👤 Trưởng TT Online</span></div></div>
+    <div class="dwcard core" style="--c:#38E1FF;--d:560ms"><p class="lab">Nhân sự số của Trung tâm</p><div class="big">24/7</div><p class="dwv">Chung 1 mã lead; mỗi agent có chủ sở hữu và nút tắt khẩn cấp.</p></div>
+  </div>
+  <div class="casan">
+    <p class="cs-h">Mức ủy quyền theo khung <b>CASAN</b> của FPT</p>
+    <div class="cs-row">
+      <div class="cs-st dim"><b class="cs-l">C</b><div><b>Curious</b><span>Thử AI rời rạc</span></div></div>
+      <div class="cs-st ca"><b class="cs-l">A</b><div><b>Augmented</b><span>AI gợi ý, người quyết</span><em>DW4 · DW5</em></div></div>
+      <div class="cs-st cs"><b class="cs-l">S</b><div><b>Standard</b><span>AI theo quy trình chuẩn, người duyệt</span><em>DW2 · DW6</em></div></div>
+      <div class="cs-st cu"><b class="cs-l">A</b><div><b>Automatic</b><span>AI tự làm trong luật, người giám sát</span><em>DW1 · DW3 · DW7</em></div></div>
+      <div class="cs-st dim"><b class="cs-l">N</b><div><b>Native</b><span>Trung tâm vận hành AI-native</span><em>Mục tiêu giai đoạn 3</em></div></div>
+    </div>
+  </div></div>
 </section>
 <section class="s" data-t="7 · Hành trình mới">
   <div class="kick"><i></i>02 · Giải pháp AI</div>
-  <h1>Một lead, <em>một mã</em>, chạy xuyên 3 khối</h1>
+  <h1>Một lead, một mã: <em>Digital Worker</em> dẫn đường xuyên 3 khối</h1>
   <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:13.5px;color:var(--ink2)"><span><b style="color:#8B5CF6">●</b> AI agent</span><span><b style="color:#F37021">■</b> Kinh doanh</span><span><b style="color:#34D399">■</b> Kỹ thuật</span><span><b style="color:#38BDF8">■</b> DVKH</span><span style="color:#FCA5A5">⤺ ngoại lệ, AI tự xử lý</span></div>
   <div class="body" style="align-items:center;justify-content:center"><div class="flowwrap" style="width:100%;max-width:1060px"><svg viewBox="0 0 1150 500" font-family="Be Vietnam Pro,sans-serif" class="jf flowsvg"><defs>
 <marker id="fa" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#7DD3FC"/></marker>
@@ -450,7 +498,7 @@ html.m .big{font-size:36px}
   <div class="kick"><i></i>Cảm ơn Ban giám khảo</div>
   <h1>Thử ngay <em>Thăng Long Hub</em></h1>
   <div class="grid" style="--c:1fr 1fr;margin-top:10px">
-    <div class="card glow"><h3>Truy cập</h3><p>Link demo: <a href="https://tienlv2.github.io/lead-hub-kvhn/index_3.2.html" style="color:#7DD3FC;word-break:break-all">tienlv2.github.io/lead-hub-kvhn/index_3.2.html</a><br>Mật khẩu chung: <b class="mono" style="color:#fff">demo2026</b><br>Bấm “🎬 Hành trình 1 khách hàng” ở Trung tâm AI.</p></div>
+    <div class="card glow"><h3>Truy cập</h3><p>Link demo: <a href="https://tienlv2.github.io/lead-hub-kvhn/index_3.2.html" style="color:#7DD3FC">tienlv2.github.io</a><br>Mật khẩu chung: <b class="mono" style="color:#fff">demo2026</b><br>Bấm “🎬 Hành trình 1 khách hàng” ở Trung tâm AI.</p></div>
     <div class="card glow"><h3>Tài khoản kiểm thử</h3><p class="mono" style="font-size:14px;line-height:1.9;color:#fff">tienlv2@fpt.com · Quản lý<br>quyennt79@fpt.com · Kinh doanh<br>locpt9@fpt.com · Kỹ thuật<br>thuylt17@fpt.com · DVKH</p></div>
   </div>
   </div>
