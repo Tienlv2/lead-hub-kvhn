@@ -1376,6 +1376,12 @@ input.otp{font-size:22px;letter-spacing:.4em;font-family:'IBM Plex Mono',ui-mono
 .op-hero .opw-ok{color:var(--ok)}.op-hero .op-hero-c p{color:inherit}
 .op-buy .op-hero-c,.op-buy .op-trust,.op-buy .op-kick{display:none}.op-buy .op-hero .fx-in{grid-template-columns:1fr;padding-top:22px;padding-bottom:64px}.op-buy .op-hero h1{font-size:28px;margin-top:0}
 @media (max-width:640px){body.op-barup #fab{bottom:calc(84px + env(safe-area-inset-bottom,0px))!important}body.op-barup #caHi{bottom:calc(88px + env(safe-area-inset-bottom,0px))!important}}
+.opc-sp{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:14px 0 0;background:var(--surface2,#F5F7FA);border-radius:12px;padding:8px}
+.opc-sp div{text-align:center}.opc-sp small{display:block;font-size:11px;color:var(--muted)}.opc-sp b{font-size:14.5px;color:var(--ink)}
+.opc-fit{margin:12px 0 0;font-size:13px;color:var(--ink2);background:#EEF6FF;border-radius:10px;padding:8px 10px}
+:root[data-theme="dark"] .opc-fit{background:#13263D}
+.op .op-bt{display:block;font-size:12px;color:var(--muted);font-weight:600}
+.opc-sp b{white-space:nowrap}
 </style>
 </head>
 <body>
@@ -7811,12 +7817,12 @@ function opForm(){var d=opD(),c=S.reg.cfg,s=d.step,err=P.err?'<p class="err fx-e
 function opFaq(){var ids=['tra-truoc','lap-phi','cam-ket','f1f2','thiet-bi','khu-vuc'];return KX().qa.filter(function(e){return e.on!==false&&ids.indexOf(e.id)>-1;}).map(function(e){return '<details class="opq"><summary>'+esc(e.t)+'</summary><p>'+esc(hideSrc(kbFill(e.a)))+'</p></details>';}).join('');}
 function opMount(){var pt=$('#portal');if(!pt||pt.getAttribute('data-op'))return;pt.setAttribute('data-op','1');pt.classList.add('op');
   pt.innerHTML='<div class="fx-top"><div class="fx-in"><span>Tổng đài tư vấn, hỗ trợ 24/7 <b class="fx-hot">1900 6600</b></span><span class="sp"></span><button class="lnk2" data-act="portal-back">Về trang nhân viên</button></div></div>'+
-    '<header class="fx-head"><div class="fx-in"><a class="fx-brand" href="#dang-ky"><span class="logo" aria-hidden="true"></span><span><b class="bn">Thăng Long Hub</b><small class="bt">Đăng ký Online</small></span></a><nav class="fx-nav op-nav" aria-label="Dịch vụ" id="opNav"></nav><a class="btn pri fx-call fx-tel" href="tel:19006600">Gọi <span class="fx-hot">1900 6600</span></a></div></header>'+
+    '<header class="fx-head"><div class="fx-in"><a class="fx-brand" href="#dang-ky"><span class="logo" aria-hidden="true"></span><span><b class="bn">Thăng Long Hub</b><small class="op-bt">Đăng ký Online</small></span></a><nav class="fx-nav op-nav" aria-label="Dịch vụ" id="opNav"></nav><a class="btn pri fx-call fx-tel" href="tel:19006600">Gọi <span class="fx-hot">1900 6600</span></a></div></header>'+
     '<section class="op-hero"><div class="fx-in"><div class="op-hero-t"><span class="op-kick">Ưu đãi đăng ký online</span><h1 id="fxTitle">Đăng ký Online</h1><p id="fxSub"></p><ul class="op-trust"><li>Báo giá đúng theo phường/xã</li><li>Ký hợp đồng điện tử bằng OTP</li><li>Kỹ thuật viên lắp tận nhà theo lịch bạn chọn</li></ul></div><div class="op-hero-c" id="opZoneCard"></div></div></section>'+
     '<main class="fx-wrap op-main"><section id="opPlans"></section><section id="opFormWrap" class="op-formwrap" hidden><div class="op-grid"><div class="card op-form" id="opForm"></div><aside class="op-side"><div class="card op-sum" id="opSum"></div><div class="fx-help"><b>Cần tư vấn thêm?</b><p>Gọi tổng đài hoặc chat với nhân viên, đơn đang dở vẫn được giữ.</p><div class="row"><a class="btn sm fx-tel" href="tel:19006600">Gọi 1900 6600</a><button class="btn sm" data-act="chat-open">Chat tư vấn</button></div></div></aside></div></section>'+
     '<section class="op-faq" id="opFaq"></section></main><div class="op-bar" id="opBar" hidden></div>'+
     '<footer class="fx-foot"><div class="fx-in"><span>FPT Telecom · Trung tâm Online Khu vực Hà Nội</span><span>Giá đã gồm VAT, áp dụng cho đăng ký mới</span></div></footer>';}
-renderPortal=function(){opMount();var pt=$('#portal');if(!pt)return;var d=opD(),c=S.reg.cfg;pt.classList.toggle('op-buy',!!(d.tier||P.done));
+renderPortal=function(){opMount();var pt=$('#portal');if(!pt)return;$$('#portal .logo').forEach(function(e){if(!e.firstChild){var b=S.brand||{};e.innerHTML=b.logo?'<img src="'+esc(b.logo)+'" alt="Logo">':logoSvg();}});var bn=$('#portal .bn');if(bn&&S.brand&&S.brand.name)bn.textContent=S.brand.name;var d=opD(),c=S.reg.cfg;pt.classList.toggle('op-buy',!!(d.tier||P.done));
   if(!P.sid){P.sid=1;P.max=0;S.reg.views++;save();}
   var fs=P.done?6:(d.tier?d.step+1:0);if(!P.done&&fs>P.max){for(var k=P.max+1;k<=fs;k++)S.reg.steps[k]=(S.reg.steps[k]||0)+1;P.max=fs;save();}
   var t=$('#fxTitle');if(t)t.textContent=/lắp đặt FPT online/i.test(c.title)?'Đăng ký Online':c.title;var s2=$('#fxSub');if(s2)s2.textContent=c.sub;
@@ -7926,6 +7932,56 @@ function meshPkgs(){if(!PKGS||!PKGS.push)return;MESH_PK.forEach(function(x){if(!
   box.insertAdjacentHTML('afterbegin','<div class="op-ctl"><span>Nhà mấy tầng?</span>'+[[1,'1–2 tầng'],[3,'3 tầng'],[4,'4 tầng'],[5,'5 tầng trở lên']].map(function(x){return '<button data-act="op-fl" data-v="'+x[0]+'"'+(fl===x[0]?' class="on"':'')+'>'+x[1]+'</button>';}).join('')+'</div>');
   if(fl){var n=meshNeed({floors:fl===1?1:fl}),u=Math.min(n,mx);var ph=$('#opPlans .op-ph');if(ph)ph.insertAdjacentHTML('afterend','<p class="op-note op-mesh">📶 '+(n?'Nhà '+(fl>=5?'từ 5':fl)+' tầng nên chọn gói <b>F'+u+'</b> (modem Wi-Fi 6 + '+u+' bộ Mesh) để phủ sóng toàn nhà.'+(n>mx?' Kỹ thuật sẽ khảo sát và gợi ý thêm bộ phát Wi-Fi nếu cần.':'')+' Giá bên dưới đã tính theo F'+u+'.':'Nhà 1–2 tầng dùng gói tiêu chuẩn là đủ. Nhiều thiết bị hoặc nhà dài, chọn +1 Mesh.')+'</p>');}};})();
 ACT['op-fl']=function(el){var d=opD(),fl=+el.getAttribute('data-v');d.fl=fl;var n=meshNeed({floors:fl===1?1:fl});d.v=Math.min(n,d.svc==='TRI'?3:2);renderPortal();};
+
+/* ================= 7. Tốc độ tải xuống/tải lên và đối tượng phù hợp của từng gói ================= */
+var SPEC0=[
+ {tier:'giga',dl:300,ul:300,wifi:'Wi-Fi 6',fit:'Gia đình 1–3 người, phòng trọ, căn hộ nhỏ',use:'Lướt web, mạng xã hội, xem phim HD, học online',on:true},
+ {tier:'sky',dl:1000,ul:300,wifi:'Wi-Fi 6',fit:'Gia đình 3–6 người, nhiều điện thoại, TV, máy tính',use:'Xem phim 4K, học và làm việc online cùng lúc',on:true},
+ {tier:'fgame',dl:1000,ul:300,wifi:'Wi-Fi 6 + Ultra Fast',fit:'Game thủ, gia đình có người chơi game thường xuyên',use:'Giảm ping, ổn định khi đấu rank, tải game nhanh',on:true},
+ {tier:'meta',dl:1000,ul:1000,wifi:'Wi-Fi 6',fit:'Livestream bán hàng, shop online, quán cà phê, văn phòng nhỏ; gia đình đông người',use:'Tải lên nhanh như tải xuống: livestream, gửi file lớn, camera',on:true},
+ {tier:'speedx1',dl:1000,ul:1000,wifi:'Wi-Fi 7',fit:'Gia đình công nghệ, nhà thông minh, nhiều thiết bị đời mới',use:'Wi-Fi thế hệ mới, độ trễ thấp, nhiều thiết bị cùng lúc',on:true}];
+(function(){var _kx=KX;KX=function(){var x=_kx();if(!x.spec)x.spec=SPEC0.map(function(e){return Object.assign({},e,{src:'Mặc định'});});return x;};})();
+function spOf(tier){return KX().spec.filter(function(e){return e.tier===tier&&e.on!==false;})[0]||null;}
+function spF(m){m=+m||0;return m>=1000?(m%1000?(m/1000).toFixed(1).replace('.',','):m/1000)+' Gbps':m+' Mbps';}
+function spLine(e){return e?'Tải xuống '+spF(e.dl)+' · tải lên '+spF(e.ul)+' · '+e.wifi:'';}
+var SP_NOTE='Tốc độ tối đa đo qua dây LAN; qua Wi-Fi thực tế thấp hơn tùy thiết bị và khoảng cách.';
+var PK_TIER={giga:'giga',sky:'sky',skyf1:'sky',skyf2:'sky',cgiga:'giga',csky:'sky',cskyf1:'sky',cskyf2:'sky'};
+/* nạp, xuất qua Luồng dữ liệu */
+ING_T.kbspec={n:'Chatbot · Tốc độ, đối tượng gói',f:[['tier','Gói',1,['goi','ten goi','tier']],['dl','Tải xuống (Mbps)',1,['tai xuong','download','tai xuong mbps']],['ul','Tải lên (Mbps)',1,['tai len','upload','tai len mbps']],['wifi','Thiết bị Wi-Fi',0,['thiet bi wifi','wifi','modem']],['fit','Đối tượng phù hợp',1,['doi tuong phu hop','doi tuong','phu hop']],['use','Nhu cầu sử dụng',0,['nhu cau su dung','nhu cau']],['on','Bật',0,['bat','trang thai']]]};
+KBDS.kbspec='spec';KBHEAD.kbspec=['Gói','Tải xuống (Mbps)','Tải lên (Mbps)','Thiết bị Wi-Fi','Đối tượng phù hợp','Nhu cầu sử dụng','Bật'];
+(function(){var _a=kbApplyOne;kbApplyOne=function(tg,o){if(tg!=='kbspec')return _a(tg,o);var tier=pTier(o.tier);if(!tier)return 'thiếu tên gói';var dl=parseInt(String(o.dl).replace(/\D/g,''),10),ul=parseInt(String(o.ul).replace(/\D/g,''),10);
+    if(!dl||!ul)return 'tốc độ phải là số Mbps, ví dụ 1000';if(/gbps/i.test(String(o.dl)))dl*=1000;if(/gbps/i.test(String(o.ul)))ul*=1000;
+    var L=KX().spec,e={tier:tier,dl:dl,ul:ul,wifi:String(o.wifi||'Wi-Fi 6').trim(),fit:String(o.fit).trim(),use:String(o.use||'').trim(),on:pOn(o.on),src:'Nạp '+dmyy(now())};var i=-1;L.forEach(function(x,j){if(x.tier===tier)i=j;});if(i>-1)L[i]=e;else L.push(e);return null;};
+  var _one=applyOne;applyOne=function(t,o){return t==='kbspec'?kbApplyOne(t,o):_one(t,o);};
+  var _e=kbExport;kbExport=function(tg){if(tg==='kbspec')return {head:KBHEAD.kbspec,rows:KX().spec.map(function(e){return [kbTierName(e.tier),e.dl,e.ul,e.wifi,e.fit,e.use||'',e.on===false?'Không':'Có'];})};return _e(tg);};
+  TPL.kbspec=[{slug:'dang_dung',name:'Tốc độ, đối tượng gói đang dùng',desc:'Mỗi dòng một gói. Tốc độ ghi số Mbps (1 Gbps = 1000). Gói là khóa: nạp lại cùng tên gói sẽ thay dòng cũ.',head:KBHEAD.kbspec,rows:function(){return kbExport('kbspec').rows;}}];
+  NOTES.kbspec=['Gói là khóa, tên theo bảng giá: Giga, Sky, F-Game, Meta, SpeedX1…','Chatbot, trang Đăng ký Online và bảng giá hiển thị đúng tốc độ, đối tượng trong bảng này.'];
+  var _v=vDataFlow;vDataFlow=function(){var h=_v();var add='<tr><td><b>Tốc độ, đối tượng gói</b></td><td>'+KX().spec.length+' gói</td><td>Tốc độ tải xuống/tải lên, gợi ý đối tượng trên chatbot và trang Đăng ký Online</td><td>'+(kbLastIng('kbspec')?dt(kbLastIng('kbspec').t):'<span class="muted">Dữ liệu gieo sẵn</span>')+'</td><td>Khi đổi gói, nâng băng thông</td><td><button class="btn sm pri" data-act="df-ing" data-t="kbspec">Nạp</button> <button class="btn sm" data-act="ing-tpl" data-t="kbspec" data-i="0" data-f="xlsx">Tải dữ liệu đang dùng</button></td></tr>';
+    return h.replace(/(<b>Hỏi đáp hệ thống<\/b><\/td>[\s\S]*?<\/tr>)/,'$1'+add);};})();
+/* bảng giá trong chat: thêm cột tốc độ */
+(function(){var _t=kbTable;kbTable=function(svc,zone,o){var r=_t(svc,zone,o);if(!r||!r.rows||!r.head)return r;var inv={};KX().spec.forEach(function(e){inv[kbTierName(e.tier)]=e;});
+  if(!r.rows.some(function(x){return inv[x[0]];}))return r;r.head=[r.head[0],'Tốc độ (xuống/lên)'].concat(r.head.slice(1));r.rows=r.rows.map(function(x){var e=inv[x[0]];return [x[0],e?spF(e.dl)+'/'+spF(e.ul):'—'].concat(x.slice(1));});
+  r.notes=(r.notes||[]).concat([SP_NOTE]);return r;};})();
+/* thẻ đề xuất gói trong chat: tốc độ, đối tượng */
+(function(){var _cr=caRecs;caRecs=function(d){var r=_cr(d);r.forEach(function(x){var e=spOf(PK_TIER[x.id]);if(!e||x.spd)return;x.spd=1;x.why=[spLine(e)].concat(x.why).concat(['Phù hợp: '+e.fit]);});return r;};})();
+/* hỏi tốc độ, hỏi gói cho đối tượng */
+(function(){var _h=caHandle;caHandle=async function(t){var s=kn(t),d=B.d,lock=['contact','otp','pay','sched','confirm','addr'].indexOf(B.s)>-1;
+  if(!lock&&/(toc do|bang thong|mbps|gbps|download|upload|tai xuong|tai len)/.test(s)){
+    var L=KX().spec.filter(function(e){return e.on!==false;}),one=L.filter(function(e){return khas(s,kn(kbTierName(e.tier)));})[0];
+    await caT();
+    if(one){say('Gói '+kbTierName(one.tier)+': tải xuống '+spF(one.dl)+', tải lên '+spF(one.ul)+', '+one.wifi+'. Phù hợp: '+one.fit.toLowerCase()+'. '+(one.use?one.use+'. ':'')+SP_NOTE,['Giá gói '+kbTierName(one.tier),'So sánh tốc độ các gói','Tư vấn gói phù hợp']);return;}
+    caCard('kbtable',{title:'Tốc độ và đối tượng phù hợp',head:['Gói','Tải xuống','Tải lên','Wi-Fi','Phù hợp'],rows:L.map(function(e){return [kbTierName(e.tier),spF(e.dl),spF(e.ul),e.wifi,e.fit];}),notes:[SP_NOTE]},'Tốc độ các gói Internet FPT, kèm gợi ý đối tượng phù hợp ạ.',['Tư vấn gói phù hợp','Bảng giá Internet']);return;}
+  if(!lock&&!d.hd&&/(livestream|ban hang online|ban online|quan ca phe|quan cafe|game thu|choi game|nha thong minh|phong tro|sinh vien)/.test(s)&&/(goi nao|dung goi|nen lap|phu hop|tu van)/.test(s)){
+    var tier=/(livestream|ban hang|ban online|quan ca phe|quan cafe)/.test(s)?'meta':/(game)/.test(s)?'fgame':/nha thong minh/.test(s)?'speedx1':'giga',e=spOf(tier);
+    if(e){await caT();say('Nhu cầu này nên dùng gói '+kbTierName(tier)+': tải xuống '+spF(e.dl)+', tải lên '+spF(e.ul)+', '+e.wifi+'. '+e.use+'. '+(zoneSure()?'':'Anh/chị ở phường/xã nào để em báo giá chính xác ạ?'),['Giá gói '+kbTierName(tier),'So sánh tốc độ các gói']);return;}}
+  return _h(t);};})();
+/* trang Đăng ký Online: dải tốc độ và đối tượng trên thẻ giá */
+(function(){var _c=opCard;opCard=function(tier){var h=_c(tier),e=spOf(tier);if(!h||!e)return h;
+  var sp='<div class="opc-sp"><div><small>Tải xuống</small><b>'+spF(e.dl)+'</b></div><div><small>Tải lên</small><b>'+spF(e.ul)+'</b></div><div><small>Thiết bị</small><b>'+esc(e.wifi.replace(/ \+.*/,''))+'</b></div></div>';
+  var fit='<p class="opc-fit"><b>Phù hợp:</b> '+esc(e.fit)+'</p>';
+  h=h.replace(/<span class="opc-s">[^<]*<\/span>/,'<span class="opc-s">'+esc(e.use||'')+'</span>');
+  return h.replace('<div class="opc-p">',sp+'<div class="opc-p">').replace('<ul class="opc-f">',fit+'<ul class="opc-f">');};
+  var _rp=renderPortal;renderPortal=function(){_rp();var c=$('#opPlans .op-cards');if(c&&!$('#opPlans .op-spn'))c.insertAdjacentHTML('afterend','<p class="muted op-spn" style="margin:12px 2px 0;font-size:12.5px">'+SP_NOTE+'</p>');};})();
 
 /* ================= khởi động ================= */
 if(!load()){S=seed();}
