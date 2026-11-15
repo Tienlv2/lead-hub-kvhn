@@ -82,7 +82,7 @@ html.m .xl .val{font-size:30px}
 .dwcard.core .big{font-size:40px}
 .casan{border:1px solid var(--line);border-radius:16px;padding:12px 14px;background:rgba(255,255,255,.03)}
 .cs-h{margin:0 0 10px;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--mute);font-weight:700}.cs-h b{color:var(--cy)}
-.cs-row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.cs-row{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}.cs-row.c5{grid-template-columns:repeat(5,1fr)}
 .cs-st{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:rgba(20,40,90,.45);position:relative}
 .cs-st:not(:last-child)::after{content:"›";position:absolute;right:-9px;top:50%;transform:translateY(-50%);color:var(--cy);font-weight:900;font-size:18px}
 .cs-l{flex:none;width:34px;height:30px;font-size:14px!important;border-radius:9px;display:grid;place-items:center;font-size:16px;color:#fff;background:linear-gradient(135deg,var(--cy2),var(--pu))}
@@ -90,7 +90,7 @@ html.m .xl .val{font-size:30px}
 .cs-st.ca{border-color:rgba(232,121,249,.6)}.cs-st.ca em{background:rgba(232,121,249,.22);color:#F5D0FE}
 .cs-st.cs{border-color:rgba(253,224,71,.55)}.cs-st.cs em{background:rgba(253,224,71,.18);color:#FDE68A}
 .cs-st.cu{border-color:rgba(52,211,153,.6);box-shadow:0 0 18px rgba(52,211,153,.18)}.cs-st.cu em{background:rgba(52,211,153,.2);color:#6EE7B7}
-.cs-st.dim{opacity:.6}.cs-st.dim em{background:rgba(255,255,255,.08);color:var(--ink2)}
+.cs-st.dim{opacity:.8}.cs-st.dim em{background:rgba(255,255,255,.08);color:var(--ink2)}
 html.m .cs-row{grid-template-columns:1fr}html.m .cs-st::after{display:none}
 .aiwrap{display:grid;grid-template-columns:250px 1fr 250px;gap:22px;align-items:center}
 .mode{display:flex;flex-direction:column;align-items:center;text-align:center}
@@ -335,24 +335,23 @@ html.m .big{font-size:36px}
   
   <div class="body xl" style="justify-content:center;gap:14px">
   <div class="dwgrid">
-    <div class="dwcard" style="--c:#3B82F6;--d:0ms"><div class="dwtop"><div class="orb2"><span>🤖</span></div><div><span class="dwid">DW1</span><b>Lễ tân số</b></div></div><p class="dwv">Nhận lead 24/7, lọc trùng</p><div class="dwbot"><span class="lv l4">L4 · Operate</span><span class="own">👤 Trưởng TT Online</span></div></div>
-    <div class="dwcard" style="--c:#16A34A;--d:80ms"><div class="dwtop"><div class="orb2"><span>📡</span></div><div><span class="dwid">DW2</span><b>Kỹ sư hạ tầng số</b></div></div><p class="dwv">Kiểm POP trước khi bán</p><div class="dwbot"><span class="lv l0">L0 · Observe</span><span class="own">👤 Phòng Kỹ thuật</span></div></div>
-    <div class="dwcard" style="--c:#EA580C;--d:160ms"><div class="dwtop"><div class="orb2"><span>🧭</span></div><div><span class="dwid">DW3</span><b>Điều phối số</b></div></div><p class="dwv">Giao lead, đếm hạn 5 phút</p><div class="dwbot"><span class="lv l3">L3 · Execute</span><span class="own">👤 Trưởng TT Online</span></div></div>
-    <div class="dwcard" style="--c:#DB2777;--d:240ms"><div class="dwtop"><div class="orb2"><span>💡</span></div><div><span class="dwid">DW4</span><b>Trợ lý sale số</b></div></div><p class="dwv">Gợi ý gói, kịch bản gọi</p><div class="dwbot"><span class="lv l2">L2 · Recommend</span><span class="own">👤 TP Kinh doanh</span></div></div>
-    <div class="dwcard" style="--c:#E11D48;--d:320ms"><div class="dwtop"><div class="orb2"><span>💚</span></div><div><span class="dwid">DW5</span><b>Chăm sóc số</b></div></div><p class="dwv">Soạn tin chăm sóc 90 ngày</p><div class="dwbot"><span class="lv l1">L1 · Draft</span><span class="own">👤 Trưởng nhóm DVKH</span></div></div>
-    <div class="dwcard" style="--c:#CA8A04;--d:400ms"><div class="dwtop"><div class="orb2"><span>🔍</span></div><div><span class="dwid">DW6</span><b>Kiểm soát số</b></div></div><p class="dwv">Đối soát SOP, đề xuất kênh QC</p><div class="dwbot"><span class="lv l2">L2 · Recommend</span><span class="own">👤 Đội vận hành MCC</span></div></div>
-    <div class="dwcard" style="--c:#7C3AED;--d:480ms"><div class="dwtop"><div class="orb2"><span>📊</span></div><div><span class="dwid">DW7</span><b>Thư ký số</b></div></div><p class="dwv">Lãi lỗ từng HĐ, báo cáo 07:00</p><div class="dwbot"><span class="lv l0">L0 · Observe</span><span class="own">👤 Trưởng TT Online</span></div></div>
+    <div class="dwcard" style="--c:#3B82F6;--d:0ms"><div class="dwtop"><div class="orb2"><span>🤖</span></div><div><span class="dwid">DW1</span><b>Lễ tân số</b></div></div><p class="dwv">Nhận lead 24/7, lọc trùng</p><div class="dwbot"><span class="lv l4">Automated</span><span class="own">👤 Trưởng TT Online</span></div></div>
+    <div class="dwcard" style="--c:#16A34A;--d:80ms"><div class="dwtop"><div class="orb2"><span>📡</span></div><div><span class="dwid">DW2</span><b>Kỹ sư hạ tầng số</b></div></div><p class="dwv">Kiểm POP trước khi bán</p><div class="dwbot"><span class="lv l2">Standard</span><span class="own">👤 Phòng Kỹ thuật</span></div></div>
+    <div class="dwcard" style="--c:#EA580C;--d:160ms"><div class="dwtop"><div class="orb2"><span>🧭</span></div><div><span class="dwid">DW3</span><b>Điều phối số</b></div></div><p class="dwv">Giao lead, đếm hạn 5 phút</p><div class="dwbot"><span class="lv l4">Automated</span><span class="own">👤 Trưởng TT Online</span></div></div>
+    <div class="dwcard" style="--c:#DB2777;--d:240ms"><div class="dwtop"><div class="orb2"><span>💡</span></div><div><span class="dwid">DW4</span><b>Trợ lý sale số</b></div></div><p class="dwv">Gợi ý gói, kịch bản gọi</p><div class="dwbot"><span class="lv l1">Augmented</span><span class="own">👤 TP Kinh doanh</span></div></div>
+    <div class="dwcard" style="--c:#E11D48;--d:320ms"><div class="dwtop"><div class="orb2"><span>💚</span></div><div><span class="dwid">DW5</span><b>Chăm sóc số</b></div></div><p class="dwv">Soạn tin chăm sóc 90 ngày</p><div class="dwbot"><span class="lv l1">Augmented</span><span class="own">👤 Trưởng nhóm DVKH</span></div></div>
+    <div class="dwcard" style="--c:#CA8A04;--d:400ms"><div class="dwtop"><div class="orb2"><span>🔍</span></div><div><span class="dwid">DW6</span><b>Kiểm soát số</b></div></div><p class="dwv">Đối soát SOP, đề xuất kênh QC</p><div class="dwbot"><span class="lv l2">Standard</span><span class="own">👤 Đội vận hành MCC</span></div></div>
+    <div class="dwcard" style="--c:#7C3AED;--d:480ms"><div class="dwtop"><div class="orb2"><span>📊</span></div><div><span class="dwid">DW7</span><b>Thư ký số</b></div></div><p class="dwv">Lãi lỗ từng HĐ, báo cáo 07:00</p><div class="dwbot"><span class="lv l4">Automated</span><span class="own">👤 Trưởng TT Online</span></div></div>
     <div class="dwcard core" style="--c:#38E1FF;--d:560ms"><p class="lab">Định vị theo FPT CASAN</p><div class="big">Cấp 4</div><p class="dwv"><b style="color:#fff">Automated</b> · hướng tới Cấp 5 Native</p></div>
   </div>
   <div class="casan">
-    <p class="cs-h">Mức ủy quyền AI theo phương pháp luận <b>FPT CASAN</b> · L0–L5</p>
-    <div class="cs-row">
-      <div class="cs-st c0"><b class="cs-l">L0</b><div><b>Observe</b><span>Quan sát, phân loại</span><em>DW2 · DW7</em></div></div>
-      <div class="cs-st c1"><b class="cs-l">L1</b><div><b>Draft</b><span>Soạn nháp, người duyệt</span><em>DW5</em></div></div>
-      <div class="cs-st c2"><b class="cs-l">L2</b><div><b>Recommend</b><span>Đề xuất, người quyết</span><em>DW4 · DW6</em></div></div>
-      <div class="cs-st c3"><b class="cs-l">L3</b><div><b>Execute</b><span>Làm việc rủi ro thấp</span><em>DW3</em></div></div>
-      <div class="cs-st c4"><b class="cs-l">L4</b><div><b>Operate</b><span>Vận hành luồng có audit</span><em>DW1</em></div></div>
-      <div class="cs-st dim"><b class="cs-l">L5</b><div><b>Autonomy</b><span>Vùng rủi ro cao</span><em>Không giao</em></div></div>
+    <p class="cs-h">5 cấp độ trưởng thành AI theo phương pháp luận <b>FPT CASAN</b></p>
+    <div class="cs-row c5">
+      <div class="cs-st dim"><b class="cs-l">1</b><div><b>Curious</b><span>Thử AI rời rạc, tự phát</span><em>Điểm xuất phát</em></div></div>
+      <div class="cs-st c1"><b class="cs-l">2</b><div><b>Augmented</b><span>AI tăng cường, người quyết</span><em>DW4 · DW5</em></div></div>
+      <div class="cs-st c2"><b class="cs-l">3</b><div><b>Standard</b><span>Quy trình chuẩn, có quản trị</span><em>DW2 · DW6</em></div></div>
+      <div class="cs-st c4"><b class="cs-l">4</b><div><b>Automated</b><span>Agent vận hành, người xử lý ngoại lệ</span><em>DW1 · DW3 · DW7</em></div></div>
+      <div class="cs-st dim"><b class="cs-l">5</b><div><b>Native</b><span>AI là hệ điều hành tổ chức</span><em>Mục tiêu GĐ3</em></div></div>
     </div>
   </div></div>
 </section>
