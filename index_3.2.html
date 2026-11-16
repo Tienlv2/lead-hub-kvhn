@@ -1929,7 +1929,7 @@ var DW0=[
   {id:'DW2',name:'Kỹ sư hạ tầng số',lv:'L0',owner:'Phòng Kỹ thuật',job:'Kiểm tra POP, port; vùng chất lượng kém thì giữ lead và báo Kỹ thuật xử lý trước khi bán.',on:true},
   {id:'DW3',name:'Điều phối số',lv:'L3',owner:'Trưởng Trung tâm Online',job:'Giao lead kiểu Grab theo phường/POP, điểm chuyển đổi, SLA 5 phút; quá hạn tự giao lại.',on:true},
   {id:'DW4',name:'Trợ lý sale số',lv:'L1–L2',owner:'Trưởng phòng Kinh doanh',job:'Gợi ý gói, kịch bản gọi, nhắc lịch hẹn. Chỉ gợi ý, sale quyết.',on:true},
-  {id:'DW5',name:'Chăm sóc số',lv:'L2',owner:'Trưởng nhóm DVKH',job:'Soạn tin chào mừng, theo dõi 90 ngày, chuyển lỗi sang Kỹ thuật. Người duyệt trước khi dùng.',on:true},
+  {id:'DW5',name:'Chăm sóc số',lv:'L2',owner:'Trưởng phòng DVKH',job:'Soạn tin chào mừng, theo dõi 90 ngày, chuyển lỗi sang Kỹ thuật. Người duyệt trước khi dùng.',on:true},
   {id:'DW6',name:'Kiểm soát số',lv:'L0',owner:'Đội vận hành MCC',job:'Đối soát file SOP theo mã lead, chấm kênh A/B/C hằng tháng, cảnh báo vi phạm rule.',on:true},
   {id:'DW7',name:'Thư ký số',lv:'L0',owner:'Trưởng Trung tâm Online',job:'Tổng hợp doanh thu, chi phí, biên lợi nhuận theo ngày, tuần, tháng, quý, năm; so sánh kỳ trước; chỉ ra salesman, trung tâm, kênh làm tốt hoặc kém; gửi báo cáo định kỳ cho lãnh đạo.',on:true}
 ];
@@ -2433,7 +2433,7 @@ function pf(email,name,big){
 function drawerOrg(){
   function node(n,t,c){return '<div class="onode'+(c?' '+c:'')+'"><b>'+esc(n)+'</b><span>'+esc(t)+'</span></div>';}
   function mem(x,t){return '<div class="onode">'+pf(x.u,x.name)+'<b>'+esc(x.name)+'</b><span>'+t+' · '+esc(x.br)+'</span><small>'+esc(x.u)+'</small></div>';}
-  function dw(id){var d=S.dw.filter(function(x){return x.id===id;})[0];return d?'<div class="onode dw"><b>'+d.id+' · '+esc(d.name)+'</b><span>Digital Worker · mức '+esc(d.lv)+'</span><small>Chủ: '+esc(d.owner)+'</small></div>':'';}
+  function dw(id){var d=S.dw.filter(function(x){return x.id===id;})[0];return d?'<div class="onode dw"><b>'+d.id+' · '+esc(d.name)+'</b><span>Digital Worker · CASAN '+esc(CAS[d.id]||d.lv)+'</span><small>Chủ: '+esc(dwOwner(d))+'</small></div>':'';}
   var mk='<div class="onode"><b>Phòng chuyên môn Marketing</b><span>Kênh quảng cáo, đội vận hành MCC</span></div>';
   var cols=[['Marketing',mk+dw('DW1')+dw('DW6')],['Kinh doanh',S.sales.filter(function(x){return x.team;}).map(function(x){return mem(x,'Kinh doanh');}).join('')+'<div class="onode ph"><b>'+S.sales.filter(function(x){return isRoster(x)&&x.on;}).length+' salesman Hà Nội</b><span>Nhận lead theo POP của trung tâm (HN1 đến HN9)</span></div>'+dw('DW3')+dw('DW4')],['Kỹ thuật',S.ktvs.map(function(x){return mem(x,'Kỹ thuật');}).join('')+dw('DW2')],['Dịch vụ khách hàng',S.cs.map(function(x){return mem(x,'DVKH');}).join('')+dw('DW5')]];
   var mgr='<div class="onode mgr">'+pf('tienlv2@fpt.com','Lê Văn Tiến',true)+'<b>Lê Văn Tiến</b><span>Quản lý Trung tâm Online · HN03 · tienlv2@fpt.com</span></div>';
@@ -2538,7 +2538,7 @@ function vSettings(){
     '<label class="field"><span>Tên hệ thống</span><input id="bName" value="'+esc(b.name)+'" maxlength="40"><small class="err" id="e-bName"></small></label><label class="field"><span>Dòng mô tả</span><input id="bTag" value="'+esc(b.tag)+'" maxlength="60"></label><p class="hint">Tên và lời chào chatbot sửa ở mục Chatbot, tab Thiết lập chatbot.</p>'+
     '<label class="field"><span>Màu chủ đạo (mặc định cam FPT Telecom)</span><input id="bColor" type="color" value="'+esc(b.color)+'" style="height:44px;padding:4px"></label><p class="hint">Chữ trên nền màu chủ đạo dùng màu tối, nên chọn cam hoặc màu sáng đến vừa để dễ đọc.</p>'+
     '<div class="row"><button class="btn pri" data-act="brand-save">Lưu thương hiệu</button><button class="btn" data-act="brand-default">Khôi phục màu cam FPT Telecom</button></div></section>';
-  var dws='<section class="card"><h2>Tên hiển thị Digital Worker</h2>'+S.dw.map(function(d){return '<label class="field"><span>'+d.id+' · mức '+d.lv+'</span><input id="dwn-'+d.id+'" value="'+esc(d.name)+'" maxlength="30"></label>';}).join('')+'<div class="row"><button class="btn pri" data-act="dw-save">Lưu tên Digital Worker</button></div></section>';
+  var dws='<section class="card"><h2>Tên hiển thị Digital Worker</h2>'+S.dw.map(function(d){return '<label class="field"><span>'+d.id+' · CASAN '+(CAS[d.id]||d.lv)+'</span><input id="dwn-'+d.id+'" value="'+esc(d.name)+'" maxlength="30"></label>';}).join('')+'<div class="row"><button class="btn pri" data-act="dw-save">Lưu tên Digital Worker</button></div></section>';
   var emb='<section class="card" style="margin-top:16px"><h2>Nhúng vào website, Fanpage, landing của user Marketing</h2><div class="grid3" style="margin-top:0"><label class="field" style="margin:0"><span>Kênh</span><select data-act="f-ek">'+opts([['website','Website công ty'],['landing','Landing page Marketing'],['fanpage','Fanpage'],['zalo','Zalo OA']],ek)+'</select></label><label class="field" style="margin:0"><span>Mã user Marketing (ghi nhận nguồn)</span><input data-act="f-er" value="'+esc(er)+'" placeholder="ví dụ: mkt-hn-01"></label><label class="field" style="margin:0"><span>Khu vực mặc định</span><select data-act="f-ea">'+opts([['','Không đặt']].concat(areas.map(function(a){return [a,a];})),ea)+'</select></label></div>'+
     '<p style="margin:14px 0 0"><b>Iframe trang đăng ký toàn trình</b></p><pre class="code">'+esc('<iframe src="'+host+'/dang-ky'+q+'" width="100%" height="720" style="border:0"></iframe>')+'</pre>'+
     '<p style="margin:0"><b>Bóng chat trên website</b></p><pre class="code">'+esc('<script src="'+host+'/thanglong-chat.js"\n  data-kenh="'+ek+'"'+(er?' data-ref="'+er+'"':'')+(ea?' data-khu-vuc="'+ea+'"':'')+'><\/script>')+'</pre>'+
@@ -2566,7 +2566,7 @@ function vArch(){
     '</div>'+
     '<div class="grid2"><section class="card"><h2>Mô hình dữ liệu</h2>'+tbl(['Bảng','Trường chính'],[['leads','ma_lead, nguon, kenh_id, khu_vuc, cn, sale_id, trang_thai, ha_tang, lich_su[]'],['contracts','ma_hd, ma_lead, goi, ky_luc, online_luc, ktv, lich_hen'],['sales','sale_id, cn, diem_chuyen_doi, level, dang_hoat_dong'],['pops','pop_id, khu_vuc, cn, port_con, chat_luong'],['channels','kenh_id, nhom, chu_kenh, chi_phi, int'],['rules','sla_phut, vong2_gio, ty_le_sale_moi, toi_da_lead_mo'],['events','thoi_diem, ma_lead, hanh_dong, tac_nhan, ly_do']].map(function(r){return '<tr><td class="mono">'+r[0]+'</td><td>'+r[1]+'</td></tr>';}))+'</section>'+
     '<section class="card"><h2>API chính</h2>'+tbl(['Phương thức','Mục đích'],[['POST /leads','Kênh, web, Care or Sell đẩy lead vào Hub'],['POST /leads/{id}/assign','DW3 giao lead hoặc điều phối viên giao tay'],['POST /leads/{id}/call','Sale xác nhận đã gọi, dừng đồng hồ SLA'],['POST /leads/{id}/close','Chốt, gắn mã HĐ SOP hoặc lý do từ chối'],['POST /orders/online','Khách đăng ký toàn trình, tạo HĐ'],['POST /chat/message','Webhook website, Messenger, Zalo vào bộ máy kịch bản'],['POST /sop/reconcile','Đối soát file hoặc webhook SOP theo mã lead'],['GET /metrics','Số liệu theo chi nhánh, nguồn, sale, kỳ']].map(function(r){return '<tr><td class="mono">'+r[0]+'</td><td>'+r[1]+'</td></tr>';}))+'</section></div>'+
-    '<div class="grid2"><section class="card"><h2>Ủy quyền AI theo CASAN</h2><dl class="mini" style="margin-top:6px"><dt>L0</dt><dd style="text-align:left">DW2, DW6, DW7: chỉ đọc, phân tích, báo cáo</dd><dt>L1–L2</dt><dd style="text-align:left">DW4, DW5: soạn nháp, đề xuất; người quyết</dd><dt>L3</dt><dd style="text-align:left">DW1, DW3: tự giao lead trong luật, có nhật ký</dd></dl><p class="hint" style="margin:10px 0 0">Không giao cho AI: chốt giá ngoài chính sách, ký hoặc hủy HĐ, sửa dữ liệu khách.</p></section>'+
+    '<div class="grid2"><section class="card"><h2>Lộ trình trưởng thành AI theo FPT CASAN</h2><p class="hint" style="margin:4px 0 6px">Định vị hiện tại: <b>Cấp 2 → 3</b>. Chứng minh từng cấp, không nhảy cóc.</p><dl class="mini" style="margin-top:6px"><dt>1 · Curious</dt><dd style="text-align:left">✓ Đã qua: AI dùng rời rạc từng người</dd><dt>2 · Augmented</dt><dd style="text-align:left">✓ Đã đạt: Chatbot, DW4, DW5 gợi ý, người quyết</dd><dt>3 · Standard</dt><dd style="text-align:left">● Đang làm: 6 luật, 5 KPI, nhật ký, đối soát (DW2, DW6); thí điểm HN03</dd><dt>4 · Automated</dt><dd style="text-align:left">○ GĐ2: DW1, DW3, DW7 tự vận hành khi qua cửa 5 KPI</dd><dt>5 · Native</dt><dd style="text-align:left">○ GĐ3: nhân rộng khu vực khác</dd></dl><p class="hint" style="margin:10px 0 0">Không giao cho AI: chốt giá ngoài chính sách, ký hoặc hủy HĐ, sửa dữ liệu khách.</p></section>'+
     '<section class="card"><h2>Lộ trình</h2><p><b>V1 (đến 17/11):</b> luồng lead chạy trọn vòng, đối soát file SOP theo mã lead, dữ liệu mẫu hoặc ẩn danh.</p><p><b>V2 (AI support):</b> trợ lý AI cho sale, điều phối, KTV, DVKH; dữ liệu thật HN03 trên hạ tầng nội bộ; người duyệt mọi gợi ý.</p><p><b>V3 (full AI):</b> API SOP và Care or Sell; Digital Worker tự vận hành trong luật, đăng nhập công ty, nhân rộng 9 chi nhánh.</p></section></div>';
 }
 var SROLES=[['','Tất cả vai trò'],['lead','Lãnh đạo chi nhánh'],['kd','Kinh doanh'],['kt','Kỹ thuật'],['dvkh','Dịch vụ khách hàng'],['dm','Đầu mối tương tác']];
@@ -2585,7 +2585,6 @@ function supportData(){
   out.push({n:'Lê Văn Tiến',r:'lead',t:'Quản lý Trung tâm Online, đội trưởng',b:'HN03',p:fakePhone('tienlv2'),e:'tienlv2@fpt.com'});
   out.push({n:'Lê Thanh Bình',r:'lead',t:'Giám đốc Khu vực HNI',b:'Khu vực HNI',p:fakePhone('lethanhbinh')});
   out.push({n:'Đoàn Vân Anh',r:'lead',t:'Phó Giám đốc Khu vực HNI',b:'Khu vực HNI',p:fakePhone('doanvananh')});
-  out.push({n:'Trần Minh Thành',r:'lead',t:'Trưởng phòng Phát triển phần mềm',b:'Phát triển phần mềm',p:fakePhone('tranminhthanh')});
   
   return out;
 }
@@ -2748,7 +2747,7 @@ function vDw(){
   S.events.forEach(function(e){if(cnt[e.who]!=null)cnt[e.who]++;});
   var rows=S.dw.map(function(d){
     var extra=d.id==='DW7'?dw7Extra():d.id==='DW1'||d.id==='DW2'||d.id==='DW3'?cnt[d.id]+' sự kiện đã ghi':d.id==='DW4'?S.sugg.DW4+' gợi ý được sale dùng':d.id==='DW5'?S.sugg.DW5+' bản nháp được dùng':(S.recon?'Lần đối soát gần nhất '+dt(S.recon.t)+': '+S.recon.matched+' khớp, '+S.recon.unmatched+' không rõ nguồn':'Chưa chạy đối soát');
-    return '<div class="dwrow"><div><h3>'+d.id+' · '+esc(d.name)+' '+chip('Ủy quyền '+d.lv,d.lv==='L0'?'gray':'orange')+' '+(d.on?chip('Đang chạy','ok'):chip('Đã tắt','bad'))+'</h3><p>'+esc(d.job)+'</p><p class="muted">Người chủ: '+esc(d.owner)+' · '+extra+'</p>'+'</div>'+
+    return '<div class="dwrow"><div><h3>'+d.id+' · '+esc(d.name)+' '+chip('CASAN · '+(CAS[d.id]||d.lv),/Automated/.test(CAS[d.id]||'')?'orange':'gray')+' '+(d.on?chip('Đang chạy','ok'):chip('Đã tắt','bad'))+'</h3><p>'+esc(d.job)+'</p><p class="muted">Người chủ: '+esc(dwOwner(d))+' · '+extra+'</p>'+'</div>'+
       '<label class="sw"><input type="checkbox" data-act="toggle-dw" data-id="'+d.id+'"'+(d.on?' checked':'')+'><span></span>'+(d.on?'Bật':'Tắt')+'</label></div>';
   }).join('');
   return pageH('Digital Worker','Bảy nhân viên số của Trung tâm. Mỗi DW có một người chủ chịu trách nhiệm và một nút dừng khẩn cấp.')+
@@ -4649,6 +4648,7 @@ var PFEE={giga:180000,sky:230000,skyf1:210000,cgiga:260000,csky:310000,camin:150
 var PDEV={giga:450000,sky:650000,skyf1:900000,cgiga:700000,csky:900000,camin:600000,camout:800000};
 var UPSRC='Bán thêm (khách hiện hữu)';
 SOURCES.push({k:UPSRC,w:0});
+var CAS={DW1:'Đích GĐ2 · Automated',DW2:'Standard',DW3:'Đích GĐ2 · Automated',DW4:'Augmented',DW5:'Augmented',DW6:'Standard',DW7:'Đích GĐ2 · Automated'},CASD={'Augmented':'AI gợi ý, người quyết','Standard':'Quy trình chuẩn, có quản trị','Đích GĐ2 · Automated':'Agent vận hành, người xử lý ngoại lệ (mục tiêu GĐ2)'};function dwOwner(d){return String(d.owner||'').replace('Trưởng nhóm DVKH','Trưởng phòng DVKH');}
 var DW7_0={id:'DW7',name:'Thư ký số',lv:'L0',owner:'Trưởng Trung tâm Online',job:'Tổng hợp doanh thu, chi phí, biên lợi nhuận theo ngày, tuần, tháng, quý, năm; so sánh kỳ trước; chỉ ra salesman, trung tâm, kênh làm tốt hoặc kém; gửi báo cáo định kỳ cho lãnh đạo.',on:true};
 var FINC=null,HIST=null,HISTK=null;
 var FSEAS=[.9,.78,1,1,1.05,1.1,1.08,1.05,1.15,1.1,1,1.2];
@@ -4913,7 +4913,7 @@ function vReport(){
   var say=dw.on?'<section class="dw7"><h2>'+chip('DW7','orange')+' '+esc(dw.name)+' nhận định</h2><ul>'+dw7Say(R0,me).map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>'+
       (!me?'<div class="row" style="margin-top:12px"><button class="btn pri sm" data-act="rp-send">Gửi báo cáo kỳ này cho lãnh đạo</button><label class="who" style="font-size:13px">Lịch tự gửi <select class="sel" data-act="rp-sched" aria-label="Lịch tự gửi báo cáo">'+opts(['Không','Hằng ngày 07:30','Hằng tuần, thứ Hai 08:00','Hằng tháng, ngày 1'].map(function(x){return [x,x];}),S.fin.sched)+'</select></label></div>'+
         (S.fin.sent.length?'<p class="hint" style="margin:8px 0 0">Đã gửi gần nhất: '+S.fin.sent.slice(0,3).map(function(x){return esc(x.lab)+' lúc '+dt(x.t);}).join(' · ')+'</p>':''):'<div class="row" style="margin-top:12px"></div>')+
-      '<p class="hint" style="margin:8px 0 0">Nhận định tự sinh từ số liệu trên trang theo luật; người đọc kiểm tra trước khi dùng (ủy quyền L0, chỉ đọc).</p></section>':
+      '<p class="hint" style="margin:8px 0 0">Nhận định tự sinh từ số liệu trên trang theo luật; người đọc kiểm tra trước khi dùng (chỉ đọc, không sửa số liệu).</p></section>':
     '<div class="note" style="margin-top:16px">DW7 Thư ký số đang tắt: số liệu vẫn xem được nhưng không có nhận định và gửi báo cáo tự động. Bật lại ở mục Digital Worker.</div>';
   var trend='<section class="card" style="margin-top:16px"><h2>Xu hướng doanh thu và chi phí</h2>'+repTrend(R0.sc,P,f)+'</section>';
   var tabs=me?[['src','Nguồn'],['pkg','Gói cước']]:[['br','Trung tâm'],['room','Phòng'],['sale','Salesman'],['src','Nguồn'],['pkg','Gói cước']];
@@ -5126,7 +5126,7 @@ var VALIAS={'o-cs':['care','queue'],'care-queue':['care','queue'],'care-risk':['
 function resolveView(){if(UI.role!=='admin')return;var a=VALIAS[UI.view];if(a){UI.view=a[0];UI.tab=UI.tab||{};UI.tab[a[0]]=a[1];}}
 function dwNames(){
   if(!can('settings.manage'))return '';
-  return '<section class="card" style="margin-top:16px"><h2>Tên hiển thị Digital Worker</h2><div class="grid3" style="margin-top:0">'+S.dw.map(function(d){return '<label class="field" style="margin:0"><span>'+d.id+' · mức '+esc(d.lv)+'</span><input id="dwn-'+d.id+'" value="'+esc(d.name)+'" maxlength="30"></label>';}).join('')+'</div><div class="row"><button class="btn pri" data-act="dw-save">Lưu tên Digital Worker</button></div></section>';
+  return '<section class="card" style="margin-top:16px"><h2>Tên hiển thị Digital Worker</h2><div class="grid3" style="margin-top:0">'+S.dw.map(function(d){return '<label class="field" style="margin:0"><span>'+d.id+' · CASAN '+esc(CAS[d.id]||d.lv)+'</span><input id="dwn-'+d.id+'" value="'+esc(d.name)+'" maxlength="30"></label>';}).join('')+'</div><div class="row"><button class="btn pri" data-act="dw-save">Lưu tên Digital Worker</button></div></section>';
 }
 var TABS={
   'm-chat':[['conv','Hội thoại',function(){return vOpChat();},'ops.view'],['setup','Thiết lập chatbot',function(){return vBot();},'bot.manage']],
@@ -6270,7 +6270,7 @@ function vAiTeam(){
     DW7:[['Hợp đồng tổng hợp',fmt(finData().list.length)],['Báo cáo đã gửi',(S.fin.sent||[]).length],['Lần xuất báo cáo',S.fin.exports||0]]
   };
   var cards=S.dw.filter(function(d){return AG[d.id];}).map(function(d){var g=AG[d.id];return '<article class="ai-card" style="--c:'+g.c+'"><header>'+agSvg(d.id,56)+'<div><b>'+d.id+' · '+esc(d.name)+'</b><span>'+(d.on?'🟢 Đang trực':'⚪ Đang tắt')+' · '+T.c[d.id]+' việc hôm nay</span></div></header><p class="q">“'+esc(g.say)+'”</p><p style="margin:0;font-size:13.5px;color:var(--ink2)">'+esc(d.job)+'</p>'+
-    '<dl>'+M[d.id].map(function(r){return '<dt>'+r[0]+'</dt><dd>'+(typeof r[1]==='number'?fmt(r[1]):r[1])+'</dd>';}).join('')+'<dt>Ủy quyền</dt><dd>'+esc(d.lv)+' · '+esc(LV[d.lv]||'')+'</dd><dt>Người chịu trách nhiệm</dt><dd>'+esc(d.owner)+'</dd></dl>'+
+    '<dl>'+M[d.id].map(function(r){return '<dt>'+r[0]+'</dt><dd>'+(typeof r[1]==='number'?fmt(r[1]):r[1])+'</dd>';}).join('')+'<dt>Cấp CASAN</dt><dd>'+esc(CAS[d.id]||d.lv)+' · '+esc(CASD[CAS[d.id]]||LV[d.lv]||'')+'</dd><dt>Người chịu trách nhiệm</dt><dd>'+esc(dwOwner(d))+'</dd></dl>'+
     '<div class="row"><button class="btn sm" data-act="ai-go" data-tab="feed" data-ag="'+d.id+'">Xem dòng việc</button>'+(UI.role==='admin'?'<label class="sw"><input type="checkbox" data-act="toggle-dw" data-id="'+d.id+'"'+(d.on?' checked':'')+'><span></span>'+(d.on?'Bật':'Tắt')+'</label>':'')+'</div></article>';}).join('');
   return pageH('Đội AI','Hồ sơ từng agent: nhiệm vụ, mức ủy quyền, người chịu trách nhiệm và kết quả 7 ngày qua. Không giao cho AI: chốt giá ngoài chính sách, ký hoặc hủy hợp đồng, sửa dữ liệu khách.')+'<div class="ai-team">'+cards+'</div>';
 }
@@ -6671,7 +6671,7 @@ function jrSteps(c){
     dur:9000,t:[161280,164875],clock:[[0,161280],[3400,164600],[6400,164875]],
     logs:[[164600,'DW7','ai.insight','Tính lãi lỗ '+c.hd+': doanh thu '+vnd(c.rev)+', lợi nhuận '+vnd(c.pro)+', biên '+pctD(c.mg),3400],[164875,'DW7','report.sent','Gửi báo cáo ngày tới '+c.mgr.u+', có '+c.hd,6400]],
     recs:[['profit',vnd(c.pro)+' · biên '+pctD(c.mg),3400],['st','Đã báo cáo',6400],['next','Hoàn tất hành trình',6400]],
-    sop:sop('HĐ đã đối soát, chi phí kênh',['Tính doanh thu, chi phí, lợi nhuận từng HĐ','So kỳ trước, chỉ ra người và kênh tốt, kém','Gửi báo cáo định kỳ'],'Báo cáo ngày, tuần, tháng','Trưởng Trung tâm, lãnh đạo','DW7 chỉ đọc và báo cáo (L0): không sửa số liệu, không tự đóng kênh; đề xuất đóng kênh do Quản lý duyệt.'),
+    sop:sop('HĐ đã đối soát, chi phí kênh',['Tính doanh thu, chi phí, lợi nhuận từng HĐ','So kỳ trước, chỉ ra người và kênh tốt, kém','Gửi báo cáo định kỳ'],'Báo cáo ngày, tuần, tháng','Trưởng Trung tâm, lãnh đạo','DW7 chỉ đọc và báo cáo: không sửa số liệu, không tự đóng kênh; đề xuất đóng kênh do Quản lý duyệt.'),
     stage:function(){
       var mx=c.rev,bars=[['Doanh thu '+c.term+' tháng',c.rev,'Phí lắp '+vnd(c.setup)+' + '+vnd(c.fee)+' × '+c.term+' tháng','rv',400],['Chi phí QC phân bổ',-c.ads,c.adsTxt,'co',1000],['Hoa hồng '+c.cp+'%',-c.comm,'cho '+s2.name,'co',1600],['Thiết bị và lắp đặt',-c.dev,'modem Wi-Fi 6, Mesh, công lắp','co',2200],['Lợi nhuận',c.pro,'biên '+pctD(c.mg),'pr',3400]];
       var off=c.rev;
