@@ -162,7 +162,6 @@ html.m .chn{grid-template-columns:1fr}html.m .m3{order:4}
 html.m h1[style*=nowrap]{white-space:normal!important;font-size:24px!important}
 html.m .dwgrid{grid-template-columns:1fr;max-height:none}
 @media (min-width:640px){html.m .dwgrid{grid-template-columns:1fr 1fr}}
-@media (prefers-reduced-motion:reduce){.s.on .dwcard,.s.on .orb2{animation:none}}
 .ok{color:var(--gr)}.bad{color:var(--rd)}
 .shot{border-radius:12px;border:1px solid var(--line);box-shadow:0 14px 40px rgba(0,0,0,.5);display:block;width:100%;height:auto;object-fit:cover;object-position:top}
 .cap{font-size:13.5px;color:var(--mute);margin-top:6px;line-height:1.45}
@@ -302,7 +301,6 @@ html.m .k5-ev{grid-column:1/-1}
 .rm-wrap{position:relative;width:1152px;height:502px;flex:none;margin:auto 0}
 .rm{position:absolute;left:0;top:0;width:1744px;height:760px;transform:scale(.6606);transform-origin:0 0;font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#F1F5FB}
 .rm h3,.rm h4,.rm p{position:static}
-@media (prefers-reduced-motion:reduce){.rm-runner{display:none}}
 .rm-m{display:none}
 html.m .rm-wrap{display:none}
 html.m .rm-m{display:flex;flex-direction:column;gap:0;position:relative;padding-left:28px}
@@ -315,7 +313,6 @@ html.m .rm-m{display:flex;flex-direction:column;gap:0;position:relative;padding-
 @keyframes rmrun{0%{top:0;opacity:0}5%{opacity:1}95%{opacity:1}100%{top:calc(100% - 15px);opacity:0}}
 .rm-m .gt{animation:rmgate 7s ease-in-out infinite}.rm-m .gt:nth-child(2){animation-delay:.6s}.rm-m .gt:nth-child(4){animation-delay:2.9s}.rm-m .gt:nth-child(6){animation-delay:5.1s}
 @keyframes rmgate{0%,100%{box-shadow:none}8%{box-shadow:0 0 0 3px rgba(251,191,36,.35),0 0 22px rgba(251,191,36,.6)}18%{box-shadow:none}}
-@media (prefers-reduced-motion:reduce){.rm-m::after,.rm-m .gt{animation:none}}
 
 
 /* ===== v2: các trang làm lại ===== */
@@ -461,7 +458,6 @@ html.m .sec2 .g{grid-template-columns:1fr}
 @keyframes mup{from{opacity:0;transform:translateY(26px) scale(.96)}to{opacity:1;transform:none}}
 @keyframes mglow{50%{opacity:.45;transform:scale(1.06)}}
 @keyframes mshine{to{background-position:-200% 0}}
-@media (prefers-reduced-motion:reduce){.mav:before,.mav:after,.mgrp:before,.s.on .mcard{animation:none}}
 @media print{.mav:before,.mav:after,.mgrp:before,.s.on .mcard{animation:none}}
 html.m .mgrid{grid-template-columns:1fr}html.m .mav{width:120px;height:120px}html.m .mcard{grid-template-rows:auto auto auto auto}
 </style>
