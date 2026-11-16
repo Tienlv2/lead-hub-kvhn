@@ -311,6 +311,12 @@ html.m .rm-m{display:flex;flex-direction:column;gap:0;position:relative;padding-
 .rm-m .st::before{content:"";position:absolute;left:-26px;top:14px;width:14px;height:14px;border-radius:50%;background:#0B1733;border:3px solid #67E8F9;box-shadow:0 0 12px rgba(103,232,249,.7)}
 .rm-m .gt{margin:0 0 12px;padding:6px 10px;border:1px solid #FBBF24;border-radius:8px;background:#1A1608;color:#FDE68A;font-size:13px;font-weight:700}
 .rm-m .gt b{color:#FBBF24;letter-spacing:.1em;font-size:11px;margin-right:6px}
+.rm-m::after{content:"";position:absolute;left:3px;top:0;width:15px;height:15px;border-radius:50%;background:radial-gradient(circle,#fff 0 30%,#67E8F9 45%,rgba(34,211,238,0) 72%);box-shadow:0 0 18px 6px rgba(103,232,249,.55);animation:rmrun 7s linear infinite}
+@keyframes rmrun{0%{top:0;opacity:0}5%{opacity:1}95%{opacity:1}100%{top:calc(100% - 15px);opacity:0}}
+.rm-m .gt{animation:rmgate 7s ease-in-out infinite}.rm-m .gt:nth-child(2){animation-delay:.6s}.rm-m .gt:nth-child(4){animation-delay:2.9s}.rm-m .gt:nth-child(6){animation-delay:5.1s}
+@keyframes rmgate{0%,100%{box-shadow:none}8%{box-shadow:0 0 0 3px rgba(251,191,36,.35),0 0 22px rgba(251,191,36,.6)}18%{box-shadow:none}}
+@media (prefers-reduced-motion:reduce){.rm-m::after,.rm-m .gt{animation:none}}
+
 
 /* ===== v2: các trang làm lại ===== */
 .v2c{background:rgba(255,255,255,.035);border:1px solid rgba(160,190,240,.16);border-radius:16px}
