@@ -1128,5 +1128,38 @@ html.m .nxs{transform-origin:0 0}
   fit();var h=parseInt(location.hash.slice(1),10);go((h||1)-1,!!h);
 })();
 </script>
+<style id="nxmob">
+html.m #u_jr .body>div{flex-direction:column;align-items:stretch!important}
+html.m #u_jr .jrbox{position:relative;width:100%;overflow:hidden}
+html.m #u_jr .jrbox>.jr{transform-origin:0 0!important;margin:0!important;height:470px!important}
+
+html.m .s.nx .nxs,html.m .s.nx .nxs *{animation-play-state:running!important}
+html.m .nxw{cursor:zoom-in}
+html.m .nxw:after{content:"⤢ Phóng to";position:absolute;right:6px;bottom:6px;z-index:5;border-radius:999px;padding:3px 9px;font:700 10px 'Be Vietnam Pro',system-ui,sans-serif;color:#04102A;background:linear-gradient(90deg,#38E1FF,#A78BFA);box-shadow:0 4px 14px rgba(0,0,0,.45);pointer-events:none}
+html.m .s.nx{padding-bottom:34px!important}
+#nxov{position:fixed;inset:0;z-index:99999;background:#050B1F;overflow:hidden;touch-action:none}
+#nxov .nxbox{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform-origin:center center;background:radial-gradient(60% 70% at 0% 0%,rgba(139,92,246,.28),transparent 70%),radial-gradient(50% 60% at 100% 100%,rgba(14,165,233,.22),transparent 70%),#050B1F}
+#nxov .nxbox .nxs{position:absolute;left:0;top:0;transform:none!important}
+#nxov .nxx{position:absolute;right:12px;top:12px;z-index:3;width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(7,20,55,.85);color:#fff;font-size:22px;line-height:1;cursor:pointer}
+#nxov .nxh{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);z-index:3;font:600 12px 'Be Vietnam Pro',system-ui,sans-serif;color:#B9C6EA;background:rgba(7,20,55,.8);border-radius:999px;padding:4px 12px;white-space:nowrap}
+</style>
+<script>(function(){
+function close(){var o=document.getElementById('nxov');if(o)o.remove();document.documentElement.style.overflow='';}
+function place(){var o=document.getElementById('nxov');if(!o)return;var b=o.querySelector('.nxbox'),W=innerWidth,H=innerHeight,rot=H>W;
+var k=rot?Math.min(H/1280,W/720):Math.min(W/1280,H/720);b.style.transform='translate(-50%,-50%) '+(rot?'rotate(90deg) ':'')+'scale('+k+')';
+o.querySelector('.nxh').textContent=rot?'Chạm để đóng · xoay ngang điện thoại để xem lớn hơn':'Chạm để đóng';}
+document.addEventListener('click',function(e){
+ if(document.getElementById('nxov')){close();return;}
+ if(!document.documentElement.classList.contains('m'))return;
+ var w=e.target.closest&&e.target.closest('.nxw');if(!w)return;
+ var sec=w.closest('section');var src=w.querySelector('.nxs');if(!sec||!src)return;
+ var o=document.createElement('div');o.id='nxov';
+ var b=document.createElement('div');b.className='nxbox';b.id=sec.id;var c=src.cloneNode(true);c.style.transform='none';b.appendChild(c);
+ o.appendChild(b);o.insertAdjacentHTML('beforeend','<button class="nxx" aria-label="Đóng">×</button><span class="nxh"></span>');
+ document.body.appendChild(o);document.documentElement.style.overflow='hidden';place();
+},true);
+addEventListener('resize',function(){setTimeout(place,80)});addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+})();</script>
+<script>(function(){function f(){var m=document.documentElement.classList.contains('m');document.querySelectorAll('#u_jr .jr').forEach(function(j){var b=j.parentElement;if(m){if(!b.classList.contains('jrbox')){b=document.createElement('div');b.className='jrbox';j.parentElement.insertBefore(b,j);b.appendChild(j);}var k=b.clientWidth/884;j.style.transform='scale('+k+')';b.style.height=(470*k)+'px';}else if(b.classList.contains('jrbox')){j.style.transform='';b.style.height='';}});}addEventListener('resize',function(){setTimeout(f,80)});addEventListener('load',function(){setTimeout(f,150);setTimeout(f,900)});})();</script>
 </body>
 </html>
