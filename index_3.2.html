@@ -4385,6 +4385,7 @@ function applyOne(target,o){
     if(!o.id||!o.area||!o.br)return 'thiếu mã POP, khu vực hoặc chi nhánh';
     var id=String(o.id).toUpperCase(),q=norm(o.q||'tốt'),qq=/yeu|kem/.test(q)?'yếu':/trung/.test(q)?'trung bình':'tốt',ports=Math.max(0,Math.round(Number(o.ports)||0)),b2=hn2(o.br);
     var e=popOf(id);if(e){e.area=o.area;e.br=b2;e.ports=ports;e.q=qq;}else S.pops.push({id:id,area:o.area,br:b2,ports:ports,q:qq});
+    if(ports>0&&qq!=='yếu'){S.leads.filter(function(L){return L.status==='infra_hold'&&L.pop===id;}).forEach(function(L){L.status='cleaned';ev(L,'DW2','infra.released','POP '+id+' đã có '+ports+' port, nhả lead để giao bán');dispatch(L);});}
     if(!STREETS[o.area])STREETS[o.area]=['Đường chính'];
     S.sales.forEach(function(x){if((x.br===b2||x.team)&&x.pops.indexOf(id)<0)x.pops.push(id);});
     return null;
@@ -4408,10 +4409,11 @@ function vIngest(){
   if(tab==='file'){
     body='<section class="card"><h2>Tải file lên</h2>'+tsel+'<label class="field"><span>File CSV, Excel (.xlsx, .xls) hoặc JSON</span><input type="file" id="ingFile" accept=".csv,.txt,.tsv,.xlsx,.xlsm,.xls,.json"></label>'+'<div class="note" style="margin-top:12px"><b>Bộ dữ liệu trình diễn (dữ liệu giả lập)</b> · tải về rồi nạp theo thứ tự, mỗi file có sheet Hướng dẫn demo:<div class="row" style="margin-top:8px;flex-wrap:wrap">'+[['01_Lead_moi_10_khach','1 · Lead mới'],['02_Chatbot_Khuyen_mai','2 · Chatbot · Khuyến mại'],['03_Chi_phi_Marketing_T11','3 · Chi phí Marketing'],['04_Hop_dong_moi','4 · Hợp đồng']].map(function(x){return '<a class="btn sm" href="demo-data/'+x[0]+'.xlsx" download>'+x[1]+'</a>';}).join('')+'</div></div>'+cols+(g.sheets?'<label class="field" style="max-width:320px"><span>Trang tính</span><select data-act="ing-sheet">'+opts(g.sheets.map(function(s){return [s,s];}),g.sheet)+'</select></label>':'')+'</section>';
   }else if(tab==='url'){
-    var ur=S.ing.urls.map(function(u,i){return '<tr><td class="mono" style="max-width:340px;overflow-wrap:anywhere">'+esc(u.url)+'</td><td>'+esc(ING_T[u.target].n)+'</td><td>'+esc(u.freq)+'</td><td>'+(u.status?chip(u.status,u.ok?'ok':'warn'):chip('Chưa chạy','gray'))+'</td><td>'+(u.last?ago(u.last):'—')+'</td><td><button class="btn sm" data-act="ing-url-run" data-i="'+i+'">Kéo ngay</button> <button class="btn sm" data-act="ing-url-del" data-i="'+i+'">Xóa</button></td></tr>';});
+    var ur=S.ing.urls.map(function(u,i){return '<tr><td class="mono" style="max-width:340px;overflow-wrap:anywhere">'+(u.label?'<b style="font-family:inherit">'+esc(u.label)+'</b><br>':'')+esc(u.url)+'</td><td>'+esc(ING_T[u.target].n)+'</td><td>'+esc(u.freq)+'</td><td>'+(u.status?chip(u.status,u.ok?'ok':'warn'):chip('Chưa chạy','gray'))+'</td><td>'+(u.last?ago(u.last):'—')+'</td><td><button class="btn sm" data-act="ing-url-run" data-i="'+i+'">Kéo ngay</button> <button class="btn sm" data-act="ing-url-del" data-i="'+i+'">Xóa</button></td></tr>';});
     body='<section class="card"><h2>File online theo lịch</h2><p class="hint">Google Sheets (Tệp, Chia sẻ, Xuất bản lên web dạng CSV), OneDrive, SharePoint hoặc đường dẫn CSV nội bộ. Máy chủ Hub kéo file theo lịch và nạp tự động.</p>'+tsel+
       '<label class="field"><span>Đường dẫn file</span><input id="ingUrl" type="url" placeholder="https://docs.google.com/spreadsheets/d/…/export?format=csv" autocomplete="off"></label><label class="field" style="max-width:320px"><span>Lịch kéo dữ liệu</span><select id="ingFreq">'+opts([['Thủ công','Thủ công'],['Hằng giờ','Hằng giờ'],['Hằng ngày 07:00','Hằng ngày 07:00'],['Hằng tuần, thứ Hai','Hằng tuần, thứ Hai']],'Hằng ngày 07:00')+'</select></label><div class="row"><button class="btn pri" data-act="ing-url-add">Thêm nguồn</button></div>'+cols+'</section>'+
       (ur.length?'<h2 style="margin:20px 0 8px">Nguồn đã khai báo</h2>'+tbl(['Đường dẫn','Nạp vào','Lịch','Trạng thái','Lần kéo gần nhất',''],ur):'')+
+      '<section class="card" style="margin-top:16px"><h2>Nguồn mẫu cho trình diễn</h2><p class="hint">Bấm một nút: Hub khai báo nguồn, kéo file về và hiện bước xem trước để bạn bấm Nạp. Dữ liệu giả lập.</p>'+DEMO_URL.map(function(d,i){return '<div class="row" style="justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding:10px 0;margin:0;gap:12px"><div style="flex:1;min-width:220px"><b>'+esc(d.n)+'</b><p class="hint" style="margin:2px 0 0">'+esc(d.d)+' Nạp vào: '+esc(ING_T[d.t].n)+' · '+esc(d.freq)+'</p></div><button class="btn sm pri" data-act="ing-url-demo" data-i="'+i+'">Thêm và kéo ngay</button></div>';}).join('')+'</section>'+
       '<div class="note" style="margin-top:14px">Bản trình diễn chạy trong trình duyệt nên có thể bị chặn tải trực tiếp từ trang ngoài. Khi đó, tải file về máy rồi dùng mục Tải file; bản triển khai sẽ kéo file từ máy chủ.</div>';
   }else if(tab==='manual'){
     body='<section class="card"><h2>Nhập tay hoặc dán từ Excel</h2><p class="hint">Chọn vùng trong Excel có cả dòng tiêu đề, sao chép rồi dán vào đây. Mỗi dòng một bản ghi, các cột cách nhau bằng phím Tab, dấu phẩy hoặc chấm phẩy.</p>'+tsel+
@@ -4421,10 +4423,10 @@ function vIngest(){
       return '<section class="card api"><div class="row" style="margin:0 0 6px;justify-content:space-between"><h2 style="margin:0">'+esc(a.name)+'</h2>'+chip(a.status,/Sẵn sàng|Đang chạy/.test(a.status)?'ok':/Lỗi|Thiếu/.test(a.status)?'bad':'gray')+'</div><p class="hint">Nạp vào: '+esc(ING_T[a.target].n)+(a.last?' · kiểm tra '+ago(a.last):'')+'</p>'+
         '<div class="grid2" style="margin-top:0;gap:10px"><label class="field" style="margin:0"><span>Endpoint</span><input id="api-url-'+i+'" value="'+esc(a.url)+'" placeholder="https://máy-chủ-nội-bộ/api/…" autocomplete="off"></label><label class="field" style="margin:0"><span>Xác thực</span><select id="api-auth-'+i+'">'+opts([['API key','API key'],['OAuth 2.0','OAuth 2.0'],['Basic','Basic'],['Webhook ký số','Webhook ký số'],['Không','Không']],a.auth)+'</select></label>'+
         '<label class="field" style="margin:0"><span>Khóa, token</span><input id="api-key-'+i+'" type="password" value="'+esc(a.key)+'" autocomplete="off" placeholder="'+(a.key?'':'Dán khóa do bộ phận quản trị cấp')+'"></label><label class="field" style="margin:0"><span>Tần suất</span><select id="api-freq-'+i+'">'+opts(['Tức thì','15 phút','Hằng giờ','Hằng ngày 06:00','Hằng ngày 07:00'].map(function(x){return [x,x];}),a.freq)+'</select></label></div>'+
-        '<div class="row"><label class="sw"><input type="checkbox" id="api-on-'+i+'"'+(a.on?' checked':'')+'><span></span>Bật đồng bộ</label><button class="btn pri sm" data-act="api-save" data-i="'+i+'">Lưu</button><button class="btn sm" data-act="api-test" data-i="'+i+'">Kiểm tra kết nối</button></div></section>';
+        '<div class="row"><label class="sw"><input type="checkbox" id="api-on-'+i+'"'+(a.on?' checked':'')+'><span></span>Bật đồng bộ</label><button class="btn pri sm" data-act="api-save" data-i="'+i+'">Lưu</button><button class="btn sm" data-act="api-test" data-i="'+i+'">Kiểm tra kết nối</button>'+(window.API_DEMO&&API_DEMO[a.id]?'<button class="btn sm" data-act="api-demo-run" data-i="'+i+'">▶ Đồng bộ thử</button>':'')+'</div>'+(a.got?'<p class="hint" style="margin:6px 0 0">Đã nhận '+a.got+' bản ghi · lần gần nhất '+(a.lastN||0)+' bản ghi, '+ago(a.last)+'</p>':'')+'</section>';
     }).join('');
     var host='https://hub.example.vn';
-    body='<div class="apis">'+ap+'</div><section class="card" style="margin-top:16px"><h2>Webhook nhận dữ liệu đẩy về Hub</h2><p class="hint">Hệ thống khác gọi vào Hub, mỗi bản ghi một JSON. Đích nhận theo đường dẫn.</p>'+tsel+
+    body='<section class="card" style="margin-bottom:14px"><div class="row" style="margin:0;justify-content:space-between;align-items:center;gap:12px"><div style="flex:1;min-width:240px"><h2 style="margin:0">Chế độ trình diễn</h2><p class="hint" style="margin:4px 0 0">Điền cấu hình mẫu cho '+S.ing.apis.length+' kết nối, rồi bấm Đồng bộ thử: Hub nhận dữ liệu giả lập như khi máy chủ gọi API thật, các DW xử lý ngay và ghi vào Lịch sử nạp.</p></div><div class="row" style="margin:0"><button class="btn sm" data-act="api-demo-fill">Điền cấu hình mẫu</button><button class="btn sm pri" data-act="api-demo-all">▶ Đồng bộ tất cả 1 lượt</button></div></div></section><div class="apis">'+ap+'</div><section class="card" style="margin-top:16px"><h2>Webhook nhận dữ liệu đẩy về Hub</h2><p class="hint">Hệ thống khác gọi vào Hub, mỗi bản ghi một JSON. Đích nhận theo đường dẫn.</p>'+tsel+
       '<pre class="code">'+esc('POST '+host+'/api/ingest/'+tg+'\nAuthorization: Bearer <token>\nContent-Type: application/json\n\n'+JSON.stringify(ingSampleObj(tg),null,2))+'</pre><div class="row"><button class="btn" data-act="api-push">Gửi thử bản ghi mẫu</button></div></section>';
   }else{
     var lr=S.ing.log.map(function(l,i){return '<tr><td class="mono">'+dt(l.t)+'</td><td>'+esc(ING_KIND[l.kind]||l.kind)+'</td><td>'+esc(ING_T[l.target]?ING_T[l.target].n:l.target)+(l.scope?' <span class="muted">('+(l.scope==='hub'?'riêng Hub':'tổng KVHN')+')</span>':'')+'</td><td>'+esc(l.name||'—')+'</td><td class="num">'+l.rows+'</td><td class="num">'+l.ok+'</td><td class="num">'+(l.fail?'<span class="bad-t">'+l.fail+'</span>':0)+'</td><td>'+esc(l.by)+'</td><td>'+(l.undone?'<span class="muted">Đã hoàn tác</span>':(l.undo&&l.undo.length?'<button class="btn sm" data-act="ing-undo" data-i="'+i+'">'+(UI.undoArm===i?'Bấm lần nữa để xác nhận':'Hoàn tác')+'</button>':''))+'</td></tr>';});
@@ -4445,7 +4447,8 @@ function vIngest(){
     '<div class="schips" role="tablist" aria-label="Cách nạp">'+tabs+'</div>'+body+prev;
 }
 function ingSampleObj(tg){
-  var rows=parseCsv(ING_SAMPLE[tg]),h=rows[0],r=rows[1],m=autoMap(h,tg),o={};
+  var src=ING_SAMPLE[tg],rows;if(!src&&typeof TPL!=='undefined'&&TPL[tg]&&TPL[tg].length){var d=tplData(tg,0);rows=[d.head].concat(d.rows.slice(0,1));}else rows=parseCsv(src||'');
+  if(!rows||rows.length<2)return {};var h=rows[0],r=rows[1],m=autoMap(h,tg),o={};
   ING_T[tg].f.forEach(function(x){if(m[x[0]]!=null)o[x[0]]=r[m[x[0]]];});return o;
 }
 ACT['ing-tab']=function(el){var g=ingUI();g.tab=el.getAttribute('data-v');if(g.tab==='api'||g.tab==='log'){}renderMain();};
@@ -9398,6 +9401,56 @@ loadCaps();
   var u=getSess(),acct=u?accounts().filter(function(a){return a.u===u;})[0]:null;
   if(acct&&!S.acc.off[acct.u])enter(acct);else showLogin();
 })();
+/* ===== Dữ liệu mẫu trình diễn: File online, Nhập tay, Kết nối API ===== */
+var DEMO_URL=[{"f": "online_lead_hoi_cho.csv", "t": "lead", "n": "Google Sheets · Lead hội chợ Thăng Long", "freq": "Hằng giờ", "d": "6 khách để lại số tại gian hàng, sale sự kiện cập nhật vào Google Sheets dùng chung.", "csv": "Họ tên,Số điện thoại,Địa chỉ,Khu vực,Nguồn,Nhu cầu\nĐặng Quốc Bảo,0369202631,Số 14 ngõ 120 Hoàng Quốc Việt,Cầu Giấy,Hội chợ Thăng Long,Lắp mới Internet Giga\nLưu Thị Hằng,0369202632,Số 3 Hàng Bài,Hoàn Kiếm,Hội chợ Thăng Long,Combo Internet + FPT Play\nPhan Văn Toàn,0369202633,Số 88 Nguyễn Văn Linh,Long Biên,Hội chợ Thăng Long,Lắp mới Internet Sky\nTạ Minh Châu,0369202634,Số 5 Phạm Văn Đồng,Bắc Từ Liêm,Hội chợ Thăng Long,Camera trong nhà\nMai Thu Trang,0369202635,Số 27 Kim Giang,Đống Đa,Hội chợ Thăng Long,Lắp mới Internet Sky\nHồ Đức Thắng,0369202636,\"Xóm Chợ, Nguyên Khê\",Đông Anh,Hội chợ Thăng Long,Camera ngoài trời\n"}, {"f": "online_pop_port_INF.csv", "t": "pop", "n": "Khối INF · Port còn trống theo POP", "freq": "Hằng ngày 07:00", "d": "Kỹ thuật vừa mở port tại HN05-012: kéo về là DW2 nhả lead đang giữ.", "csv": "Mã POP,Khu vực,Chi nhánh,Port còn trống,Chất lượng\nHN05-012,Nam Từ Liêm,HN05,8,tốt\nHN03-033,Đống Đa,HN03,6,tốt\nHN04-019,Gia Lâm,HN04,5,tốt\n"}, {"f": "online_chi_phi_ads_T10.csv", "t": "ads", "n": "Google Sheets · Chi phí ads chốt T10", "freq": "Hằng ngày 07:00", "d": "Số chốt tháng 10 theo hóa đơn, thay số mô phỏng trong báo cáo.", "csv": "Tháng,Mã kênh,Chi phí (đồng),Số INT,Nhóm kênh,Chủ kênh,Chi nhánh,Nền tảng\n2026-10,GG-A-004,58000000,262,A,TPKD HN04,HN04,Google Ads\n2026-10,GG-A-011,45500000,188,A,TPKD HN03,HN03,Google Ads\n2026-10,FB-HN03-01,17200000,61,B,NVKD HN03,HN03,Facebook Ads\n2026-10,GG-B-031,11800000,13,B,NVKD HN09,HN09,Google Ads\n2026-10,FB-HN05-03,14900000,16,B,NVKD HN05,HN05,Facebook Ads\n"}];
+var DEMO_PASTE={lead:"Họ tên\tSố điện thoại\tĐịa chỉ\tKhu vực\tNguồn\tNhu cầu\nTrịnh Văn Hùng\t0369202621\tSố 11 Láng Hạ\tĐống Đa\tKhách để lại số tại quầy\tLắp mới Internet Sky\nCao Thị Mến\t0369202622\tSố 52 Lê Trọng Tấn\tHà Đông\tKhách để lại số tại quầy\tCombo Internet + FPT Play\nLý Gia Bảo\t0369202623\tSố 9 Nguyễn Khang\tCầu Giấy\tKhách để lại số tại quầy\tCamera trong nhà\nĐinh Hồng Nhung\t0369202624\tSố 30 Lạc Trung\tHai Bà Trưng\tKhách để lại số tại quầy\tLắp mới Internet Giga"};
+(function(){
+  function rnd(a){return a[Math.floor(Math.random()*a.length)];}
+  function ph(){return '03'+String(Math.floor(60000000+Math.random()*39999999));}
+  var FN=['Nguyễn','Trần','Lê','Phạm','Hoàng','Vũ','Đặng','Bùi','Đỗ','Ngô'],MN=['Văn','Thị','Minh','Thu','Quang','Thanh','Đức','Ngọc'],LN=['An','Bình','Châu','Dũng','Giang','Hải','Hương','Khánh','Linh','Nam','Phương','Quân','Trang','Tuấn','Yến'];
+  function nm(){return rnd(FN)+' '+rnd(MN)+' '+rnd(LN);}
+  var AR=[['Đống Đa','Số 18 ngõ 1 Thái Hà'],['Cầu Giấy','Số 25 Xuân Thủy'],['Hai Bà Trưng','Số 40 Bạch Mai'],['Long Biên','Số 12 Ngọc Lâm'],['Bắc Từ Liêm','Số 7 Phạm Văn Đồng'],['Hà Đông','Số 66 Tô Hiệu'],['Tây Hồ','Số 21 Xuân Diệu'],['Ba Đình','Số 9 Đội Cấn']];
+  function lead(src){var a=rnd(AR);return {name:nm(),phone:ph(),addr:a[1],area:a[0],src:src,need:rnd(['Lắp mới Internet Sky','Lắp mới Internet Giga','Combo Internet + FPT Play','Camera trong nhà'])};}
+  window.API_DEMO={
+    ps:{ep:'https://ps.fpt.local/api/v2/staff?unit=HNI',auth:'API key',freq:'Hằng ngày 07:00',what:'hồ sơ salesman',run:function(){return [ingSampleObj('sale')];}},
+    inf:{ep:'https://inf.fpt.local/api/pop/ports?region=HN',auth:'API key',freq:'Hằng giờ',what:'POP cập nhật port',run:function(){return [{id:'HN05-012',area:'Nam Từ Liêm',br:'HN05',ports:'8',q:'tốt'},{id:'HN03-033',area:'Đống Đa',br:'HN03',ports:'6',q:'tốt'}];}},
+    cus:{ep:'https://cus.fpt.local/api/churn-alerts?since=24h',auth:'OAuth 2.0',freq:'Hằng ngày 06:00',what:'cảnh báo rời mạng',run:function(){var a=rnd(AR);return [{name:nm(),phone:ph(),addr:a[1]+', '+a[0],br:'HN03',risk:String(72+Math.floor(Math.random()*18)),reasons:'Sự cố lặp lại 2 lần/30 ngày; Hết ưu đãi trả trước tháng này'}];}},
+    ads:{ep:'https://ads.fpt.local/api/lead-forms?account=KVHN',auth:'OAuth 2.0',freq:'15 phút',what:'lead quảng cáo',run:function(){return [lead('Google Ads'),lead('Facebook Lead Ads')];}},
+    zalo:{ep:'https://hub.fpt.local/api/ingest/lead',auth:'Webhook ký số',freq:'Tức thì',what:'lead Zalo OA, Fanpage',run:function(){return [lead(rnd(['Zalo OA','Fanpage FPT Telecom Hà Nội']))];}},
+    adcost:{ep:'https://ads.fpt.local/api/cost/daily?account=KVHN',auth:'OAuth 2.0',freq:'Hằng ngày 06:00',what:'chi phí quảng cáo hôm nay',run:function(){var d=dmyy(now());return [{d:d,ch:'GG-A-017',amt:'1900000',int:'10',g:'A',br:'HN02',plat:'Google Ads'},{d:d,ch:'GG-B-048',amt:'1350000',int:'5',g:'B',br:'HN06',plat:'Google Ads'}];}},
+    sopc:{ep:'https://sop.fpt.local/api/v1/contracts?updated_since=1h',auth:'API key',freq:'Hằng giờ',what:'trạng thái hợp đồng',run:function(){var L=S.leads.filter(function(x){return x.contract&&!x.contract.onlineAt&&x.status!=='lost';}).sort(function(a,b){return a.contract.signedAt-b.contract.signedAt;})[0];return L?[{hd:L.contract.id,st:'Online',onl:dmyy(now())}]:[];}}
+  };
+  function apiRun(a){
+    var D=API_DEMO[a.id];if(!D)return null;var recs=D.run();
+    if(!a.url)a.url=D.ep;if(!a.key)a.key='demo-'+Math.random().toString(36).slice(2,10);a.on=true;
+    if(!recs.length){a.status='Đang chạy (mô phỏng)';a.last=now();return {ok:0,fail:[],empty:true};}
+    var r=applyRows(a.target,recs,'api',a.name);a.status='Đang chạy (mô phỏng)';a.last=now();a.got=(a.got||0)+r.ok;a.lastN=r.ok;save();return r;
+  }
+  ACT['api-demo-fill']=function(){S.ing.apis.forEach(function(a){var D=API_DEMO[a.id];if(!D)return;a.url=D.ep;a.auth=D.auth;a.freq=D.freq;a.key=a.key||'demo-'+Math.random().toString(36).slice(2,10);a.on=true;a.status='Sẵn sàng (đã kiểm tra cấu hình)';a.last=now();});
+    ev(null,'Quản lý','ingest.api','Điền cấu hình mẫu cho '+S.ing.apis.length+' kết nối API (trình diễn)');save();renderMain();toast('Đã điền cấu hình mẫu. Bấm Đồng bộ thử ở từng kết nối.');};
+  ACT['api-demo-run']=function(el){var a=S.ing.apis[+el.getAttribute('data-i')];if(!a)return;var r=apiRun(a);render();
+    toast(!r?'Kết nối này chưa có dữ liệu mẫu.':r.empty?a.name+': không có bản ghi mới.':a.name+': nhận '+r.ok+' bản ghi'+(r.fail.length?', '+r.fail.length+' lỗi':'')+'.');};
+  ACT['api-demo-all']=function(){var n=0;S.ing.apis.forEach(function(a){var r=apiRun(a);if(r)n+=r.ok;});render();toast('Đồng bộ 1 lượt '+S.ing.apis.length+' kết nối: nhận '+n+' bản ghi. Xem Lịch sử nạp.');};
+  function demoAbs(f){try{return new URL('demo-data/'+f,location.href).href;}catch(e){return 'demo-data/'+f;}}
+  ACT['ing-url-demo']=function(el){var d=DEMO_URL[+el.getAttribute('data-i')];if(!d)return;var url=demoAbs(d.f),i=-1;
+    S.ing.urls.forEach(function(u,j){if(u.url===url)i=j;});
+    if(i<0){S.ing.urls.push({url:url,target:d.t,freq:d.freq,status:'',ok:false,last:null,demo:d.f,label:d.n});i=S.ing.urls.length-1;ev(null,'Quản lý','ingest.url','Khai báo nguồn file online: '+d.n);}
+    save();ACT['ing-url-run']({getAttribute:function(){return String(i);}});};
+  var _run=ACT['ing-url-run'];
+  ACT['ing-url-run']=async function(el){
+    var i=+el.getAttribute('data-i'),u=S.ing.urls[i];if(!u||!u.demo)return _run(el);
+    var d=DEMO_URL.filter(function(x){return x.f===u.demo;})[0];u.status='Đang kéo…';u.ok=false;renderMain();var t='';
+    try{var r=await fetch(u.url,{credentials:'omit',cache:'no-store'});if(!r.ok)throw 0;t=await r.text();}catch(e){t=d?d.csv:'';}
+    if(!t){u.status='Không kéo được';u.last=now();save();renderMain();return;}
+    var rows=parseCsv(t);u.status='Đã kéo '+Math.max(0,rows.length-1)+' dòng';u.ok=true;u.last=now();save();
+    var g=ingUI();g.target=u.target;g.tab='url';setIngRows(rows,u.label||u.url,'url');
+    setTimeout(function(){var b=document.querySelector('[data-act="ing-apply"]');if(b)b.scrollIntoView({behavior:'smooth',block:'center'});},60);
+  };
+  ACT['ing-sample']=function(){var g=ingUI(),tg=g.target;
+    g.paste=DEMO_PASTE[tg]||ING_SAMPLE[tg]||(TPL[tg]&&TPL[tg].length?(function(){var d=tplData(tg,0);return toTSV({head:d.head,rows:d.rows.slice(0,12)});})():'');
+    if(!g.paste){toast('Loại này chưa có dữ liệu mẫu.');return;}renderMain();toast('Đã điền dữ liệu mẫu. Bấm Xem trước rồi Nạp.');};
+})();
+
 route();
 setInterval(function(){tickCountdown();slaTick();},1000);
 window.__tllh={state:function(){return S;},UI:UI,ACT:ACT,render:render,V:VIEWS};
