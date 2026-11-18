@@ -1158,6 +1158,11 @@ ul.plain{list-style:none;margin:0;padding:0}ul.plain li{padding:6px 0;border-top
 .fx-p{color:var(--muted);margin:0 0 14px}
 .fx-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
 .fx-grid.one{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.op-terms{grid-template-columns:repeat(4,minmax(0,1fr))}.op-terms .fx-opt{position:relative;padding-top:14px}.op-terms .fx-opt small{display:block;font-size:12px;font-weight:600;color:var(--ink3,#64748b);margin-top:6px}
+.op-terms .fx-opt.best small{color:#15803d}.op-terms .fx-opt[disabled]{opacity:.45;cursor:not-allowed;background:repeating-linear-gradient(135deg,transparent 0 8px,rgba(100,116,139,.06) 8px 16px)}
+.op-badge{position:absolute;top:-10px;right:10px;font-style:normal;font-size:11px;font-weight:800;background:#16a34a;color:#fff;border-radius:999px;padding:2px 8px}
+.op-why{margin:8px 0 0;font-size:13px;color:var(--ink2)}
+@media (max-width:760px){.op-terms{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .fx-opt{border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:12px 14px;text-align:left;font-weight:600;min-height:48px;color:var(--ink)}
 .fx-opt:hover{border-color:var(--of)}
 .fx-opt.on{border-color:var(--of);background:var(--orange-soft);color:var(--orange-text);box-shadow:inset 0 0 0 1px var(--of)}
@@ -8722,7 +8727,11 @@ var OPF=['Địa chỉ','Thông tin','Thanh toán','Ký hợp đồng','Lịch l
 function opD(){var d=P.d;if(!d.svc)d.svc={int:'INT',combo:'TT',cam:'CAM'}[d.need]||'INT';if(d.v==null)d.v=0;if(!d.store)d.store=7;if(!d.cams)d.cams=1;if(!d.term)d.term=1;if(d.step==null)d.step=0;return d;}
 function opZone(){var d=opD();if(d.ward){var w=wardList().filter(function(x){return x.name===d.ward;})[0];if(w)return w.zone;}return d.zone||null;}
 function opQuote(tier,z){var d=opD();var svc=d.svc,v=Math.min(d.v,svc==='TRI'?3:2);var r=kbQuote(svc,tier,v,z,{cams:d.cams,store:d.store,box:false});if(!r.ok&&v>0){var r0=kbQuote(svc,tier,0,z,{cams:d.cams,store:d.store});if(r0.ok){r0.vfb=1;return r0;}}return r;}
-function opTerms(r){return [1,6,13].filter(function(n){return !r.ky||kbKyOk(r.ky,n);});}
+var OP_TERMS=[1,3,6,13];
+function opTermOk(r,n){var d=opD();if(!(r&&r.ok))return n===1;var x=kbTerm(r,n,opZone(),d.tier,d.svc,d.v);return !x.bad&&(!r.ky||kbKyOk(r.ky,n));}
+function opTermWhy(r,n){var d=opD();if(!(r&&r.ok))return 'Chọn phường/xã để tính giá';var x=kbTerm(r,n,opZone(),d.tier,d.svc,d.v);return x.bad||('Gói này chỉ bán kỳ '+String(r.ky).replace('+',' tháng trở lên'));}
+function opTermName(n){return n===1?'Trả sau, hằng tháng':n===13?'Trả trước 12 tháng, tặng 1 tháng':'Trả trước '+n+' tháng';}
+function opTerms(r){var t=OP_TERMS.filter(function(n){return opTermOk(r,n);});return t.length?t:[1];}
 function opMoney(k){return fmt(Math.round(k*1000));}
 function opCard(tier){var d=opD(),z=opZone(),hot=OP_HOT[d.svc]===tier;
   var qn=z?null:opQuote(tier,'noi'),qg=z?null:opQuote(tier,'ngoai'),r=z?opQuote(tier,z):(qg&&qg.ok?qg:qn);
@@ -8745,9 +8754,9 @@ function opWardBox(id){var d=opD();return '<div class="opw"><label for="'+id+'" 
   (d.ward?'<p class="opw-ok">✓ '+esc(wTag(wardList().filter(function(w){return w.name===d.ward;})[0]||{name:d.ward,type:'phường'}))+' · khu vực giá '+ZN[opZone()].toLowerCase()+'</p>':'')+'</div>';}
 function opPlanName(){var d=opD(),r=opQuote(d.tier,opZone()||'noi');return OP_SVCN[d.svc]+' '+kbTierName(d.tier)+(d.v&&r&&!r.vfb?' '+VARN[d.v]:'')+(d.svc==='TT'?' + FPT Play V.VIP':d.svc==='TRI'?' + V.VIP + '+d.cams+' camera':d.svc==='CAM'?' + '+d.cams+' camera':'');}
 function opSummary(){var d=opD(),z=opZone();if(!d.tier)return '';var r=z?opQuote(d.tier,z):null;
-  var rows=[['Gói',opPlanName()],['Khu vực',d.ward?wTag(wardList().filter(function(w){return w.name===d.ward;})[0]||{name:d.ward}):(z?ZN[z]:'Chưa chọn phường/xã')],['Địa chỉ',d.addr],['Chủ hợp đồng',d.name],['Điện thoại',d.phone?mask(d.phone):''],['Thanh toán',d.pay],['Số hợp đồng',d.hd],['Lịch lắp',d.slot]].filter(function(x){return x[1];});
+  var rows=[['Gói',opPlanName()],['Khu vực',d.ward?wTag(wardList().filter(function(w){return w.name===d.ward;})[0]||{name:d.ward}):(z?ZN[z]:'Chưa chọn phường/xã')],['Địa chỉ',d.addr],['Chủ hợp đồng',d.name],['Điện thoại',d.phone?mask(d.phone):''],['Kỳ thanh toán',d.step>=3||d.pay?opTermName(d.term||1):''],['Thanh toán',d.pay==='Trả sau khi lắp'&&(d.term||1)>1?'Thanh toán khi lắp':d.pay],['Số hợp đồng',d.hd],['Lịch lắp',d.slot]].filter(function(x){return x[1];});
   var money='';if(r&&r.ok){var n=d.term||1,x=kbTerm(r,n,z,d.tier,d.svc,d.v);if(x.bad&&!x.alt){n=opTerms(r)[0];x=kbTerm(r,n,z,d.tier,d.svc,d.v);}
-    money='<div class="ops-m"><div><span>Cước tháng</span><b>'+opMoney(r.m)+'đ</b></div><div><span>Trả trước '+x.n+' tháng'+(x.free?' (tặng 1)':'')+'</span><b>'+opMoney(x.fee)+'đ</b></div><div><span>Phí lắp đặt</span><b>'+opMoney(r.lap)+'đ</b></div>'+(r.init?'<div><span>Khởi tạo camera</span><b>'+opMoney(r.init)+'đ</b></div>':'')+'<div class="tot"><span>Thanh toán lần đầu</span><b>'+opMoney(x.first)+'đ</b></div></div>';}
+    money='<div class="ops-m"><div><span>Cước tháng</span><b>'+opMoney(r.m)+'đ</b></div>'+(x.n===1?'':'<div><span>Trả trước '+(x.free?(x.n-1)+' tháng (tặng 1)':x.n+' tháng')+'</span><b>'+opMoney(x.fee)+'đ</b></div>')+'<div><span>Phí lắp đặt</span><b>'+opMoney(r.lap)+'đ</b></div>'+(r.init?'<div><span>Khởi tạo camera</span><b>'+opMoney(r.init)+'đ</b></div>':'')+'<div class="tot"><span>'+(x.n===1?'Thanh toán khi lắp':'Thanh toán lần đầu')+'</span><b>'+opMoney(x.first)+'đ</b></div>'+(x.n===1?'<p class="hint" style="margin:6px 0 0">Gồm tháng cước đầu và phí lắp. Từ tháng sau: '+opMoney(r.m)+'đ/tháng.</p>':x.free?'<p class="hint" style="margin:6px 0 0">Dùng 13 tháng, chỉ trả 12 tháng cước.</p>':'')+'</div>';}
   else money='<p class="muted">Chọn phường/xã để tính giá chính xác.</p>';
   return '<h3>Đơn hàng của bạn</h3><dl class="kv">'+rows.map(function(x){return '<dt>'+x[0]+'</dt><dd>'+esc(x[1])+'</dd>';}).join('')+'</dl>'+money+'<p class="hint">Giá đã gồm VAT. Cam kết 24 tháng.</p>';}
 function opForm(){var d=opD(),c=S.reg.cfg,s=d.step,err=P.err?'<p class="err fx-err" role="alert">'+esc(P.err)+'</p>':'',h='';
@@ -8756,9 +8765,18 @@ function opForm(){var d=opD(),c=S.reg.cfg,s=d.step,err=P.err?'<p class="err fx-e
     if(P.infra&&P.infra.ok)h+='<div class="fx-ok"><b>✓ Đủ điều kiện lắp đặt</b>'+esc(P.infra.txt)+'. Bấm Tiếp tục để nhập thông tin chủ hợp đồng.</div>';
     if(P.infra&&!P.infra.ok)h+='<div class="fx-warn"><b>Cần kỹ thuật khảo sát.</b> Để lại thông tin, nhân viên khu vực liên hệ ngay.<div class="fx-two"><label class="field"><span>Họ và tên</span><input id="hName" value="'+esc(d.name||'')+'"></label><label class="field"><span>Số điện thoại</span><input id="hPhone" inputmode="tel" value="'+esc(d.phone||'')+'"></label></div><div class="row"><button class="btn pri" data-act="op-hub">Gửi yêu cầu tư vấn</button></div></div>';}
   else if(s===2)h='<h3 class="opf-h">Thông tin chủ hợp đồng</h3><div class="fx-two"><label class="field"><span>Họ và tên *</span><input id="rName" autocomplete="name" value="'+esc(d.name||'')+'"></label><label class="field"><span>Số điện thoại *</span><input id="rPhone" inputmode="tel" autocomplete="tel" placeholder="09xxxxxxxx" value="'+esc(d.phone||'')+'"></label></div><label class="field"><span>Email (không bắt buộc)</span><input id="rMail" type="email" autocomplete="email" value="'+esc(d.mail||'')+'"></label><p class="fx-p">Thông tin chỉ dùng để lập hợp đồng, lắp đặt và được bảo vệ theo quy định về dữ liệu cá nhân.</p>';
-  else if(s===3){var r=opQuote(d.tier,opZone()),ts=r&&r.ok?opTerms(r):[1];if(ts.indexOf(d.term)<0)d.term=ts[0];
-    var pays=[['Trả trước online','Thẻ nội địa, thẻ quốc tế, ví điện tử',c.pre],['Trả sau khi lắp','Thanh toán khi dịch vụ đã hoạt động',c.post]].filter(function(x){return x[2];});
-    h='<h3 class="opf-h">Kỳ trả trước</h3><div class="fx-grid">'+ts.map(function(n){var x=kbTerm(r,n,opZone(),d.tier,d.svc,d.v);return '<button class="fx-opt big'+(d.term===n?' on':'')+'" data-act="op-term" data-v="'+n+'"><b>'+n+' tháng'+(n===13?' · tặng 1':'')+'</b><span>'+opMoney(x.fee)+'đ</span></button>';}).join('')+'</div><h3 class="opf-h">Hình thức thanh toán</h3><div class="fx-grid one">'+pays.map(function(x){return '<button class="fx-opt big'+(d.pay===x[0]?' on':'')+'" data-act="rg-pick" data-k="pay" data-v="'+x[0]+'" aria-pressed="'+(d.pay===x[0])+'"><b>'+x[0]+'</b><span>'+x[1]+'</span></button>';}).join('')+'</div>';}
+  else if(s===3){var r=opQuote(d.tier,opZone()),ts=opTerms(r);if(ts.indexOf(d.term)<0)d.term=ts[0];
+    var post=c.post!==false,pre=c.pre!==false,pays;
+    if(d.term===1)pays=post?[['Trả sau khi lắp','Trả sau khi lắp','Đóng tháng đầu và phí lắp khi kỹ thuật bàn giao, từ tháng sau đóng hằng tháng']]:[['Trả trước online','Trả trước online','Thẻ nội địa, thẻ quốc tế, ví điện tử']];
+    else pays=[['Trả trước online','Thanh toán online ngay','Thẻ nội địa, thẻ quốc tế, ví điện tử, QR ngân hàng',pre],['Trả sau khi lắp','Thanh toán khi lắp','Tiền mặt hoặc chuyển khoản khi kỹ thuật bàn giao',post]].filter(function(x){return x[3];});
+    if(!pays.some(function(x){return x[0]===d.pay;}))d.pay=pays.length===1?pays[0][0]:'';
+    var dis=OP_TERMS.filter(function(n){return ts.indexOf(n)<0;});
+    h='<h3 class="opf-h">Kỳ thanh toán</h3><div class="fx-grid op-terms">'+OP_TERMS.map(function(n){var ok=ts.indexOf(n)>-1,x=r&&r.ok?kbTerm(r,n,opZone(),d.tier,d.svc,d.v):{fee:0},m=r&&r.ok?r.m:0;
+      var t=n===1?'Trả sau':'Trả trước '+(n===13?'12':n)+' tháng',sub=n===1?(m?opMoney(m)+'đ/tháng':'Hằng tháng'):(ok?opMoney(x.fee)+'đ':'Không áp dụng');
+      var tag=n===1?'Đóng từng tháng':n===13?'Tặng 1 tháng · dùng 13 tháng':'Đóng 1 lần';
+      return '<button class="fx-opt big'+(d.term===n?' on':'')+(n===13?' best':'')+'" data-act="op-term" data-v="'+n+'"'+(ok?'':' disabled aria-disabled="true" title="'+esc(opTermWhy(r,n))+'"')+' aria-pressed="'+(d.term===n)+'">'+(n===13&&ok?'<i class="op-badge">Tiết kiệm '+opMoney(m)+'đ</i>':'')+'<b>'+t+'</b><span>'+sub+'</span><small>'+tag+'</small></button>';}).join('')+'</div>'+
+      (dis.length?'<p class="op-why">ⓘ '+esc(opTermWhy(r,dis[0]))+(d.tier==='sky'&&!d.v?' Chọn Sky F1 hoặc gói Giga để trả trước nhiều tháng.':'')+'</p>':'')+
+      '<h3 class="opf-h">Hình thức thanh toán</h3><div class="fx-grid one">'+pays.map(function(x){return '<button class="fx-opt big'+(d.pay===x[0]?' on':'')+'" data-act="rg-pick" data-k="pay" data-v="'+x[0]+'" aria-pressed="'+(d.pay===x[0])+'"><b>'+x[1]+'</b><span>'+x[2]+'</span></button>';}).join('')+'</div>';}
   else if(s===4)h='<h3 class="opf-h">Ký hợp đồng điện tử</h3><p>Hợp đồng số <b>'+esc(d.hd)+'</b> đã được tạo. Mã OTP 6 số đã gửi qua SMS đến '+esc(mask(d.phone))+'.</p><label class="field" style="max-width:260px"><span>Mã OTP</span><input id="rOtp" class="otp" inputmode="numeric" maxlength="6" autocomplete="one-time-code"></label><div class="note">Bản trình diễn: mã OTP là <b class="mono">'+esc(d.otp)+'</b></div>';
   else if(s===5){var days=[0,1,2,3,4].map(function(i){var x=new Date(now()+(i+1)*DAY);return x.toLocaleDateString('vi-VN',{weekday:'short',day:'2-digit',month:'2-digit'});});
     h='<h3 class="opf-h">Chọn lịch lắp đặt</h3><h4 class="opf-h4">Ngày</h4><div class="fx-grid days">'+days.map(function(x){return '<button class="fx-opt'+(d.day===x?' on':'')+'" data-act="rg-pick" data-k="day" data-v="'+esc(x)+'">'+esc(x)+'</button>';}).join('')+'</div><h4 class="opf-h4">Khung giờ</h4><div class="fx-grid">'+c.wins.map(function(x){return '<button class="fx-opt'+(d.win===x?' on':'')+'" data-act="rg-pick" data-k="win" data-v="'+esc(x)+'">'+esc(x)+'</button>';}).join('')+'</div>';}
@@ -8804,7 +8822,7 @@ document.addEventListener('input',function(e){var t=e.target;if(!t||!t.classList
 document.addEventListener('keydown',function(e){var t=e.target;if(!t||!t.classList||!t.classList.contains('opw-i')||e.key!=='Enter')return;e.preventDefault();var f=document.querySelector('#'+t.id+'-l button');if(f)ACT['op-ward'](f);});
 ACT['op-pick']=function(el){var d=opD();d.tier=el.getAttribute('data-v');d.step=1;P.err='';var mp={INT:'int',TT:'combo',CAM:'cam',TRI:'cam'};d.need=mp[d.svc];renderPortal();opScroll('#opFormWrap');};
 ACT['op-change']=function(){var d=opD();if(d.hd){toast('Hợp đồng đã tạo, không đổi gói được. Bấm Đăng ký thêm một đơn để chọn gói khác.');return;}d.tier='';d.step=0;renderPortal();opScroll('#opPlans');};
-ACT['op-term']=function(el){opD().term=+el.getAttribute('data-v');renderPortal();};
+ACT['op-term']=function(el){if(el.disabled)return;var d=opD();d.term=+el.getAttribute('data-v');d.pay='';renderPortal();};
 ACT['op-prev']=function(){var d=opD();P.err='';if(d.step>1&&!(d.step===5))d.step--;else if(d.step===5)d.step=4;if(d.step===4&&d.signed)d.step=3;renderPortal();};
 ACT['op-check']=function(){var d=opD(),a=(($('#rAddr')||{}).value||'').trim();if(a)d.addr=a;
   if(!d.ward){P.err='Chọn phường/xã nơi lắp đặt trước.';renderPortal();return;}if(!d.addr||d.addr.length<5){P.err='Nhập số nhà, ngõ/ngách, tên đường đầy đủ hơn.';renderPortal();return;}
@@ -8825,7 +8843,7 @@ ACT['op-next']=function(){var d=opD(),s=d.step;P.err='';
     var vp=opVirtual(),map={INT:{giga:'giga',sky:'sky'},TT:{giga:'cgiga',sky:'csky'}},real=(map[d.svc]&&map[d.svc][d.tier])||(d.svc==='CAM'||d.svc==='TRI'?'camin':'sky');
     var full=Object.assign({},d,{addr:(d.addr||'')+', '+wTag(wardList().filter(function(w){return w.name===d.ward;})[0]||{name:d.ward}),area:'',pkgId:real});
     var r=placeOrder(full,CHNAME.REG);if(r.dup){rgDone(false,'Số điện thoại này vừa có yêu cầu ('+r.dup.id+'). Nhân viên sẽ liên hệ anh/chị.');return;}
-    var L=r.lead;L.contract.pkg=vp.id;d.hd=L.contract.id;L.need='Đăng ký Online: '+opPlanName()+' · trả trước '+(d.term||1)+' tháng';if(vp.r&&vp.r.ok){S.ov=S.ov||{};S.ov[L.contract.id]={fee:Math.round(vp.r.m*1000),setup:Math.round(((vp.r.lap||0)+(vp.r.init||0))*1000)};}save();
+    var L=r.lead;L.contract.pkg=vp.id;d.hd=L.contract.id;L.need='Đăng ký Online: '+opPlanName()+' · '+opTermName(d.term||1).toLowerCase();if(vp.r&&vp.r.ok){S.ov=S.ov||{};S.ov[L.contract.id]={fee:Math.round(vp.r.m*1000),setup:Math.round(((vp.r.lap||0)+(vp.r.init||0))*1000)};}save();
     rgDone(true,'Hợp đồng '+L.contract.id+' đã ký. Gói '+opPlanName()+'. Lịch lắp: '+d.slot+'. Kỹ thuật viên sẽ gọi xác nhận trước khi đến. Cảm ơn anh/chị!');return;}
   d.step++;renderPortal();opScroll('#opFormWrap');};
 ACT['op-reset']=function(){P={step:1,d:{need:'int'},done:null,err:'',infra:null};renderPortal();window.scrollTo(0,0);};
