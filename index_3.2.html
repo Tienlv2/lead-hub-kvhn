@@ -4255,8 +4255,77 @@ function parseCsv(t){
 var XLSXP=null;
 function loadXlsx(){
   if(window.XLSX)return Promise.resolve(window.XLSX);if(XLSXP)return XLSXP;
-  XLSXP=new Promise(function(res,rej){var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';s.onload=function(){res(window.XLSX);};s.onerror=function(){XLSXP=null;rej(new Error('Không tải được thư viện đọc Excel'));};document.head.appendChild(s);});
+  XLSXP=new Promise(function(res,rej){var s=document.createElement('script'),done=false,tm=setTimeout(function(){if(done)return;done=true;XLSXP=null;rej(new Error('Hết thời gian tải thư viện Excel'));},12000);s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';s.onload=function(){if(done)return;done=true;clearTimeout(tm);res(window.XLSX);};s.onerror=function(){if(done)return;done=true;clearTimeout(tm);XLSXP=null;rej(new Error('Không tải được thư viện đọc Excel'));};document.head.appendChild(s);});
   return XLSXP;
+}
+/* Ghi .xlsx tối giản, không cần thư viện ngoài */
+var CRCT=null;function crc32(u){if(!CRCT){CRCT=new Uint32Array(256);for(var n=0;n<256;n++){var c=n;for(var k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;CRCT[n]=c>>>0;}}var c=0xFFFFFFFF;for(var i=0;i<u.length;i++)c=CRCT[(c^u[i])&255]^(c>>>8);return (c^0xFFFFFFFF)>>>0;}
+function zipStore(files){var te=new TextEncoder(),parts=[],cd=[],off=0;files.forEach(function(f){var nm=te.encode(f[0]),d=te.encode(f[1]),cr=crc32(d),h=new DataView(new ArrayBuffer(30));h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint16(6,0x0800,true);h.setUint32(14,cr,true);h.setUint32(18,d.length,true);h.setUint32(22,d.length,true);h.setUint16(26,nm.length,true);parts.push(h.buffer,nm,d);
+  var c=new DataView(new ArrayBuffer(46));c.setUint32(0,0x02014b50,true);c.setUint16(4,20,true);c.setUint16(6,20,true);c.setUint16(8,0x0800,true);c.setUint32(16,cr,true);c.setUint32(20,d.length,true);c.setUint32(24,d.length,true);c.setUint16(28,nm.length,true);c.setUint32(42,off,true);cd.push(c.buffer,nm);off+=30+nm.length+d.length;});
+  var cl=cd.reduce(function(s,b){return s+b.byteLength;},0),e=new DataView(new ArrayBuffer(22));e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,cl,true);e.setUint32(16,off,true);
+  return new Blob(parts.concat(cd,[e.buffer]),{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});}
+function xlsxBlob(sheets){
+  function x(v){return String(v).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}).replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g,'');}
+  function cn(i){var s='';i++;while(i){var m=(i-1)%26;s=String.fromCharCode(65+m)+s;i=(i-m-1)/26;}return s;}
+  var f=[],ns='xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"',nr='xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"';
+  f.push(['[Content_Types].xml','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>'+sheets.map(function(s,i){return '<Override PartName="/xl/worksheets/sheet'+(i+1)+'.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>';}).join('')+'</Types>']);
+  f.push(['_rels/.rels','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>']);
+  f.push(['xl/workbook.xml','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook '+ns+' '+nr+'><sheets>'+sheets.map(function(s,i){return '<sheet name="'+x(String(s.name).slice(0,31))+'" sheetId="'+(i+1)+'" r:id="rId'+(i+1)+'"/>';}).join('')+'</sheets></workbook>']);
+  f.push(['xl/_rels/workbook.xml.rels','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+sheets.map(function(s,i){return '<Relationship Id="rId'+(i+1)+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet'+(i+1)+'.xml"/>';}).join('')+'<Relationship Id="rId'+(sheets.length+1)+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>']);
+  f.push(['xl/styles.xml','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet '+ns+'><fonts count="2"><font><sz val="11"/><name val="Arial"/></font><font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Arial"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFF26522"/></patternFill></fill></fills><borders count="1"><border/></borders><cellStyleXfs count="1"><xf/></cellStyleXfs><cellXfs count="3"><xf/><xf fontId="1" fillId="2" applyFont="1" applyFill="1"/><xf applyAlignment="1"><alignment wrapText="1" vertical="top"/></xf></cellXfs></styleSheet>']);
+  sheets.forEach(function(s,i){
+    var cols=s.cols?'<cols>'+s.cols.map(function(w,j){return '<col min="'+(j+1)+'" max="'+(j+1)+'" width="'+w+'" customWidth="1"/>';}).join('')+'</cols>':'';
+    var rows=s.rows.map(function(r,ri){return '<row r="'+(ri+1)+'">'+r.map(function(v,ci){if(v==null||v==='')return '';var ref=cn(ci)+(ri+1),st=ri===0&&s.head!==false?' s="1"':(s.wrap?' s="2"':'');
+      return typeof v==='number'||/^-?[1-9]\d{0,13}$/.test(String(v))&&String(v).length<15&&!/^0/.test(String(v))?'<c r="'+ref+'"'+st+'><v>'+Number(v)+'</v></c>':'<c r="'+ref+'"'+st+' t="inlineStr"><is><t xml:space="preserve">'+x(v)+'</t></is></c>';}).join('')+'</row>';}).join('');
+    f.push(['xl/worksheets/sheet'+(i+1)+'.xml','<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet '+ns+'>'+(s.head!==false?'<sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>':'')+cols+'<sheetData>'+rows+'</sheetData></worksheet>']);
+  });
+  return zipStore(f);
+}
+/* Đọc .xlsx ngay trong trình duyệt, không cần tải thư viện ngoài (demo chạy cả khi mạng chặn CDN) */
+async function readXlsxNative(buf){
+  if(typeof DecompressionStream==='undefined')throw new Error('no-ds');
+  var u8=new Uint8Array(buf),dv=new DataView(buf),td=new TextDecoder('utf-8'),e=-1,i,k;
+  for(i=u8.length-22;i>=Math.max(0,u8.length-66000);i--){if(dv.getUint32(i,true)===0x06054b50){e=i;break;}}
+  if(e<0)throw new Error('not-zip');
+  var n=dv.getUint16(e+10,true),off=dv.getUint32(e+16,true),F={};
+  for(k=0;k<n;k++){if(dv.getUint32(off,true)!==0x02014b50)break;var fl=dv.getUint16(off+28,true),xl=dv.getUint16(off+30,true),cl=dv.getUint16(off+32,true);
+    F[td.decode(u8.subarray(off+46,off+46+fl)).replace(/^\//,'')]={m:dv.getUint16(off+10,true),cs:dv.getUint32(off+20,true),lo:dv.getUint32(off+42,true)};off+=46+fl+xl+cl;}
+  async function get(nm){var f=F[nm.replace(/^\//,'')];if(!f)return null;var lo=f.lo,st=lo+30+dv.getUint16(lo+26,true)+dv.getUint16(lo+28,true),d=u8.subarray(st,st+f.cs);
+    if(f.m===0)return td.decode(d);if(f.m!==8)throw new Error('zip-method');
+    return td.decode(await new Response(new Blob([d]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer());}
+  function xml(t){return new DOMParser().parseFromString(t,'application/xml');}
+  function tags(el,nm){return el.getElementsByTagNameNS('*',nm);}
+  function txt(el){var ts=tags(el,'t'),o='';for(var j=0;j<ts.length;j++){var p=ts[j].parentNode;if(p&&p.localName==='rPh')continue;o+=ts[j].textContent;}return o;}
+  var wbx=await get('xl/workbook.xml');if(!wbx)throw new Error('not-xlsx');
+  var rel={},rx=await get('xl/_rels/workbook.xml.rels');if(rx){var rs=tags(xml(rx),'Relationship');for(i=0;i<rs.length;i++){var tg=rs[i].getAttribute('Target');rel[rs[i].getAttribute('Id')]=/^\//.test(tg)?tg.slice(1):'xl/'+tg.replace(/^\.\//,'');}}
+  var ss=[],sx=await get('xl/sharedStrings.xml');if(sx){var si=tags(xml(sx),'si');for(i=0;i<si.length;i++)ss.push(txt(si[i]));}
+  var dateX={},stx=await get('xl/styles.xml');
+  if(stx){var sd=xml(stx),fm={},nf=tags(sd,'numFmt');for(i=0;i<nf.length;i++)fm[nf[i].getAttribute('numFmtId')]=nf[i].getAttribute('formatCode')||'';
+    var cx=tags(sd,'cellXfs')[0];if(cx){var xf=tags(cx,'xf');for(i=0;i<xf.length;i++){var id=+(xf[i].getAttribute('numFmtId')||0),code=fm[id]||'';
+      if((id>=14&&id<=22)||(id>=45&&id<=47)||(code&&/[dy]|m{1,2}[^a-z]*[dy]|[dy][^a-z]*m/i.test(code.replace(/"[^"]*"|\[[^\]]*\]|\\./g,''))))dateX[i]=/h|s/i.test(code.replace(/"[^"]*"|\[[^\]]*\]/g,''))&&!/[dy]/i.test(code)?0:1;}}}
+  function colN(r){var c=0;for(var j=0;j<r.length;j++){var ch=r.charCodeAt(j);if(ch<65)break;c=c*26+(ch-64);}return c-1;}
+  function p2(x){return (x<10?'0':'')+x;}
+  function ser(v){var d=new Date(Math.round((v-25569)*864e5));return p2(d.getUTCDate())+'/'+p2(d.getUTCMonth()+1)+'/'+d.getUTCFullYear();}
+  var sh=tags(xml(wbx),'sheet'),names=[],data={};
+  for(k=0;k<sh.length;k++){
+    var nm=sh[k].getAttribute('name'),rid=sh[k].getAttributeNS('http://schemas.openxmlformats.org/officeDocument/2006/relationships','id')||sh[k].getAttribute('r:id'),path=rel[rid]||('xl/worksheets/sheet'+(k+1)+'.xml');
+    names.push(nm);data[nm]=null;data['__p_'+nm]=path;
+  }
+  async function sheet(nm){
+    if(data[nm])return data[nm];var t=await get(data['__p_'+nm]),rows=[];if(!t)return (data[nm]=[]);
+    var rr=tags(xml(t),'row');
+    for(var a=0;a<rr.length&&rows.length<200000;a++){
+      var cs=tags(rr[a],'c'),row=[],any=false,ri=+(rr[a].getAttribute('r')||0)-1;
+      for(var b=0;b<cs.length;b++){var c=cs[b],ty=c.getAttribute('t'),ref=c.getAttribute('r'),ci=ref?colN(ref):b,v='';
+        if(ty==='inlineStr')v=txt(c);else{var ve=tags(c,'v')[0];if(!ve)continue;v=ve.textContent;
+          if(ty==='s')v=ss[+v]||'';else if(ty==='b')v=v==='1'?'TRUE':'FALSE';else if(ty!=='str'&&ty!=='e'&&v!==''&&!isNaN(v)){var num=+v,xi=+(c.getAttribute('s')||0);v=dateX[xi]===1&&num>0&&num<2958466?ser(num):String(Math.round(num*1e9)/1e9);}}
+        if(v!==''){while(row.length<ci)row.push('');row[ci]=v;any=true;}}
+      if(any){if(ri>rows.length&&ri<rows.length+50)while(rows.length<ri)rows.push([]);rows.push(row);}
+    }
+    var w=rows.reduce(function(m,r){return Math.max(m,r.length);},0);rows.forEach(function(r){while(r.length<w)r.push('');});
+    return (data[nm]=rows);
+  }
+  return {SheetNames:names,native:true,rows:sheet};
 }
 function ingUI(){if(!UI.ing)UI.ing={tab:'file',target:'lead',data:null,map:{},res:null};return UI.ing;}
 function autoMap(head,target){
@@ -4337,7 +4406,7 @@ function vIngest(){
   var cols='<p class="hint" style="margin:10px 0 0">Cột nhận diện: '+T.f.map(function(x){return x[1]+(x[2]?' *':'');}).join(', ')+'. Tên cột có thể khác, bạn ghép lại ở bước xem trước.</p>'+ingGuide(tg);
   var body='';
   if(tab==='file'){
-    body='<section class="card"><h2>Tải file lên</h2>'+tsel+'<label class="field"><span>File CSV, Excel (.xlsx, .xls) hoặc JSON</span><input type="file" id="ingFile" accept=".csv,.txt,.tsv,.xlsx,.xls,.json"></label>'+cols+(g.sheets?'<label class="field" style="max-width:320px"><span>Trang tính</span><select data-act="ing-sheet">'+opts(g.sheets.map(function(s){return [s,s];}),g.sheet)+'</select></label>':'')+'</section>';
+    body='<section class="card"><h2>Tải file lên</h2>'+tsel+'<label class="field"><span>File CSV, Excel (.xlsx, .xls) hoặc JSON</span><input type="file" id="ingFile" accept=".csv,.txt,.tsv,.xlsx,.xlsm,.xls,.json"></label>'+'<div class="note" style="margin-top:12px"><b>Bộ dữ liệu trình diễn (dữ liệu giả lập)</b> · tải về rồi nạp theo thứ tự, mỗi file có sheet Hướng dẫn demo:<div class="row" style="margin-top:8px;flex-wrap:wrap">'+[['01_Lead_moi_10_khach','1 · Lead mới'],['02_Chatbot_Khuyen_mai','2 · Chatbot · Khuyến mại'],['03_Chi_phi_Marketing_T11','3 · Chi phí Marketing'],['04_Hop_dong_moi','4 · Hợp đồng']].map(function(x){return '<a class="btn sm" href="demo-data/'+x[0]+'.xlsx" download>'+x[1]+'</a>';}).join('')+'</div></div>'+cols+(g.sheets?'<label class="field" style="max-width:320px"><span>Trang tính</span><select data-act="ing-sheet">'+opts(g.sheets.map(function(s){return [s,s];}),g.sheet)+'</select></label>':'')+'</section>';
   }else if(tab==='url'){
     var ur=S.ing.urls.map(function(u,i){return '<tr><td class="mono" style="max-width:340px;overflow-wrap:anywhere">'+esc(u.url)+'</td><td>'+esc(ING_T[u.target].n)+'</td><td>'+esc(u.freq)+'</td><td>'+(u.status?chip(u.status,u.ok?'ok':'warn'):chip('Chưa chạy','gray'))+'</td><td>'+(u.last?ago(u.last):'—')+'</td><td><button class="btn sm" data-act="ing-url-run" data-i="'+i+'">Kéo ngay</button> <button class="btn sm" data-act="ing-url-del" data-i="'+i+'">Xóa</button></td></tr>';});
     body='<section class="card"><h2>File online theo lịch</h2><p class="hint">Google Sheets (Tệp, Chia sẻ, Xuất bản lên web dạng CSV), OneDrive, SharePoint hoặc đường dẫn CSV nội bộ. Máy chủ Hub kéo file theo lịch và nạp tự động.</p>'+tsel+
@@ -4382,7 +4451,7 @@ function ingSampleObj(tg){
 ACT['ing-tab']=function(el){var g=ingUI();g.tab=el.getAttribute('data-v');if(g.tab==='api'||g.tab==='log'){}renderMain();};
 ACT['ing-target']=function(el){var g=ingUI();g.target=el.value;if(g.data)g.map=autoMap(g.data.head,g.target);g.res=null;renderMain();};
 ACT['ing-map']=function(el){var g=ingUI(),v=Number(el.value);if(v<0)delete g.map[el.getAttribute('data-f')];else g.map[el.getAttribute('data-f')]=v;renderMain();};
-ACT['ing-sheet']=function(el){var g=ingUI();g.sheet=el.value;if(g.wb){var rows=window.XLSX.utils.sheet_to_json(g.wb.Sheets[g.sheet],{header:1,raw:false,defval:''});setIngRows(rows,g.fname+' · '+g.sheet,'file');}};
+ACT['ing-sheet']=function(el){var g=ingUI();g.sheet=el.value;if(g.wb&&g.wb.native){g.wb.rows(g.sheet).then(function(rows){setIngRows(rows,g.fname+' · '+g.sheet,'file');},function(){toast('Không đọc được trang tính này.');});}else if(g.wb){var rows=window.XLSX.utils.sheet_to_json(g.wb.Sheets[g.sheet],{header:1,raw:false,defval:''});setIngRows(rows,g.fname+' · '+g.sheet,'file');}};
 ACT['ing-parse']=function(){var g=ingUI(),t=($('#ingPaste')||{}).value||'';g.paste=t;if(!t.trim()){toast('Dán dữ liệu vào ô trước.');return;}setIngRows(parseCsv(t),'Dữ liệu dán','manual');};
 ACT['ing-sample']=function(){var g=ingUI();g.paste=ING_SAMPLE[g.target];renderMain();};
 ACT['ing-clear']=function(){var g=ingUI();g.data=null;g.res=null;g.sheets=null;g.wb=null;renderMain();};
@@ -4431,8 +4500,14 @@ document.addEventListener('change',function(e){
   if(t.id==='ingFile'&&t.files&&t.files[0]){
     var f=t.files[0],g=ingUI(),nm=f.name;
     if(f.size>8*1024*1024){toast('File lớn hơn 8 MB, chia nhỏ rồi tải lại.');t.value='';return;}
-    if(/\.(xlsx|xls)$/i.test(nm)){
-      loadXlsx().then(function(X){var fr=new FileReader();fr.onload=function(){try{var wb=X.read(new Uint8Array(fr.result),{type:'array'});g.wb=wb;g.fname=nm;g.sheets=wb.SheetNames;g.sheet=wb.SheetNames[0];var rows=X.utils.sheet_to_json(wb.Sheets[g.sheet],{header:1,raw:false,defval:''});setIngRows(rows,nm+(wb.SheetNames.length>1?' · '+g.sheet:''),'file');}catch(err){toast('Không đọc được file Excel này.');}};fr.readAsArrayBuffer(f);},function(){toast('Không tải được bộ đọc Excel. Lưu file dạng CSV rồi tải lại.');});
+    if(/\.(xlsx|xls|xlsm)$/i.test(nm)){
+      toast('Đang đọc '+nm+'…');
+      var viaLib=function(buf){loadXlsx().then(function(X){try{var wb=X.read(new Uint8Array(buf),{type:'array',sheetRows:200001});g.wb=wb;g.fname=nm;g.sheets=wb.SheetNames;g.sheet=wb.SheetNames[0];var rows=X.utils.sheet_to_json(wb.Sheets[g.sheet],{header:1,raw:false,defval:'',blankrows:false});setIngRows(rows,nm+(wb.SheetNames.length>1?' · '+g.sheet:''),'file');}catch(err){toast('Không đọc được file Excel này.');}},function(){toast('Máy không tải được bộ đọc Excel cũ (.xls). Lưu file thành .xlsx hoặc CSV rồi tải lại.');});};
+      f.arrayBuffer().then(function(buf){
+        if(/\.xls$/i.test(nm)){viaLib(buf);return;}
+        readXlsxNative(buf).then(function(wb){g.wb=wb;g.fname=nm;g.sheets=wb.SheetNames;g.sheet=wb.SheetNames[0];return wb.rows(g.sheet).then(function(rows){setIngRows(rows,nm+(wb.SheetNames.length>1?' · '+g.sheet:''),'file');});}).catch(function(){viaLib(buf);});
+      },function(){toast('Không đọc được file.');});
+      t.value='';
     }else{
       var fr2=new FileReader();fr2.onload=function(){var txt=String(fr2.result||'');g.sheets=null;g.wb=null;try{setIngRows(/\.json$/i.test(nm)?jsonRows(JSON.parse(txt)):parseCsv(txt),nm,'file');}catch(err){toast('Không đọc được file. Kiểm tra định dạng CSV hoặc JSON.');}};fr2.readAsText(f);
     }
@@ -5681,6 +5756,18 @@ function applyNew(target,o){
   var pk=findPkg(o.pkg);if(!pk)return hasVal(o.pkg)?'không tìm thấy gói cước “'+o.pkg+'”':'HĐ mới cần Gói cước';
   var s=null;if(hasVal(o.sale)){s=findSale(o.sale);if(!s)return 'không tìm thấy salesman “'+o.sale+'”';}
   var pop=findPopFor(o,s);if(!pop)return 'không xác định được POP (ghi Mã POP, Chi nhánh hoặc địa chỉ có quận)';
+  var LM=S.leads.filter(function(x){return x.phone===ph&&!x.contract&&x.status!=='lost'&&x.status!=='online';})[0];
+  if(LM&&stt!=='lost'){
+    var st2=stt||'wait',t2=Math.min(sd.t+9*HOUR,now());
+    undoPush({k:'leadUpd',id:LM.id,prev:{status:LM.status,lostReason:LM.lostReason,contract:null,sale:LM.sale,pop:LM.pop}});
+    if(s&&LM.sale!==s.id)LM.sale=s.id;
+    var kt2=(st2==='scheduled'||st2==='installing')?ktvFor(LM.pop||pop.id):null;
+    LM.contract={id:hd,pkg:pk.id,signedAt:Math.max(t2,LM.t||0),st:st2==='online'?'online':st2,ktv:kt2?kt2.id:null,slot:st2==='scheduled'?SLOTS[2]:'',rs:0,onlineAt:null,csDone:false};
+    if(st2==='online'){LM.contract.onlineAt=onl?Math.max(onl.t,LM.contract.signedAt):now();LM.status='online';if(!S.subs.some(function(x){return x.leadId===LM.id;})){makeSub(LM);undoPush({k:'subAdd',id:S.subs[0].id});}}
+    else LM.status=st2==='installing'?'installing':'won';
+    ev(LM,'Nạp dữ liệu','contract.import','Khớp hợp đồng '+hd+' với lead '+LM.id+' theo số điện thoại · '+pk.name+' · '+(ST[LM.status]||[''])[0]);
+    ovSet();return null;
+  }
   var t=Math.min(sd.t+9*HOUR,now()),src=hasVal(o.src)?String(o.src).trim():'Nạp dữ liệu',chId=hasVal(o.ch)?String(o.ch).trim().toUpperCase():null,stx=stt||'wait',addr=hasVal(o.addr)?String(o.addr).trim():pop.area;
   if(stx==='online'||stx==='lost'){
     S.impC.push({hd:hd,t:t,name:String(o.name).trim(),phone:ph,addr:addr,pop:pop.id,pkg:pk.id,sale:s?s.id:null,src:src,ch:chId,st:stx,onlineAt:stx==='online'?(onl?Math.max(onl.t,t):t+24*HOUR):null,lead:null,b:CURB?CURB.id:''});undoPush({k:'impAdd',hd:hd});
@@ -5719,7 +5806,7 @@ ACT['ing-undo']=function(el){
     else if(op.k==='chNew')S.ch=S.ch.filter(function(c){return c.id!==op.id;});
     else if(op.k==='chPrev'){var c=chOf(op.id);if(c)Object.assign(c,op.prev);}
     else if(op.k==='leadAdd')S.leads=S.leads.filter(function(x){return x.id!==op.id;});
-    else if(op.k==='leadUpd'){var L=leadOf(op.id);if(L){L.status=op.prev.status;L.lostReason=op.prev.lostReason;L.contract=op.prev.contract;}}
+    else if(op.k==='leadUpd'){var L=leadOf(op.id);if(L){L.status=op.prev.status;L.lostReason=op.prev.lostReason;L.contract=op.prev.contract;if('sale' in op.prev)L.sale=op.prev.sale;if(op.prev.pop)L.pop=op.prev.pop;}}
     else if(op.k==='subAdd')S.subs=S.subs.filter(function(x){return x.id!==op.id;});
     else if(op.k==='impAdd')S.impC=S.impC.filter(function(x){return x.hd!==op.hd;});
     else if(op.k==='impUpd')S.impC=S.impC.map(function(x){return x.hd===op.hd?op.prev:x;});
@@ -5782,14 +5869,8 @@ ACT['ing-tpl']=function(el){
   var tg=el.getAttribute('data-t'),i=+el.getAttribute('data-i'),f=el.getAttribute('data-f'),d=tplData(tg,i),fname='mau_'+tg+'_'+d.T.slug;
   function csv(){dlFile(fname+'.csv',[d.head].concat(d.rows).map(function(r){return r.map(csvQ).join(',');}).join('\n'));}
   if(f==='csv'){csv();return;}
-  toast('Đang tạo file Excel…');
-  loadXlsx().then(function(X){
-    var num=function(r){return r.map(function(v){return /^[1-9]\d{0,13}$/.test(String(v))?Number(v):v;});};
-    var wb=X.utils.book_new(),ws=X.utils.aoa_to_sheet([d.head].concat(d.rows.map(num)));
-    ws['!cols']=d.head.map(function(h){return {wch:Math.max(14,h.length+4)};});X.utils.book_append_sheet(wb,ws,'Dữ liệu');
-    var gs=X.utils.aoa_to_sheet(tplGuide(tg,d));gs['!cols']=[{wch:34},{wch:10},{wch:90}];X.utils.book_append_sheet(wb,gs,'Hướng dẫn');
-    dlBlob(fname+'.xlsx',new Blob([X.write(wb,{bookType:'xlsx',type:'array'})],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}));
-  },function(){toast('Không tải được thư viện Excel, đã tải file CSV thay thế.');csv();});
+  try{dlBlob(fname+'.xlsx',xlsxBlob([{name:'Dữ liệu',rows:[d.head].concat(d.rows),cols:d.head.map(function(h){return Math.max(14,String(h).length+4);})},{name:'Hướng dẫn',rows:tplGuide(tg,d),cols:[34,10,90],wrap:true}]));}
+  catch(e){toast('Không tạo được file Excel, đã tải file CSV thay thế.');csv();}
 };
 ACT['ing-tpl-use']=function(el){var tg=el.getAttribute('data-t'),i=+el.getAttribute('data-i'),g=ingUI();g.target=tg;g.tab='manual';g.paste=toTSV(tplData(tg,i));g.data=null;g.res=null;renderMain();window.scrollTo(0,0);toast('Đã điền dữ liệu mẫu vào ô Nhập tay. Bấm Xem trước rồi Nạp.');};
 ACT['ing-scope']=function(el){ingUI().scope=el.getAttribute('data-v');renderMain();};
@@ -6315,6 +6396,8 @@ function aiAnswer(q){
   var a=pStart(wk?'w':'m',t),pa=pAdd(wk?'w':'m',a,-1),pb=Math.min(a,pa+(t-a));
   var cur=list.filter(function(c){return c.t>=a;}),prv=list.filter(function(c){return c.t>=pa&&c.t<pb;}),A=agg(cur),B=agg(prv),kl=wk?'tuần này':'tháng này',pk=wk?'tuần trước cùng kỳ':'tháng trước cùng kỳ';
   function ch(x,y){return y?((x-y)/Math.abs(y)>=0?'tăng ':'giảm ')+pctD(Math.abs((x-y)/y)):'chưa có số kỳ trước';}
+  if(/(khuyen mai|uu dai|chuong trinh km|tang thang|giam gia)/.test(n)&&typeof kbFill==='function'){var pl=(typeof KX==='function'&&KX().promo||[]).filter(function(x){return typeof kbActive!=='function'||kbActive(x);}).map(function(x,i){return [x,i];}).sort(function(u,v){return ((v[0].from||0)-(u[0].from||0))||(v[1]-u[1]);}).map(function(u){return u[0];});
+    return pl.length?'Khuyến mại đang áp dụng ('+pl.length+' chương trình, đọc từ dữ liệu Chatbot · Khuyến mại):\n'+pl.slice(0,8).map(function(x){return '• '+x.name+(x.src?' ('+x.src+')':'')+': '+x.text;}).join('\n')+(pl.length>8?'\n… và '+(pl.length-8)+' chương trình khác.':''):'Hiện chưa có chương trình khuyến mại nào trong hệ thống. Nạp ở Dữ liệu nền > Nạp dữ liệu > Chatbot · Khuyến mại.';}
   if(/(chi nhanh|trung tam|hn\s?\d)/.test(n)&&!me){
     var g=repGroups(cur,prv,function(c){return c.br||'—';},function(k){return k;}).filter(function(x){return /^HN/.test(x.k);});if(!g.length)return 'Chưa có hợp đồng '+kl+'.';
     if(/(giam|kem|thap|yeu|tut)/.test(n)){var d=g.filter(function(x){return x.p.rev>0;}).map(function(x){return {x:x,d:(x.a.rev-x.p.rev)/x.p.rev};}).sort(function(p,q2){return p.d-q2.d;});
@@ -6331,8 +6414,8 @@ function aiAnswer(q){
   if((/lead/.test(n)&&/(hom nay|ngay)/.test(n))||/bao nhieu lead/.test(n)){var t0=startOfDay(t),Ls=S.leads.filter(function(L){return L.t>=t0&&(!me||L.sale===me.id);}),as=Ls.filter(function(L){return L.hist.length;});
     return 'Hôm nay có '+Ls.length+' lead'+(me?' giao cho bạn':'')+'; '+as.length+' lead đã được DW3 giao, trung bình '+secTxt(aiAvgAssign(t0,t+1))+' sau khi vào. Lead ưu tiên cao (≥ 70%): '+S.leads.filter(function(L){return (!me||L.sale===me.id)&&['assigned','contacted','quoted'].indexOf(L.status)>-1&&aiScore(L).p>=70;}).length+'.';}
   if(/(qua han|cham|sla|5 phut|chua goi)/.test(n)){var re=S.events.filter(function(e){return e.type==='lead.reassigned'&&e.t>=startOfDay(t);}).length,wait=S.leads.filter(function(L){return L.status==='assigned'&&(!me||L.sale===me.id);}).length;return 'Đang có '+wait+' lead chờ gọi trong hạn '+SLA_M()+' phút. Hôm nay DW3 đã giao lại '+re+' lead vì quá hạn.';}
-  if(/(lap dat|48|online|ky thuat)/.test(n)){var ov=S.leads.filter(function(L){return L.contract&&!L.contract.onlineAt&&L.status!=='lost'&&t-L.contract.signedAt>48*HOUR;});return ov.length+' hợp đồng đã quá 48 giờ chưa online'+(ov.length?': '+ov.slice(0,5).map(function(L){return L.contract.id;}).join(', ')+'.':'.')+' Xem ở Lắp đặt, lọc “Quá hạn”.';}
-  if(/(roi mang|nguy co|giu chan|huy)/.test(n)){var hi=S.subs.filter(function(s){return s.st==='active'&&s.risk>=70;}),rc=S.subs.filter(function(s){return s.st==='churned'&&t-s.churnedAt<72*HOUR;});return hi.length+' khách nguy cơ rời mạng cao (từ 70 điểm), '+rc.length+' khách vừa hủy còn hạn khôi phục 72 giờ. DW5 đã soạn nháp kịch bản trong từng khách.';}
+  if(/(lap dat|48 gio|qua 48|chua online|cham online|ky thuat)/.test(n)){var ov=S.leads.filter(function(L){return L.contract&&!L.contract.onlineAt&&L.status!=='lost'&&t-L.contract.signedAt>48*HOUR;});return ov.length+' hợp đồng đã quá 48 giờ chưa online'+(ov.length?': '+ov.slice(0,5).map(function(L){return L.contract.id;}).join(', ')+'.':'.')+' Xem ở Lắp đặt, lọc “Quá hạn”.';}
+  if(/(roi mang|nguy co|giu chan|(^| )huy( |$))/.test(n)){var hi=S.subs.filter(function(s){return s.st==='active'&&s.risk>=70;}),rc=S.subs.filter(function(s){return s.st==='churned'&&t-s.churnedAt<72*HOUR;});return hi.length+' khách nguy cơ rời mạng cao (từ 70 điểm), '+rc.length+' khách vừa hủy còn hạn khôi phục 72 giờ. DW5 đã soạn nháp kịch bản trong từng khách.';}
   return 'Em là DW7 Thư ký số. Anh/chị có thể hỏi về: doanh thu, lợi nhuận, chi phí quảng cáo, trung tâm dẫn đầu hoặc giảm mạnh, top salesman, lead hôm nay, lead quá hạn, hợp đồng quá 48 giờ, khách nguy cơ rời mạng. Thêm “tuần này” để xem theo tuần.';
 }
 var AIQS=['Doanh thu tháng này thế nào?','Chi nhánh nào giảm mạnh nhất?','Top salesman tuần này?','Chi phí quảng cáo có vượt mục tiêu không?','Hôm nay có bao nhiêu lead?','Có hợp đồng nào quá 48 giờ chưa online?','Bao nhiêu khách có nguy cơ rời mạng?'];
